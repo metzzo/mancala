@@ -22,6 +22,6 @@
 ## File-based project format:
 *.iws
 
-## Plugin-specific files:
-
+# Gradle
 /build/
+.gradle
