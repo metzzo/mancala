@@ -1,6 +1,7 @@
-package at.pwd.boardgame.ui;
+package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.Main;
+import at.pwd.boardgame.game.mancala.MancalaBoardController;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +13,13 @@ import java.util.ResourceBundle;
  * Created by rfischer on 13/04/2017.
  */
 public class SetUpController implements ControlledScreen, Initializable {
+    public static final String SETUP_SCREEN = "/setup_controller.fxml";
+
     private NavigationController navigationController;
+
+    public static void init() {
+        ScreenFactory.getInstance().register(SETUP_SCREEN, SetUpController.class.getResourceAsStream(SETUP_SCREEN));
+    }
 
     @Override
     public void setNavigationController(NavigationController navigationController) {
@@ -26,6 +33,6 @@ public class SetUpController implements ControlledScreen, Initializable {
 
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
-        navigationController.setScreen(Main.GAME_SCREEN);
+        navigationController.setScreen(MancalaBoardController.GAME_SCREEN);
     }
 }

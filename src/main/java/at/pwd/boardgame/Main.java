@@ -1,6 +1,9 @@
 package at.pwd.boardgame;
 
-import at.pwd.boardgame.ui.NavigationController;
+import at.pwd.boardgame.controller.NavigationController;
+import at.pwd.boardgame.controller.SetUpController;
+import at.pwd.boardgame.game.mancala.MancalaBoardController;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,23 +13,18 @@ import javafx.stage.Stage;
  * Created by rfischer on 13/04/2017.
  */
 public class Main extends Application {
-    public static final String SETUP_SCREEN = "/setup_controller";
-
-    public static final String GAME_SCREEN = "/board_controller";
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Mancala Boardgame Engine");
+        primaryStage.setTitle("MancalaGame Boardgame Engine");
 
         NavigationController mainContainer = new NavigationController();
+        ScreenFactory.getInstance().setNavigationController(mainContainer);
 
-        // preload screens
-        mainContainer.loadScreen(Main.SETUP_SCREEN);
-        mainContainer.loadScreen(Main.GAME_SCREEN);
+        MancalaBoardController.init();
+        SetUpController.init();
 
         // TODO: setup screen with option for game screen
-        mainContainer.setScreen(Main.SETUP_SCREEN);
+        mainContainer.setScreen(MancalaBoardController.GAME_SCREEN);
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);

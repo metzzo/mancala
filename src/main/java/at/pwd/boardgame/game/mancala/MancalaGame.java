@@ -6,9 +6,9 @@ import at.pwd.boardgame.game.GameFactory;
 /**
  * Created by rfischer on 13/04/2017.
  */
-public class Mancala implements Game {
+public class MancalaGame implements Game {
     static {
-        GameFactory.getInstance().register("boardgame", Mancala.class);
+        GameFactory.getInstance().register("boardgame", MancalaGame.class);
     }
 
 
