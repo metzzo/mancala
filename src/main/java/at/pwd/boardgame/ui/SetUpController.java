@@ -1,5 +1,8 @@
 package at.pwd.boardgame.ui;
 
+import at.pwd.boardgame.Main;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -19,5 +22,10 @@ public class SetUpController implements ControlledScreen, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    @FXML
+    public void startGamePressed(ActionEvent actionEvent) {
+        navigationController.setScreen(Main.GAME_SCREEN);
     }
 }

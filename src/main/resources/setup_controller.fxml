@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<StackPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="at.pwd.boardgame.ui.SetUpController"
             prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+    <Button text="Start Game" alignment="CENTER" onAction="#startGamePressed"/>
+</StackPane>

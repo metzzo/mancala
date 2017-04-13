@@ -1,5 +1,6 @@
 package at.pwd.boardgame.ui;
 
+import at.pwd.boardgame.Main;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -36,43 +37,41 @@ public class NavigationController extends StackPane {
         }
     }
 
-    public boolean setScreen(final String name) {
-        if (screens.get(name) != null) { //screen loaded
-            final DoubleProperty opacity = opacityProperty();
+    public void setScreen(final String name) {
+        if (screens.get(name) == null) {
+            this.loadScreen(name); // load screen if necessary
+        }
 
-            //Is there is more than one screen
-            if (!getChildren().isEmpty()) {
-                Timeline fade = new Timeline(
-                        new KeyFrame(Duration.ZERO,
-                                new KeyValue(opacity, 1.0)),
-                        new KeyFrame(new Duration(1000), t -> {
-                            //remove displayed screen
-                            getChildren().remove(0);
-                            //add new screen
-                            getChildren().add(0, screens.get(name));
-                            Timeline fadeIn = new Timeline(
-                                    new KeyFrame(Duration.ZERO,
-                                            new KeyValue(opacity, 0.0)),
-                                    new KeyFrame(new Duration(800),
-                                            new KeyValue(opacity, 1.0)));
-                            fadeIn.play();
-                        }, new KeyValue(opacity, 0.0)));
-                fade.play();
-            } else {
-                //no one else been displayed, then just show
-                setOpacity(0.0);
-                getChildren().add(screens.get(name));
-                Timeline fadeIn = new Timeline(
-                        new KeyFrame(Duration.ZERO,
-                                new KeyValue(opacity, 0.0)),
-                        new KeyFrame(new Duration(2500),
-                                new KeyValue(opacity, 1.0)));
-                fadeIn.play();
-            }
-            return true;
+        final DoubleProperty opacity = opacityProperty();
+
+        // Is there is more than one screen
+        if (!getChildren().isEmpty()) {
+            Timeline fade = new Timeline(
+                    new KeyFrame(Duration.ZERO,
+                            new KeyValue(opacity, 1.0)),
+                    new KeyFrame(new Duration(400), t -> {
+                        // remove displayed screen
+                        getChildren().remove(0);
+                        // add new screen
+                        getChildren().add(0, screens.get(name));
+                        Timeline fadeIn = new Timeline(
+                                new KeyFrame(Duration.ZERO,
+                                        new KeyValue(opacity, 0.0)),
+                                new KeyFrame(new Duration(300),
+                                        new KeyValue(opacity, 1.0)));
+                        fadeIn.play();
+                    }, new KeyValue(opacity, 0.0)));
+            fade.play();
         } else {
-            System.out.println("screen hasn't been loaded!\n");
-            return false;
+            // no one else been displayed, then just show
+            setOpacity(0.0);
+            getChildren().add(screens.get(name));
+            Timeline fadeIn = new Timeline(
+                    new KeyFrame(Duration.ZERO,
+                            new KeyValue(opacity, 0.0)),
+                    new KeyFrame(new Duration(500),
+                            new KeyValue(opacity, 1.0)));
+            fadeIn.play();
         }
     }
 }

@@ -10,16 +10,18 @@ import javafx.stage.Stage;
  * Created by rfischer on 13/04/2017.
  */
 public class Main extends Application {
-    private static String SETUP_SCREEN = "/setup_controller";
+    public static final String SETUP_SCREEN = "/setup_controller";
 
-    private static String GAME_SCREEN = "/board_controller";
+    public static final String GAME_SCREEN = "/board_controller";
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Mancala Bordgame Engine");
+        primaryStage.setTitle("Mancala Boardgame Engine");
 
         NavigationController mainContainer = new NavigationController();
+
+        // preload screens
         mainContainer.loadScreen(Main.SETUP_SCREEN);
         mainContainer.loadScreen(Main.GAME_SCREEN);
 
