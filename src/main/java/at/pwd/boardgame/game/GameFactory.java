@@ -1,5 +1,7 @@
 package at.pwd.boardgame.game;
 
+import at.pwd.boardgame.game.mancala.MancalaGame;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +13,6 @@ public class GameFactory {
 
     private Map<String, Class<? extends Game>> games;
 
-
     private GameFactory() {
         this.games = new HashMap<>();
     }
@@ -19,6 +20,8 @@ public class GameFactory {
     public static GameFactory getInstance() {
         if (instance == null) {
             instance = new GameFactory();
+
+            MancalaGame.init();
         }
         return instance;
     }
@@ -27,9 +30,11 @@ public class GameFactory {
         games.put(name, cls);
     }
 
-    public Game create(String name) {
+    public Game create(int numStones, String name) {
         try {
-            return games.get(name).newInstance();
+            Game game = games.get(name).newInstance();
+            game.loadBoard(numStones);
+            return game;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

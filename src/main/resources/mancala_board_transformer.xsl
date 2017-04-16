@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="player-depot|slot">
-        <Button>
+        <Button onAction="#handleAction">
+            <xsl:attribute name="id">
+                <xsl:value-of select="@id" />
+            </xsl:attribute>
+
             <xsl:attribute name="text">
                 <xsl:choose>
-                    <xsl:when test="name() = 'player-depot'">Depot</xsl:when>
-                    <xsl:when test="name() = 'slot'">Slot</xsl:when>
+                    <xsl:when test="name() = 'player-depot'">0</xsl:when>
+                    <xsl:when test="name() = 'slot'">3</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
 
@@ -53,6 +57,7 @@
                   alignment="center"
                   hgap="10"
                   vgap="10">
+
             <xsl:apply-templates />
 
         </GridPane>

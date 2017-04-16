@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,12 @@ public class ScreenFactory {
         String name;
         InputStream stream;
         Parent parent;
+        URL location;
+        OnCreatedListener createdListener;
+    }
+
+    public interface OnCreatedListener {
+        void created(ControlledScreen screen);
     }
 
     private static ScreenFactory ourInstance;
@@ -41,10 +48,16 @@ public class ScreenFactory {
         this.navigationController = navigationController;
     }
 
-    public void register(String name, InputStream stream) {
+    public void register(String name, URL location, InputStream stream) {
+        register(name, location, stream, null);
+    }
+
+    public void register(String name, URL location, InputStream stream, OnCreatedListener createdListener) {
         ScreenInfo info = new ScreenInfo();
         info.name = name;
         info.stream = stream;
+        info.createdListener = createdListener;
+        info.location = location;
         info.parent = null;
         controllers.put(name, info);
     }
@@ -59,10 +72,15 @@ public class ScreenFactory {
         if (info.parent == null) {
             try {
                 FXMLLoader myLoader = new FXMLLoader();
+                myLoader.setLocation(info.location);
                 Parent loadScreen = myLoader.load(info.stream);
-                ControlledScreen myScreenControler = myLoader.getController();
-                myScreenControler.setNavigationController(navigationController);
+                ControlledScreen myScreenController = myLoader.getController();
+                myScreenController.setNavigationController(navigationController);
                 info.parent = loadScreen;
+
+                if (info.createdListener != null) {
+                    info.createdListener.created(myScreenController);
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

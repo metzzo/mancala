@@ -1,24 +1,22 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
-import at.pwd.boardgame.services.BoardTransformer;
-import at.pwd.boardgame.services.ScreenFactory;
-
-import java.io.InputStream;
+import at.pwd.boardgame.game.Game;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Created by rfischer on 15/04/2017.
  */
 public class MancalaBoardController extends BoardController {
-    public static final String GAME_SCREEN = "/board_controller.fxml";
+    @Override
+    protected void updateUI() {
+        MancalaState state = (MancalaState) getGame().getState();
+        MancalaBoard board = (MancalaBoard) getGame().getBoard();
 
-    public static final String GAME_BOARD = "/normal_mancala_board.xml";
-    public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
-
-
-    public static void init() {
-        InputStream stream = BoardTransformer.getInstance().transform(GAME_BOARD, GAME_BOARD_TRANFORMER);
-        ScreenFactory.getInstance().register(GAME_SCREEN, stream);
+        for (Element elem : board.getElements()) {
+            Button b = (Button) navigationController.getScene().lookup("#"+elem.getId());
+            b.setText(String.valueOf(state.getStones(elem.getId())));
+        }
     }
-
 }

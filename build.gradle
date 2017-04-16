@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
         classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+
     }
     repositories {
         mavenLocal()
@@ -22,4 +23,9 @@ jfx {
     // minimal requirement for jfxJar-task
     mainClass = 'at.pwd.boardgame.Main'
     vendor = 'Robert Fischer (programming with design)'
+}
+
+
+dependencies {
+    compile group: 'org.simpleframework', name: 'simple-xml', version: '2.7'
 }
