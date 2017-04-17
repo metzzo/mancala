@@ -1,5 +1,6 @@
 package at.pwd.boardgame.game;
 
+import at.pwd.boardgame.game.interfaces.Game;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 
 import java.util.HashMap;
@@ -30,10 +31,10 @@ public class GameFactory {
         games.put(name, cls);
     }
 
-    public Game create(int numStones, String name) {
+    public Game create(String name) {
         try {
             Game game = games.get(name).newInstance();
-            game.loadBoard(numStones);
+            game.loadBoard();
             return game;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);

@@ -1,6 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.State;
+import at.pwd.boardgame.game.interfaces.State;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,9 @@ import java.util.Map;
 public class MancalaState implements State {
     private Map<String, Integer> stones = new HashMap<>();
 
-    public MancalaState(MancalaBoard board, int numStones) {
+    public MancalaState(MancalaBoard board) {
         for (Slot slot : board.getSlots()) {
-            stones.put(slot.getId(), numStones);
+            stones.put(slot.getId(), board.getNumStones());
         }
         for (PlayerDepot depot : board.getDepots()) {
             stones.put(depot.getId(), 0);

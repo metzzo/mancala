@@ -8,13 +8,12 @@ import javafx.scene.Parent;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by rfischer on 13/04/2017.
  */
 
-public class ScreenFactory {
+public class ControllerFactory {
     private NavigationController navigationController;
     private final HashMap<String, ScreenInfo> controllers;
 
@@ -30,17 +29,17 @@ public class ScreenFactory {
         void created(ControlledScreen screen);
     }
 
-    private static ScreenFactory ourInstance;
+    private static ControllerFactory ourInstance;
 
-    public static ScreenFactory getInstance() {
+    public static ControllerFactory getInstance() {
         if (ourInstance == null) {
-            ourInstance = new ScreenFactory();
+            ourInstance = new ControllerFactory();
         }
         return ourInstance;
     }
 
 
-    private ScreenFactory() {
+    private ControllerFactory() {
         this.controllers = new HashMap<>();
     }
 

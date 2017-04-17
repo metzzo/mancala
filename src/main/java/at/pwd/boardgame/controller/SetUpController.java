@@ -1,6 +1,6 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.services.ScreenFactory;
+import at.pwd.boardgame.services.ControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +17,7 @@ public class SetUpController implements ControlledScreen, Initializable {
     private NavigationController navigationController;
 
     public static void init() {
-        ScreenFactory.getInstance().register(
+        ControllerFactory.getInstance().register(
                 SETUP_SCREEN,
                 SetUpController.class.getResource(SETUP_SCREEN),
                 SetUpController.class.getResourceAsStream(SETUP_SCREEN)

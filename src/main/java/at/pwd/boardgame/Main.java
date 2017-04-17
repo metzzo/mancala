@@ -3,11 +3,11 @@ package at.pwd.boardgame;
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.controller.SetUpController;
-import at.pwd.boardgame.game.Agent;
-import at.pwd.boardgame.game.Game;
+import at.pwd.boardgame.game.interfaces.Agent;
 import at.pwd.boardgame.game.GameFactory;
+import at.pwd.boardgame.game.interfaces.Game;
 import at.pwd.boardgame.game.mancala.MancalaHumanAgent;
-import at.pwd.boardgame.services.ScreenFactory;
+import at.pwd.boardgame.services.ControllerFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,14 +24,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("MancalaGame Boardgame Engine");
 
-        Game game = GameFactory.getInstance().create(3, "normal_mancala");
+        Game game = GameFactory.getInstance().create("normal_mancala");
 
         List<Agent> agents = new ArrayList<>();
         agents.add(new MancalaHumanAgent());
         agents.add(new MancalaHumanAgent());
 
         NavigationController mainContainer = new NavigationController();
-        ScreenFactory.getInstance().setNavigationController(mainContainer);
+        ControllerFactory.getInstance().setNavigationController(mainContainer);
 
         BoardController.init(game, agents);
         SetUpController.init();

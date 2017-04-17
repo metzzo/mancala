@@ -1,15 +1,14 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.Agent;
-import at.pwd.boardgame.game.Game;
-import at.pwd.boardgame.game.HumanAgent;
+import at.pwd.boardgame.game.interfaces.Game;
+import at.pwd.boardgame.game.interfaces.HumanAgent;
 
 /**
  * Created by rfischer on 14/04/2017.
  */
 public class MancalaHumanAgent implements HumanAgent {
     @Override
-    public void doTurn(Game game) {
+    public void doTurn(MancalaGame game) {
 
     }
 

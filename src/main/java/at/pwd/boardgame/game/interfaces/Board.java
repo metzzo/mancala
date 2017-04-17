@@ -1,4 +1,4 @@
-package at.pwd.boardgame.game;
+package at.pwd.boardgame.game.interfaces;
 
 /**
  * Created by rfischer on 15/04/2017.

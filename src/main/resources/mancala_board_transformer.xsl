@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:param name="num_stones" />
+
     <xsl:template match="player-depot|slot">
         <Button onAction="#handleAction">
             <xsl:attribute name="id">
@@ -9,7 +11,9 @@
             <xsl:attribute name="text">
                 <xsl:choose>
                     <xsl:when test="name() = 'player-depot'">0</xsl:when>
-                    <xsl:when test="name() = 'slot'">3</xsl:when>
+                    <xsl:when test="name() = 'slot'">
+                        <xsl:value-of select="$num_stones" />
+                    </xsl:when>
                 </xsl:choose>
             </xsl:attribute>
 

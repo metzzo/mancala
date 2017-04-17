@@ -1,6 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.Board;
+import at.pwd.boardgame.game.interfaces.Board;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -18,6 +18,8 @@ public class MancalaBoard implements Board {
     private List<Slot> slots;
     @ElementList(inline=true)
     private List<PlayerDepot> depots;
+    @Attribute(name = "numstones")
+    private int numStones;
 
     public List<Slot> getSlots() {
         return slots;
@@ -41,6 +43,10 @@ public class MancalaBoard implements Board {
         elements.addAll(slots);
         elements.addAll(depots);
         return elements;
+    }
+
+    public int getNumStones() {
+        return numStones;
     }
 }
 

@@ -1,12 +1,11 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.game.Agent;
-import at.pwd.boardgame.game.Game;
-import at.pwd.boardgame.game.HumanAgent;
-import at.pwd.boardgame.services.ScreenFactory;
+import at.pwd.boardgame.game.interfaces.Agent;
+import at.pwd.boardgame.game.interfaces.Game;
+import at.pwd.boardgame.game.interfaces.HumanAgent;
+import at.pwd.boardgame.services.ControllerFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 
 import java.net.URL;
@@ -25,7 +24,7 @@ public abstract class BoardController implements ControlledScreen, Initializable
     private int currentAgentId = 0;
 
     public static void init(final Game game, final List<Agent> agents) {
-        ScreenFactory.getInstance().register(
+        ControllerFactory.getInstance().register(
                 GAME_SCREEN,
                 BoardController.class.getResource(GAME_SCREEN),
                 game.getViewXml(),

@@ -1,8 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
-import at.pwd.boardgame.game.Game;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
 /**

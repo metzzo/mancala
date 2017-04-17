@@ -1,7 +1,6 @@
-package at.pwd.boardgame.game;
+package at.pwd.boardgame.game.interfaces;
 
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -9,7 +8,7 @@ import java.util.List;
 public interface Game {
     InputStream getViewXml();
 
-    void loadBoard(int numStones);
+    void loadBoard();
 
     State getState();
     Board getBoard();

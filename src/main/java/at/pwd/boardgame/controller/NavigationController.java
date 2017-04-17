@@ -1,19 +1,13 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.services.ScreenFactory;
+import at.pwd.boardgame.services.ControllerFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -21,7 +15,7 @@ import java.util.Map;
 public class NavigationController extends StackPane {
     public void setScreen(final String name) {
         final DoubleProperty opacity = opacityProperty();
-        Parent screen = ScreenFactory.getInstance().loadScreen(name);
+        Parent screen = ControllerFactory.getInstance().loadScreen(name);
 
         // Is there is more than one screen
         if (!getChildren().isEmpty()) {
