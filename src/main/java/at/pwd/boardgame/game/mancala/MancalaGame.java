@@ -18,7 +18,7 @@ import java.io.PipedOutputStream;
 /**
  * Created by rfischer on 13/04/2017.
  */
-public class MancalaGame implements Game {
+public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     public static final String GAME_BOARD = "/normal_mancala_board.xml";
     public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
 
@@ -95,12 +95,12 @@ public class MancalaGame implements Game {
     }
 
     @Override
-    public Board getBoard() {
+    public MancalaBoard getBoard() {
         return board;
     }
 
     @Override
-    public State getState() {
+    public MancalaState getState() {
         return state;
     }
 }

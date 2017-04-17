@@ -15,11 +15,11 @@ import java.util.ResourceBundle;
 /**
  * Created by rfischer on 13/04/2017.
  */
-public abstract class BoardController implements ControlledScreen, Initializable {
+public abstract class BoardController<GameType extends Game> implements ControlledScreen, Initializable {
     public static final String GAME_SCREEN = "/board_controller.fxml";
 
     protected NavigationController navigationController;
-    private Game game;
+    private GameType game;
     private List<Agent> agents;
     private int currentAgentId = 0;
 
@@ -42,15 +42,13 @@ public abstract class BoardController implements ControlledScreen, Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //this.updateUI();
-    }
+    public void initialize(URL location, ResourceBundle resources) { }
 
-    public Game getGame() {
+    public GameType getGame() {
         return game;
     }
 
-    private void setGame(Game game) {
+    private void setGame(GameType game) {
         this.game = game;
     }
 

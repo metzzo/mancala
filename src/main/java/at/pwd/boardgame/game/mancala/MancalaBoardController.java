@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 /**
  * Created by rfischer on 15/04/2017.
  */
-public class MancalaBoardController extends BoardController {
+public class MancalaBoardController extends BoardController<MancalaGame> {
     @Override
     protected void updateUI() {
-        MancalaState state = (MancalaState) getGame().getState();
-        MancalaBoard board = (MancalaBoard) getGame().getBoard();
+        MancalaState state = getGame().getState();
+        MancalaBoard board = getGame().getBoard();
 
         for (Element elem : board.getElements()) {
             Button b = (Button) navigationController.getScene().lookup("#"+elem.getId());
