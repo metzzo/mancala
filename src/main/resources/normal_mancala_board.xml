@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <board numstones="3">
-    <player-depot id="1" next="2" player="1" row="0" column="0" rowspan="2" />
+    <player-depot id="1" next="2" player="0" row="0" column="0" rowspan="2" />
 
     <slot id="2" next="3" row="0" column="1" />
     <slot id="3" next="4" row="0" column="2" />
@@ -17,5 +17,5 @@
     <slot id="10" next="11" row="1" column="5" />
     <slot id="9" next="10" row="1" column="6" />
 
-    <player-depot id="8" next="9" player="2" row="0" column="7" rowspan="2" />
+    <player-depot id="8" next="9" player="1" row="0" column="7" rowspan="2" />
 </board>

@@ -48,6 +48,24 @@ public class MancalaBoard implements Board {
     public int getNumStones() {
         return numStones;
     }
+
+    public boolean isDepot(String id) {
+        for (Slot s : slots) {
+            if (s.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSlot(String id) {
+        for (PlayerDepot d : depots) {
+            if(d.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 class Element {

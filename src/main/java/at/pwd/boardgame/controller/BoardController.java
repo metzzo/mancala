@@ -1,15 +1,23 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.game.interfaces.Agent;
-import at.pwd.boardgame.game.interfaces.Game;
-import at.pwd.boardgame.game.interfaces.HumanAgent;
+import at.pwd.boardgame.game.interfaces.*;
 import at.pwd.boardgame.services.ControllerFactory;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Control;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -20,10 +28,15 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
     protected NavigationController navigationController;
     private GameType game;
+
+    @FXML protected AnchorPane root;
+    @FXML protected GridPane grid;
+    protected Map<String, Node> nodes = new HashMap<>();
+
     private List<Agent> agents;
     private int currentAgentId = 0;
 
-    public static void init(final Game game, final List<Agent> agents) {
+    public static void init(final Game<? extends State, ? extends Board> game, final List<Agent> agents) {
         ControllerFactory.getInstance().register(
                 GAME_SCREEN,
                 BoardController.class.getResource(GAME_SCREEN),
@@ -32,8 +45,15 @@ public abstract class BoardController<GameType extends Game> implements Controll
                     BoardController ctrl = (BoardController) screen;
                     ctrl.setGame(game);
                     ctrl.setAgents(agents);
+                    ctrl.start();
                 }
         );
+    }
+
+    private void start() {
+        for (String id : nodes.keySet()) {
+            bindNode(id, nodes.get(id));
+        }
     }
 
     @Override
@@ -42,7 +62,12 @@ public abstract class BoardController<GameType extends Game> implements Controll
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) { }
+    public void initialize(URL location, ResourceBundle resources) {
+        for (Node node : grid.getChildren()) {
+            String id = node.getId();
+            nodes.put(id, node);
+        }
+    }
 
     public GameType getGame() {
         return game;
@@ -52,22 +77,30 @@ public abstract class BoardController<GameType extends Game> implements Controll
         this.game = game;
     }
 
-    private Agent getCurrentAgent() {
-        return agents.get(currentAgentId);
-    }
-
     public void handleAction(ActionEvent event) {
         if (getCurrentAgent() instanceof HumanAgent) {
             String id = ((Control)event.getSource()).getId();
             ((HumanAgent) getCurrentAgent()).handleAction(game, id);
+            AgentAction action = getCurrentAgent().doTurn(getGame().getState());
+            action.applyAction(game);
 
-            updateUI();
+            nextTurn();
         }
     }
 
-    protected abstract void updateUI();
+    protected abstract void bindNode(String id, Node node);
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
+        currentAgentId = 0;
+    }
+
+    public void nextTurn() {
+        currentAgentId = (currentAgentId + 1) % agents.size();
+        getGame().getState().setCurrentPlayer(currentAgentId);
+    }
+
+    public Agent getCurrentAgent() {
+        return agents.get(currentAgentId);
     }
 }

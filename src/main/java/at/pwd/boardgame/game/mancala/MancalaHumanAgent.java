@@ -1,22 +1,30 @@
 package at.pwd.boardgame.game.mancala;
 
+import at.pwd.boardgame.game.interfaces.AgentAction;
 import at.pwd.boardgame.game.interfaces.Game;
 import at.pwd.boardgame.game.interfaces.HumanAgent;
+import at.pwd.boardgame.game.interfaces.State;
 
 /**
  * Created by rfischer on 14/04/2017.
  */
-public class MancalaHumanAgent implements HumanAgent {
-    @Override
-    public void doTurn(MancalaGame game) {
+public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaState, MancalaAgentAction>  {
+    private String selectedSlot = null;
 
+    @Override
+    public void handleAction(MancalaGame game, String id) {
+        System.out.println("Agent selected id '" + id + "'");
+
+        selectedSlot = id;
     }
 
     @Override
-    public void handleAction(Game game, String id) {
-        System.out.println("Agent selected id '" + id + "'");
+    public MancalaAgentAction doTurn(MancalaState state) {
+        return new MancalaAgentAction(selectedSlot);
+    }
 
-        MancalaGame g = (MancalaGame) game;
-        g.selectSlot(id);
+    @Override
+    public String toString() {
+        return "Human";
     }
 }

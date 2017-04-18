@@ -84,12 +84,23 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         this.state = new MancalaState(board);
     }
 
-    public void selectSlot(String id) {
-        int stones = state.removeStones(id);
+    void selectSlot(String id) {
+        int stones = state.getStones(id).getNum();
+        state.removeStones(id);
         String currentId = board.next(id);
         while (stones > 0) {
-            state.addStone(currentId);
-            stones--;
+            // if this is the player depot of the enemy, do not put it in
+            boolean skip = false;
+            for (PlayerDepot depot : board.getDepots()) {
+                if (depot.getId().equals(currentId) && depot.getPlayer() != state.getCurrentPlayer()) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (!skip) {
+                state.addStone(currentId);
+                stones--;
+            }
             currentId = board.next(currentId);
         }
     }
