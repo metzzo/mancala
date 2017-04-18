@@ -7,6 +7,7 @@ import at.pwd.boardgame.game.base.Agent;
 import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.mancala.MancalaHumanAgent;
+import at.pwd.boardgame.game.mancala.MancalaRandomAgent;
 import at.pwd.boardgame.services.ControllerFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -27,8 +28,8 @@ public class Main extends Application {
         Game game = GameFactory.getInstance().create("normal_mancala");
 
         List<Agent> agents = new ArrayList<>();
-        agents.add(new MancalaHumanAgent());
-        agents.add(new MancalaHumanAgent());
+        agents.add(new MancalaRandomAgent());
+        agents.add(new MancalaRandomAgent());
 
         NavigationController mainContainer = new NavigationController();
         ControllerFactory.getInstance().setNavigationController(mainContainer);

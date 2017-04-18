@@ -29,10 +29,6 @@ public class MancalaState implements State {
         public StoneNum(int initial) {
             setNum(initial);
         }
-
-        public StoneNum() {
-            setNum(0);
-        }
     }
 
     private Map<String, StoneNum> stones = new HashMap<>();
@@ -78,5 +74,10 @@ public class MancalaState implements State {
     @Override
     public int getCurrentPlayer() {
         return this.currentPlayer;
+    }
+
+    @Override
+    public State copy() {
+        return new MancalaState(this);
     }
 }

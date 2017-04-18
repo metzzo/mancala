@@ -2,7 +2,10 @@ package at.pwd.boardgame.controller;
 
 import at.pwd.boardgame.game.base.*;
 import at.pwd.boardgame.services.ControllerFactory;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -50,6 +53,8 @@ public abstract class BoardController<GameType extends Game> implements Controll
         for (String id : nodes.keySet()) {
             bindNode(id, nodes.get(id));
         }
+
+        nextTurn();
     }
 
     @Override
@@ -77,8 +82,8 @@ public abstract class BoardController<GameType extends Game> implements Controll
         if (getCurrentAgent() instanceof HumanAgent) {
             String id = ((Control)event.getSource()).getId();
             ((HumanAgent) getCurrentAgent()).handleAction(game, id);
-            AgentAction action = getCurrentAgent().doTurn(getGame().getState());
-            action.applyAction(game);
+
+            runAgent();
 
             nextTurn();
         }
@@ -88,15 +93,38 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
-        currentAgentId = 0;
+        currentAgentId = -1;
     }
 
     public void nextTurn() {
         currentAgentId = (currentAgentId + 1) % agents.size();
         getGame().getState().setCurrentPlayer(currentAgentId);
+
+        if (!(getCurrentAgent() instanceof HumanAgent)) {
+            runAgent();
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ignored) {
+                    }
+                    return null;
+                }
+            };
+            sleeper.setOnSucceeded(event -> nextTurn());
+            new Thread(sleeper).start();
+        }
     }
 
     public Agent getCurrentAgent() {
         return agents.get(currentAgentId);
+    }
+
+    private void runAgent() {
+        System.out.println("Running agent " + getCurrentAgent());
+
+        AgentAction action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
+        action.applyAction(game);
     }
 }

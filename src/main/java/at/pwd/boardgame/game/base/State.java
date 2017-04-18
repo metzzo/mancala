@@ -6,4 +6,6 @@ package at.pwd.boardgame.game.base;
 public interface State {
     void setCurrentPlayer(int currentPlayer);
     int getCurrentPlayer();
+
+    State copy();
 }
