@@ -1,6 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.interfaces.AgentAction;
+import at.pwd.boardgame.game.base.AgentAction;
 
 /**
  * Created by rfischer on 17/04/2017.

@@ -1,10 +1,8 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.interfaces.State;
+import at.pwd.boardgame.game.base.State;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 import java.util.HashMap;
 import java.util.Map;

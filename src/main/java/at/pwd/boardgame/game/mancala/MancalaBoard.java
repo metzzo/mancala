@@ -1,6 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.interfaces.Board;
+import at.pwd.boardgame.game.base.Board;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;

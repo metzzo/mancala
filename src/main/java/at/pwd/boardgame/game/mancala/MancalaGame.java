@@ -1,10 +1,8 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.game.*;
-import at.pwd.boardgame.game.interfaces.Board;
-import at.pwd.boardgame.game.interfaces.Game;
-import at.pwd.boardgame.game.interfaces.State;
-import at.pwd.boardgame.game.interfaces.WinState;
+import at.pwd.boardgame.game.base.Game;
+import at.pwd.boardgame.game.base.WinState;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 

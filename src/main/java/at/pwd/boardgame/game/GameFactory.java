@@ -1,6 +1,6 @@
 package at.pwd.boardgame.game;
 
-import at.pwd.boardgame.game.interfaces.Game;
+import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 
 import java.util.HashMap;

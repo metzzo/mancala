@@ -2,8 +2,7 @@ package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.SetUpController;
-import at.pwd.boardgame.game.interfaces.WinState;
-import at.pwd.boardgame.services.ControllerFactory;
+import at.pwd.boardgame.game.base.WinState;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;

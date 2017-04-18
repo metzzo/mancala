@@ -1,6 +1,4 @@
-package at.pwd.boardgame.game.interfaces;
-
-import at.pwd.boardgame.game.mancala.MancalaGame;
+package at.pwd.boardgame.game.base;
 
 /**
  * Created by rfischer on 14/04/2017.

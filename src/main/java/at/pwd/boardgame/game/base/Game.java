@@ -1,4 +1,4 @@
-package at.pwd.boardgame.game.interfaces;
+package at.pwd.boardgame.game.base;
 
 import java.io.InputStream;
 
