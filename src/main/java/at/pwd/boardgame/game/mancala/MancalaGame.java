@@ -105,6 +105,29 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         }
     }
 
+    int checkIfPlayerWins() {
+        int win = -1;
+
+        for (PlayerDepot depot : board.getDepots()) {
+            int playerId = depot.getPlayer();
+            boolean didWin = true;
+            for (Slot slot : board.getSlots()) {
+                if (slot.belongsToPlayer() == playerId && state.getStones(slot.getId()).getNum() > 0) {
+                    didWin = false;
+                    break;
+                }
+            }
+            if (didWin) {
+                if (win != -1) {
+                    throw new RuntimeException("Two player won? How is this possible?");
+                }
+                win = playerId;
+            }
+        }
+
+        return win;
+    }
+
     @Override
     public MancalaBoard getBoard() {
         return board;

@@ -1,6 +1,7 @@
 package at.pwd.boardgame;
 
 import at.pwd.boardgame.controller.BoardController;
+import at.pwd.boardgame.controller.GameEndController;
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.controller.SetUpController;
 import at.pwd.boardgame.game.interfaces.Agent;
@@ -35,6 +36,7 @@ public class Main extends Application {
 
         BoardController.init(game, agents);
         SetUpController.init();
+        GameEndController.init();
 
         // TODO: setup screen with option for game screen
         mainContainer.setScreen(BoardController.GAME_SCREEN);

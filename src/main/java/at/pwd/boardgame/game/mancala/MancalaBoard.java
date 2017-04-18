@@ -113,7 +113,14 @@ class Element {
 }
 
 @Root(name="slot")
-class Slot extends Element { }
+class Slot extends Element {
+    @Attribute
+    private int belongs;
+
+    public int belongsToPlayer() {
+        return belongs;
+    }
+}
 
 @Root(name="player-depot")
 class PlayerDepot extends Element {
