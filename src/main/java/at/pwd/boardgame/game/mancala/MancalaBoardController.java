@@ -1,13 +1,14 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
-import at.pwd.boardgame.controller.GameEndController;
+import at.pwd.boardgame.controller.SetUpController;
+import at.pwd.boardgame.game.interfaces.WinState;
+import at.pwd.boardgame.services.ControllerFactory;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.util.converter.NumberStringConverter;
 
 /**
  * Created by rfischer on 15/04/2017.
@@ -35,9 +36,19 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
 
     @Override
     public void nextTurn() {
-        int winState = getGame().checkIfPlayerWins();
-        if (winState != -1) {
-            navigationController.setScreen(GameEndController.GAMEEND_SCREEN);
+        WinState winState = getGame().checkIfPlayerWins();
+        if (winState.getState() != WinState.States.NOBODY) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game has ended");
+            alert.setHeaderText(null);
+            if (winState.getState() == WinState.States.MULTIPLE) {
+                alert.setContentText("The game ended in a draw!");
+
+            } else {
+                alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
+            }
+            alert.showAndWait();
+            navigationController.setScreen(SetUpController.SETUP_SCREEN);
         } else {
             super.nextTurn();
         }

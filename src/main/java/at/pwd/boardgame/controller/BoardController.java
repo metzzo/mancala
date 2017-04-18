@@ -33,7 +33,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
     @FXML protected GridPane grid;
     protected Map<String, Node> nodes = new HashMap<>();
 
-    private List<Agent> agents;
+    protected List<Agent> agents;
     private int currentAgentId = 0;
 
     public static void init(final Game<? extends State, ? extends Board> game, final List<Agent> agents) {

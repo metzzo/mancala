@@ -4,6 +4,7 @@ import at.pwd.boardgame.game.*;
 import at.pwd.boardgame.game.interfaces.Board;
 import at.pwd.boardgame.game.interfaces.Game;
 import at.pwd.boardgame.game.interfaces.State;
+import at.pwd.boardgame.game.interfaces.WinState;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -14,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -105,27 +109,60 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         }
     }
 
-    int checkIfPlayerWins() {
-        int win = -1;
-
+    WinState checkIfPlayerWins() {
+        boolean didEnd = false;
         for (PlayerDepot depot : board.getDepots()) {
+            didEnd = true;
             int playerId = depot.getPlayer();
-            boolean didWin = true;
             for (Slot slot : board.getSlots()) {
                 if (slot.belongsToPlayer() == playerId && state.getStones(slot.getId()).getNum() > 0) {
-                    didWin = false;
+                    didEnd = false;
                     break;
                 }
             }
-            if (didWin) {
-                if (win != -1) {
-                    throw new RuntimeException("Two player won? How is this possible?");
-                }
-                win = playerId;
+            if (didEnd) {
+                break;
             }
         }
 
-        return win;
+        class Entry implements Comparable<Entry> {
+            int num;
+            int playerId;
+
+            Entry(int num, int playerId) {
+                this.num = num;
+                this.playerId = playerId;
+            }
+
+            @Override
+            public int compareTo(Entry o) {
+                return o.num - this.num;
+            }
+        }
+
+        WinState winState;
+        if (didEnd) {
+            // find out who has more
+            List<Entry> nums = new ArrayList<>();
+            for (PlayerDepot depot : board.getDepots()) {
+                int currentNum = state.getStones(depot.getId()).getNum();
+                nums.add(new Entry(currentNum, depot.getPlayer()));
+            }
+            Collections.sort(nums);
+            if (nums.size() == 1) {
+                winState = new WinState(WinState.States.SOMEONE, nums.get(0).playerId);
+            } else {
+                if (nums.get(0).num == nums.get(1).num) {
+                    winState = new WinState(WinState.States.MULTIPLE, -1);
+                } else {
+                    winState = new WinState(WinState.States.SOMEONE, nums.get(0).playerId);
+                }
+            }
+        } else {
+            winState = new WinState(WinState.States.NOBODY, -1);
+        }
+
+        return winState;
     }
 
     @Override

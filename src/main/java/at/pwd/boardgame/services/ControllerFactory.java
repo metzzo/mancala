@@ -23,6 +23,7 @@ public class ControllerFactory {
         Parent parent;
         URL location;
         OnCreatedListener createdListener;
+        ControlledScreen controller;
     }
 
     public interface OnCreatedListener {
@@ -61,6 +62,12 @@ public class ControllerFactory {
         controllers.put(name, info);
     }
 
+    public ControlledScreen getController(String name) {
+        loadScreen(name);
+
+        return controllers.get(name).controller;
+    }
+
     public Parent loadScreen(String name) {
         ScreenInfo info = controllers.get(name);
 
@@ -76,6 +83,7 @@ public class ControllerFactory {
                 ControlledScreen myScreenController = myLoader.getController();
                 myScreenController.setNavigationController(navigationController);
                 info.parent = loadScreen;
+                info.controller = myScreenController;
 
                 if (info.createdListener != null) {
                     info.createdListener.created(myScreenController);
