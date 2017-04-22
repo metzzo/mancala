@@ -62,7 +62,7 @@ public class MancalaState implements State {
         return num;
     }
 
-    StoneNum getStones(String id) {
+    public StoneNum getStones(String id) {
         return stones.get(id);
     }
 

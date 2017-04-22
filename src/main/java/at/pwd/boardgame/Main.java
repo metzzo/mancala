@@ -2,7 +2,7 @@ package at.pwd.boardgame;
 
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.NavigationController;
-import at.pwd.boardgame.game.mancala.MancalaSetUpController;
+import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
 import at.pwd.boardgame.game.base.Agent;
 import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.base.Game;

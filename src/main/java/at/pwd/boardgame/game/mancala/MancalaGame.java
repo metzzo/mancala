@@ -109,7 +109,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         }
     }
 
-    WinState checkIfPlayerWins() {
+    public WinState checkIfPlayerWins() {
         boolean didEnd = false;
         for (PlayerDepot depot : board.getDepots()) {
             didEnd = true;

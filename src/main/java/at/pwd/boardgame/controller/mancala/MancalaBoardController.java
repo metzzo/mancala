@@ -1,7 +1,10 @@
-package at.pwd.boardgame.game.mancala;
+package at.pwd.boardgame.controller.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.game.base.WinState;
+import at.pwd.boardgame.game.mancala.MancalaBoard;
+import at.pwd.boardgame.game.mancala.MancalaGame;
+import at.pwd.boardgame.game.mancala.MancalaState;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
