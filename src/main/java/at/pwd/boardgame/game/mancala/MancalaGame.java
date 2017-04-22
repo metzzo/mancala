@@ -23,12 +23,12 @@ import java.util.List;
 public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     public static final String GAME_BOARD = "/normal_mancala_board.xml";
     public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
-
+    public static final String GAME_NAME = "normal_mancala";
     private MancalaBoard board;
     private MancalaState state;
 
     public static void init() {
-        GameFactory.getInstance().register("normal_mancala", MancalaGame.class);
+        GameFactory.getInstance().register(GAME_NAME, MancalaGame.class);
         MancalaHumanAgent.init();
         MancalaRandomAgent.init();
     }

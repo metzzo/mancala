@@ -49,7 +49,7 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
                 alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
             }
             alert.showAndWait();
-            navigationController.setScreen(MancalaSetUpController.SETUP_SCREEN);
+            navigationController.setScreen(MancalaSetUpController.createSetUpScreen());
         } else {
             super.nextTurn();
         }

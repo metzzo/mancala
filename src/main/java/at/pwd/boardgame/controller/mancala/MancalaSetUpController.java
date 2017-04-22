@@ -3,18 +3,23 @@ package at.pwd.boardgame.controller.mancala;
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
+import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.base.Agent;
+import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.services.AgentService;
-import at.pwd.boardgame.services.ControllerFactory;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -32,11 +37,11 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
     @FXML
     ComboBox<Agent> player2Agent;
 
-    public static void init() {
-        ControllerFactory.getInstance().register(
-                SETUP_SCREEN,
+    public static Parent createSetUpScreen() {
+        return ScreenFactory.getInstance().loadScreen(
                 MancalaSetUpController.class.getResource(SETUP_SCREEN),
-                MancalaSetUpController.class.getResourceAsStream(SETUP_SCREEN)
+                MancalaSetUpController.class.getResourceAsStream(SETUP_SCREEN),
+                null
         );
     }
 
@@ -62,6 +67,22 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
 
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
-        navigationController.setScreen(BoardController.GAME_SCREEN);
+        final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME);
+
+        Parent screen = ScreenFactory.getInstance().loadScreen(
+                BoardController.class.getResource(MancalaBoardController.GAME_SCREEN),
+                game.getViewXml(),
+                s -> {
+                    List<Agent> selectedAgents = new ArrayList<>();
+                    selectedAgents.add(player1Agent.getValue());
+                    selectedAgents.add(player2Agent.getValue());
+
+                    BoardController ctrl = (BoardController) s;
+                    ctrl.setGame(game);
+                    ctrl.setAgents(selectedAgents);
+                    ctrl.start();
+                });
+
+        navigationController.setScreen(screen);
     }
 }

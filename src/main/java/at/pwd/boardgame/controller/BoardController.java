@@ -1,11 +1,9 @@
 package at.pwd.boardgame.controller;
 
 import at.pwd.boardgame.game.base.*;
-import at.pwd.boardgame.services.ControllerFactory;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -35,21 +33,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
     protected List<Agent> agents;
     private int currentAgentId = 0;
 
-    public static void init(final Game<? extends State, ? extends Board> game, final List<Agent> agents) {
-        ControllerFactory.getInstance().register(
-                GAME_SCREEN,
-                BoardController.class.getResource(GAME_SCREEN),
-                game.getViewXml(),
-                screen -> {
-                    BoardController ctrl = (BoardController) screen;
-                    ctrl.setGame(game);
-                    ctrl.setAgents(agents);
-                    ctrl.start();
-                }
-        );
-    }
-
-    private void start() {
+    public void start() {
         for (String id : nodes.keySet()) {
             bindNode(id, nodes.get(id));
         }
@@ -74,7 +58,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
         return game;
     }
 
-    private void setGame(GameType game) {
+    public void setGame(GameType game) {
         this.game = game;
     }
 

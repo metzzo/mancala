@@ -26,6 +26,13 @@ public class AgentService {
     }
 
     public void register(Agent agent) {
+        // agent name is unique
+        for (Agent a : agents) {
+            if (a.toString().equals(agent.toString())) {
+                return;
+            }
+        }
+
         agents.add(agent);
     }
 

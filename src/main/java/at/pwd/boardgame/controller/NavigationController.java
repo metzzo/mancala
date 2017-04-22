@@ -1,6 +1,6 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.services.ControllerFactory;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,9 +13,8 @@ import javafx.util.Duration;
  * Created by rfischer on 13/04/2017.
  */
 public class NavigationController extends StackPane {
-    public void setScreen(final String name) {
+    public void setScreen(Parent screen) {
         final DoubleProperty opacity = opacityProperty();
-        Parent screen = ControllerFactory.getInstance().loadScreen(name);
 
         // Is there is more than one screen
         if (!getChildren().isEmpty()) {

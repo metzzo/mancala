@@ -6,8 +6,9 @@ import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
 import at.pwd.boardgame.game.base.Agent;
 import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.base.Game;
+import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaRandomAgent;
-import at.pwd.boardgame.services.ControllerFactory;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,20 +25,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("MancalaGame Boardgame Engine");
 
-        Game game = GameFactory.getInstance().create("normal_mancala");
-
-        List<Agent> agents = new ArrayList<>();
-        agents.add(new MancalaRandomAgent());
-        agents.add(new MancalaRandomAgent());
+        MancalaGame.init();
 
         NavigationController mainContainer = new NavigationController();
-        ControllerFactory.getInstance().setNavigationController(mainContainer);
-
-        BoardController.init(game, agents);
-        MancalaSetUpController.init();
-
-        // TODO: setup screen with option for game screen
-        mainContainer.setScreen(MancalaSetUpController.SETUP_SCREEN);
+        ScreenFactory.getInstance().setNavigationController(mainContainer);
+        mainContainer.setScreen(MancalaSetUpController.createSetUpScreen());
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
