@@ -2,11 +2,10 @@ package at.pwd.boardgame;
 
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.NavigationController;
-import at.pwd.boardgame.controller.SetUpController;
+import at.pwd.boardgame.game.mancala.MancalaSetUpController;
 import at.pwd.boardgame.game.base.Agent;
 import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.base.Game;
-import at.pwd.boardgame.game.mancala.MancalaHumanAgent;
 import at.pwd.boardgame.game.mancala.MancalaRandomAgent;
 import at.pwd.boardgame.services.ControllerFactory;
 import javafx.application.Application;
@@ -35,10 +34,10 @@ public class Main extends Application {
         ControllerFactory.getInstance().setNavigationController(mainContainer);
 
         BoardController.init(game, agents);
-        SetUpController.init();
+        MancalaSetUpController.init();
 
         // TODO: setup screen with option for game screen
-        mainContainer.setScreen(BoardController.GAME_SCREEN);
+        mainContainer.setScreen(MancalaSetUpController.SETUP_SCREEN);
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);

@@ -1,7 +1,6 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.controller.BoardController;
-import at.pwd.boardgame.controller.SetUpController;
 import at.pwd.boardgame.game.base.WinState;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.Node;
@@ -47,7 +46,7 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
                 alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
             }
             alert.showAndWait();
-            navigationController.setScreen(SetUpController.SETUP_SCREEN);
+            navigationController.setScreen(MancalaSetUpController.SETUP_SCREEN);
         } else {
             super.nextTurn();
         }

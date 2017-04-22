@@ -6,9 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.pwd.boardgame.controller.SetUpController"
+            fx:controller="at.pwd.boardgame.game.mancala.MancalaSetUpController"
             prefHeight="400.0" prefWidth="600.0">
+    <Label text="Player 1 Agent" />
+
+    <ComboBox fx:id="player1Agent">
+
+    </ComboBox>
+
+    <Label text="Player 2 Agent" />
+
+    <ComboBox fx:id="player2Agent">
+
+    </ComboBox>
+
     <Button text="Start Game" alignment="CENTER" onAction="#startGamePressed"/>
-</StackPane>
+</VBox>

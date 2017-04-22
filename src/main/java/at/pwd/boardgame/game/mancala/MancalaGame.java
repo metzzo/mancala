@@ -29,6 +29,8 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     public static void init() {
         GameFactory.getInstance().register("normal_mancala", MancalaGame.class);
+        MancalaHumanAgent.init();
+        MancalaRandomAgent.init();
     }
 
     @Override

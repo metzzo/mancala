@@ -1,6 +1,7 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.game.base.Agent;
+import at.pwd.boardgame.services.AgentService;
 
 import java.util.Random;
 
@@ -9,6 +10,10 @@ import java.util.Random;
  */
 public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
     private Random r = new Random();
+
+    public static void init() {
+        AgentService.getInstance().register(new MancalaRandomAgent());
+    }
 
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
