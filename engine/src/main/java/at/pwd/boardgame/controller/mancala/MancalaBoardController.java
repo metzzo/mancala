@@ -25,7 +25,7 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
         if (board.isSlot(id)) {
             button = (Button)node;
 
-            button.disableProperty().bind(state.getState(id).stateProperty());
+            button.disableProperty().bind(state.getState(id));
         } else if (board.isDepot(id)) {
             BorderPane pane = (BorderPane) nodes.get(id);
             button = (Button)pane.getCenter();

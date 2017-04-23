@@ -1,6 +1,7 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.game.base.State;
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -33,7 +34,7 @@ public class MancalaState implements State {
         }
     }
 
-    public class StoneDisableState {
+    public class PlayerTurnState {
         private BooleanProperty state = new SimpleBooleanProperty();
 
         public final boolean getState() {
@@ -48,15 +49,15 @@ public class MancalaState implements State {
             return state;
         }
 
-        StoneDisableState() {
+        PlayerTurnState() {
             setState(true);
         }
     }
 
     private Map<String, StoneNum> stones = new HashMap<>();
     private int currentPlayer = -1;
-    private Map<String, StoneDisableState> states = new HashMap<>();
-    private Map<Integer, StoneDisableState> playerStates = new HashMap<>();
+    private Map<String, PlayerTurnState> states = new HashMap<>();
+    private Map<Integer, PlayerTurnState> playerStates = new HashMap<>();
 
     MancalaState(MancalaState state) {
         for (Integer playerId : state.playerStates.keySet()) {
@@ -75,7 +76,7 @@ public class MancalaState implements State {
 
     MancalaState(MancalaBoard board) {
         for (Integer playerId : board.getPlayers()) {
-            StoneDisableState s = new StoneDisableState();
+            PlayerTurnState s = new PlayerTurnState();
             playerStates.put(playerId, s);
             for (Slot slot : board.getSlots()) {
                 if (slot.belongsToPlayer() == playerId) {
@@ -108,8 +109,11 @@ public class MancalaState implements State {
         return stones.get(id);
     }
 
-    public StoneDisableState getState(String id) {
-        return states.get(id);
+    public BooleanExpression getState(String id) {
+        PlayerTurnState turnState = states.get(id);
+        StoneNum num = getStones(id);
+
+        return num.numProperty().isEqualTo(0).or(turnState.stateProperty());
     }
 
     @Override
