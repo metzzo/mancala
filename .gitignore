@@ -23,5 +23,5 @@
 *.iws
 
 # Gradle
-**e/build/
+**/build/
 .gradle

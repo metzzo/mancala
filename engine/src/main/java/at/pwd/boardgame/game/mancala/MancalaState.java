@@ -1,7 +1,9 @@
 package at.pwd.boardgame.game.mancala;
 
 import at.pwd.boardgame.game.base.State;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.HashMap;
@@ -31,10 +33,40 @@ public class MancalaState implements State {
         }
     }
 
+    public class StoneDisableState {
+        private BooleanProperty state = new SimpleBooleanProperty();
+
+        public final boolean getState() {
+            return state.get();
+        }
+
+        public final void setState(boolean state) {
+            this.state.set(state);
+        }
+
+        public final BooleanProperty stateProperty() {
+            return state;
+        }
+
+        StoneDisableState() {
+            setState(true);
+        }
+    }
+
     private Map<String, StoneNum> stones = new HashMap<>();
-    private int currentPlayer;
+    private int currentPlayer = -1;
+    private Map<String, StoneDisableState> states = new HashMap<>();
+    private Map<Integer, StoneDisableState> playerStates = new HashMap<>();
 
     MancalaState(MancalaState state) {
+        for (Integer playerId : state.playerStates.keySet()) {
+            playerStates.put(playerId, state.playerStates.get(playerId));
+        }
+
+        for (String id : state.states.keySet()) {
+            states.put(id, state.states.get(id));
+        }
+
         for (String key : state.stones.keySet()) {
             stones.put(key, state.stones.get(key));
         }
@@ -42,6 +74,16 @@ public class MancalaState implements State {
     }
 
     MancalaState(MancalaBoard board) {
+        for (Integer playerId : board.getPlayers()) {
+            StoneDisableState s = new StoneDisableState();
+            playerStates.put(playerId, s);
+            for (Slot slot : board.getSlots()) {
+                if (slot.belongsToPlayer() == playerId) {
+                    states.put(slot.getId(), s);
+                }
+            }
+        }
+
         for (Slot slot : board.getSlots()) {
             stones.put(slot.getId(), new StoneNum(board.getNumStones()));
         }
@@ -66,9 +108,19 @@ public class MancalaState implements State {
         return stones.get(id);
     }
 
+    public StoneDisableState getState(String id) {
+        return states.get(id);
+    }
+
     @Override
     public void setCurrentPlayer(int currentPlayer) {
+        if (this.currentPlayer != -1) {
+            playerStates.get(this.currentPlayer).setState(true);
+        }
+
         this.currentPlayer = currentPlayer;
+
+        playerStates.get(this.currentPlayer).setState(false);
     }
 
     @Override

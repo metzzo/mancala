@@ -6,7 +6,9 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by rfischer on 14/04/2017.
@@ -49,7 +51,7 @@ public class MancalaBoard implements Board {
         return numStones;
     }
 
-    public boolean isDepot(String id) {
+    public boolean isSlot(String id) {
         for (Slot s : slots) {
             if (s.getId().equals(id)) {
                 return true;
@@ -58,7 +60,7 @@ public class MancalaBoard implements Board {
         return false;
     }
 
-    public boolean isSlot(String id) {
+    public boolean isDepot(String id) {
         for (PlayerDepot d : depots) {
             if(d.getId().equals(id)) {
                 return true;
@@ -66,9 +68,26 @@ public class MancalaBoard implements Board {
         }
         return false;
     }
+
+    public Element getElement(String id) {
+        for (Element elem : getElements()) {
+            if (elem.getId().equals(id)) {
+                return elem;
+            }
+        }
+        return null;
+    }
+
+    public Set<Integer> getPlayers() {
+        Set<Integer> players = new HashSet<>();
+        for (Element elem : getElements()) {
+            players.add(elem.getOwner());
+        }
+        return players;
+    }
 }
 
-class Element {
+abstract class Element {
     @Attribute
     private int column;
 
@@ -110,6 +129,8 @@ class Element {
     public String getNext() {
         return next;
     }
+
+    public abstract int getOwner();
 }
 
 @Root(name="slot")
@@ -120,6 +141,12 @@ class Slot extends Element {
     public int belongsToPlayer() {
         return belongs;
     }
+
+
+    @Override
+    public int getOwner() {
+        return belongs;
+    }
 }
 
 @Root(name="player-depot")
@@ -128,6 +155,11 @@ class PlayerDepot extends Element {
     private int player;
 
     public int getPlayer() {
+        return player;
+    }
+
+    @Override
+    public int getOwner() {
         return player;
     }
 }

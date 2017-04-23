@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
     ComboBox<Agent> player1Agent;
     @FXML
     ComboBox<Agent> player2Agent;
+    @FXML
+    Spinner computationTime;
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
@@ -79,6 +82,7 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
                     BoardController ctrl = (BoardController) s;
                     ctrl.setGame(game);
                     ctrl.setAgents(selectedAgents);
+                    ctrl.setComputationTime((Integer)computationTime.getValue());
                     ctrl.start();
                 });
 

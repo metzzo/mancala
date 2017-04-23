@@ -4,6 +4,7 @@ import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.agent.AgentAction;
 import at.pwd.boardgame.game.agent.HumanAgent;
 import at.pwd.boardgame.game.base.*;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +35,8 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
     protected List<Agent> agents;
     private int currentAgentId = 0;
+    private int computationTime;
+    private boolean calculating = false;
 
     public void start() {
         for (String id : nodes.keySet()) {
@@ -70,8 +73,6 @@ public abstract class BoardController<GameType extends Game> implements Controll
             ((HumanAgent) getCurrentAgent()).handleAction(game, id);
 
             runAgent();
-
-            nextTurn();
         }
     }
 
@@ -88,18 +89,6 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
         if (!(getCurrentAgent() instanceof HumanAgent)) {
             runAgent();
-            Task<Void> sleeper = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ignored) {
-                    }
-                    return null;
-                }
-            };
-            sleeper.setOnSucceeded(event -> nextTurn());
-            new Thread(sleeper).start();
         }
     }
 
@@ -110,7 +99,44 @@ public abstract class BoardController<GameType extends Game> implements Controll
     private void runAgent() {
         System.out.println("Running agent " + getCurrentAgent());
 
-        AgentAction action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
-        action.applyAction(game);
+        final Thread timer = new Thread(() -> {
+            try {
+                Thread.sleep(1000*computationTime);
+                Platform.runLater(() -> {
+                    if (calculating) {
+                        WinState state = new WinState(WinState.States.TIMEOUT, -1);
+                        gameEnded(state);
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        timer.start();
+
+        final Thread calculator = new Thread(() -> {
+            try {
+                final AgentAction action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
+                Platform.runLater(() -> action.applyAction(game));
+                Thread.sleep(500);
+                Platform.runLater(this::nextTurn);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                calculating = false;
+            }
+        });
+        calculating = true;
+        calculator.start();
     }
+
+    public void setComputationTime(int computationTime) {
+        this.computationTime = computationTime;
+    }
+
+    public int getComputationTime() {
+        return computationTime;
+    }
+
+    protected abstract void gameEnded(WinState state);
 }

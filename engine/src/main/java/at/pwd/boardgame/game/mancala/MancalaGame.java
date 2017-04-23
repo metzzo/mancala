@@ -90,6 +90,12 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     void selectSlot(String id) {
         int stones = state.getStones(id).getNum();
+        int owner = board.getElement(id).getOwner();
+
+        if (owner != state.getCurrentPlayer() || board.isDepot(id)) {
+            throw new RuntimeException("You cannot select this slot: " + id);
+        }
+
         state.removeStones(id);
         String currentId = board.next(id);
         while (stones > 0) {

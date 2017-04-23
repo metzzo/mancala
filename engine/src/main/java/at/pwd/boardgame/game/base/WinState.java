@@ -10,7 +10,8 @@ public class WinState {
     public enum States {
         NOBODY,
         SOMEONE,
-        MULTIPLE
+        MULTIPLE,
+        TIMEOUT
     }
 
     private final States state;

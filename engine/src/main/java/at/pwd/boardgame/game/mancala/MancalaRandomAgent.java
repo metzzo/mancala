@@ -17,6 +17,11 @@ public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, Man
 
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new MancalaAgentAction(board.getSlots().get(r.nextInt(board.getSlots().size())).getId());
     }
 

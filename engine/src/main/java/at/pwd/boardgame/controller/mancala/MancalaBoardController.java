@@ -22,9 +22,11 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
 
         Button button = null;
 
-        if (board.isDepot(id)) {
+        if (board.isSlot(id)) {
             button = (Button)node;
-        } else if (board.isSlot(id)) {
+
+            button.disableProperty().bind(state.getState(id).stateProperty());
+        } else if (board.isDepot(id)) {
             BorderPane pane = (BorderPane) nodes.get(id);
             button = (Button)pane.getCenter();
         }
@@ -39,19 +41,30 @@ public class MancalaBoardController extends BoardController<MancalaGame> {
     public void nextTurn() {
         WinState winState = getGame().checkIfPlayerWins();
         if (winState.getState() != WinState.States.NOBODY) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Game has ended");
-            alert.setHeaderText(null);
-            if (winState.getState() == WinState.States.MULTIPLE) {
-                alert.setContentText("The game ended in a draw!");
-
-            } else {
-                alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
-            }
-            alert.showAndWait();
-            navigationController.setScreen(MancalaSetUpController.createSetUpScreen());
+            gameEnded(winState);
         } else {
             super.nextTurn();
         }
+    }
+
+    @Override
+    protected void gameEnded(WinState winState) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game has ended");
+        alert.setHeaderText(null);
+        switch (winState.getState()) {
+            case MULTIPLE:
+                alert.setContentText("The game ended in a draw!");
+                break;
+            case TIMEOUT:
+                alert.setContentText("The game ended in a timeout by the current agent " + getCurrentAgent());
+                break;
+            default:
+                alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
+                break;
+        }
+
+        alert.showAndWait();
+        navigationController.setScreen(MancalaSetUpController.createSetUpScreen());
     }
 }
