@@ -1,21 +1,13 @@
 package at.pwd.boardgame;
 
-import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
-import at.pwd.boardgame.game.base.Agent;
-import at.pwd.boardgame.game.GameFactory;
-import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.mancala.MancalaGame;
-import at.pwd.boardgame.game.mancala.MancalaRandomAgent;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -23,7 +15,7 @@ import java.util.List;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("MancalaGame Boardgame Engine");
+        primaryStage.setTitle("Mancala Board Game");
 
         MancalaGame.init();
 

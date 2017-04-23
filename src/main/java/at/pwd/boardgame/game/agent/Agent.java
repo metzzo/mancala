@@ -1,4 +1,7 @@
-package at.pwd.boardgame.game.base;
+package at.pwd.boardgame.game.agent;
+
+import at.pwd.boardgame.game.base.Board;
+import at.pwd.boardgame.game.base.State;
 
 /**
  * Created by rfischer on 14/04/2017.

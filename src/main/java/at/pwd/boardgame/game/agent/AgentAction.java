@@ -1,4 +1,6 @@
-package at.pwd.boardgame.game.base;
+package at.pwd.boardgame.game.agent;
+
+import at.pwd.boardgame.game.base.Game;
 
 /**
  * Created by rfischer on 17/04/2017.

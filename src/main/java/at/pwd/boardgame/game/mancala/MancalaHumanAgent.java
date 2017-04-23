@@ -1,7 +1,7 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.base.HumanAgent;
-import at.pwd.boardgame.services.AgentService;
+import at.pwd.boardgame.game.agent.HumanAgent;
+import at.pwd.boardgame.game.agent.AgentService;
 
 /**
  * Created by rfischer on 14/04/2017.

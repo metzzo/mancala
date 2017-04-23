@@ -1,7 +1,7 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.base.Agent;
-import at.pwd.boardgame.services.AgentService;
+import at.pwd.boardgame.game.agent.Agent;
+import at.pwd.boardgame.game.agent.AgentService;
 
 import java.util.Random;
 

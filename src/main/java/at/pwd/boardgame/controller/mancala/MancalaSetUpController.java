@@ -4,9 +4,9 @@ import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.game.GameFactory;
-import at.pwd.boardgame.game.base.Agent;
+import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
-import at.pwd.boardgame.services.AgentService;
+import at.pwd.boardgame.game.agent.AgentService;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -19,7 +19,6 @@ import javafx.scene.control.ComboBox;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
