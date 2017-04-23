@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <board numstones="3">
-    <player-depot id="1" next="2" player="0" row="0" column="0" rowspan="2" />
+    <player-depot id="1" next="14" player="0" row="0" column="0" rowspan="2" />
 
-    <slot id="2" next="3" row="0" column="1" belongs="1" />
-    <slot id="3" next="4" row="0" column="2" belongs="1" />
-    <slot id="4" next="5" row="0" column="3" belongs="1" />
-    <slot id="5" next="6" row="0" column="4" belongs="1" />
-    <slot id="6" next="7" row="0" column="5" belongs="1" />
-    <slot id="7" next="8" row="0" column="6" belongs="1" />
+    <slot id="2" next="1" row="0" column="1" belongs="1" />
+    <slot id="3" next="2" row="0" column="2" belongs="1" />
+    <slot id="4" next="3" row="0" column="3" belongs="1" />
+    <slot id="5" next="4" row="0" column="4" belongs="1" />
+    <slot id="6" next="5" row="0" column="5" belongs="1" />
+    <slot id="7" next="6" row="0" column="6" belongs="1" />
 
 
-    <slot id="14" next="1" row="1" column="1" belongs="0" />
-    <slot id="13" next="14" row="1" column="2" belongs="0" />
-    <slot id="12" next="13" row="1" column="3" belongs="0" />
-    <slot id="11" next="12" row="1" column="4" belongs="0" />
-    <slot id="10" next="11" row="1" column="5" belongs="0" />
-    <slot id="9" next="10" row="1" column="6" belongs="0" />
+    <slot id="14" next="13" row="1" column="1" belongs="0" />
+    <slot id="13" next="12" row="1" column="2" belongs="0" />
+    <slot id="12" next="11" row="1" column="3" belongs="0" />
+    <slot id="11" next="10" row="1" column="4" belongs="0" />
+    <slot id="10" next="9" row="1" column="5" belongs="0" />
+    <slot id="9" next="8" row="1" column="6" belongs="0" />
 
-    <player-depot id="8" next="9" player="1" row="0" column="7" rowspan="2" />
+    <player-depot id="8" next="7" player="1" row="0" column="7" rowspan="2" />
 </board>

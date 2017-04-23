@@ -5,6 +5,8 @@ import at.pwd.boardgame.game.agent.AgentAction;
 import at.pwd.boardgame.game.agent.HumanAgent;
 import at.pwd.boardgame.game.base.*;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,12 +31,11 @@ public abstract class BoardController<GameType extends Game> implements Controll
     protected NavigationController navigationController;
     private GameType game;
 
-    @FXML protected AnchorPane root;
     @FXML protected GridPane grid;
     protected Map<String, Node> nodes = new HashMap<>();
 
     protected List<Agent> agents;
-    private int currentAgentId = 0;
+    private IntegerProperty currentAgent = new SimpleIntegerProperty(-1);
     private int computationTime;
     private boolean calculating = false;
 
@@ -80,12 +81,12 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
-        currentAgentId = -1;
+        currentAgent.set(-1);
     }
 
     public void nextTurn() {
-        currentAgentId = (currentAgentId + 1) % agents.size();
-        getGame().getState().setCurrentPlayer(currentAgentId);
+        currentAgent.set((currentAgent.get() + 1) % agents.size());
+        getGame().getState().setCurrentPlayer(currentAgent.get());
 
         if (!(getCurrentAgent() instanceof HumanAgent)) {
             runAgent();
@@ -93,7 +94,11 @@ public abstract class BoardController<GameType extends Game> implements Controll
     }
 
     public Agent getCurrentAgent() {
-        return agents.get(currentAgentId);
+        return agents.get(currentAgentProperty().get());
+    }
+
+    public IntegerProperty currentAgentProperty() {
+        return currentAgent;
     }
 
     private void runAgent() {

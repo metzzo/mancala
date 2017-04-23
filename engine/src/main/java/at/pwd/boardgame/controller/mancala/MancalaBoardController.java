@@ -6,15 +6,51 @@ import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 /**
  * Created by rfischer on 15/04/2017.
  */
 public class MancalaBoardController extends BoardController<MancalaGame> {
+    @FXML
+    Label depotLabel0;
+
+    @FXML
+    Label depotLabel1;
+
+    Label[] depotLabels;
+
+    private static final PseudoClass SELECTED_PSEUDO_CLASS =
+            PseudoClass.getPseudoClass("selected");
+
+    @Override
+    public void start() {
+        depotLabels = new Label[] {depotLabel0, depotLabel1};
+
+        currentAgentProperty().addListener((observable, oldValue, newValue) -> {
+            int oldVal = oldValue.intValue();
+            int newVal = newValue.intValue();
+
+            if (oldVal >= 0) {
+                depotLabels[oldVal].pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, false);
+            }
+            depotLabels[newVal].pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, true);
+
+        });
+
+
+        super.start();
+    }
+
     @Override
     protected void bindNode(String id, Node node) {
         MancalaState state = getGame().getState();

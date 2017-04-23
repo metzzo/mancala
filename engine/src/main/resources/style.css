@@ -1,3 +1,6 @@
-.current-player {
-    -fx-font-weight: bold;
+.player-label {
+}
+
+.player-label:selected {
+    -fx-underline: true;
 }

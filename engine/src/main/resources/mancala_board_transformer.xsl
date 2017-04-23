@@ -38,7 +38,7 @@
     </xsl:template>
 
     <xsl:template match="player-depot">
-        <BorderPane>
+        <BorderPane xmlns:fx="http://javafx.com/fxml">
             <xsl:call-template name="position" />
 
             <xsl:attribute name="id">
@@ -47,12 +47,12 @@
 
             <xsl:if test="@player = 0">
                 <bottom>
-                    <Label text="Player 1" styleClass="current-player" />
+                    <Label text="Player 1" styleClass="player-label" fx:id="depotLabel0"/>
                 </bottom>
             </xsl:if>
             <xsl:if test="@player = 1">
                 <top>
-                    <Label text="Player 2" />
+                    <Label text="Player 2" styleClass="player-label" fx:id="depotLabel1" />
                 </top>
             </xsl:if>
 
