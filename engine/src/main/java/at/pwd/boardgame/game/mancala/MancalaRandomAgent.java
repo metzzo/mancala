@@ -3,6 +3,8 @@ package at.pwd.boardgame.game.mancala;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.agent.AgentService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,12 +19,14 @@ public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, Man
 
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        List<String> slots = new ArrayList<>();
+        for (Slot slot : board.getSlots()) {
+            if (slot.belongsToPlayer() == state.getCurrentPlayer()) {
+                slots.add(slot.getId());
+            }
         }
-        return new MancalaAgentAction(board.getSlots().get(r.nextInt(board.getSlots().size())).getId());
+        int pos = r.nextInt(slots.size());
+        return new MancalaAgentAction(slots.get(pos));
     }
 
     @Override

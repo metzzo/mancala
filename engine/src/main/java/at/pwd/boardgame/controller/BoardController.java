@@ -108,23 +108,26 @@ public abstract class BoardController<GameType extends Game> implements Controll
                         gameEnded(state);
                     }
                 });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException ignored) { }
         });
         timer.start();
 
         final Thread calculator = new Thread(() -> {
+            final AgentAction action;
             try {
-                final AgentAction action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
-                Platform.runLater(() -> action.applyAction(game));
-                Thread.sleep(500);
-                Platform.runLater(this::nextTurn);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
             } finally {
+                timer.interrupt();
                 calculating = false;
             }
+
+            Platform.runLater(() -> action.applyAction(game));
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Platform.runLater(this::nextTurn);
         });
         calculating = true;
         calculator.start();
