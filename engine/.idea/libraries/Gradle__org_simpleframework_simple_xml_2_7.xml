@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.simpleframework:simple-xml:2.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7/48f90a787b2d59faab3b8c203945e4b0db32aec4/simple-xml-2.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.simpleframework/simple-xml/2.7/1c74e2835fa196f44618a9cb92fce30b5a6c994e/simple-xml-2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="BSC_main" target="1.8" />
       <module name="BSC_test" target="1.8" />
+      <module name="engine_main" target="1.8" />
+      <module name="engine_test" target="1.8" />
       <module name="mancala_main" target="1.8" />
       <module name="mancala_test" target="1.8" />
     </bytecodeTargetLevel>
