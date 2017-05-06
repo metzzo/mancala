@@ -21,7 +21,8 @@ public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, Man
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
         List<String> slots = new ArrayList<>();
         for (Slot slot : board.getSlots()) {
-            if (slot.belongsToPlayer() == state.getCurrentPlayer()) {
+            // slot should belong to the current player and not be empty
+            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.getStones(slot.getId()).getNum() > 0) {
                 slots.add(slot.getId());
             }
         }

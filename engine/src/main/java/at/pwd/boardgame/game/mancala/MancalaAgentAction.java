@@ -13,7 +13,11 @@ public class MancalaAgentAction implements AgentAction<MancalaGame> {
     }
 
     @Override
-    public void applyAction(MancalaGame game) {
-        game.selectSlot(id);
+    public NextAction applyAction(MancalaGame game) {
+        if (game.selectSlot(id)) {
+            return NextAction.SAME_PLAYER;
+        } else {
+            return NextAction.NEXT_PLAYER;
+        }
     }
 }

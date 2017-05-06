@@ -88,7 +88,13 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         this.state = new MancalaState(board);
     }
 
-    void selectSlot(String id) {
+    /**
+     * Selects the slot with the given ID and calculates the turn.
+     *
+     * @param id The ID of the slot that has been selected
+     * @return true ... the current player can play another turn, false ... the current player has to
+     */
+    boolean selectSlot(String id) {
         int stones = state.getStones(id).getNum();
         int owner = board.getElement(id).getOwner();
 
@@ -98,21 +104,31 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
         state.removeStones(id);
         String currentId = board.next(id);
+        boolean playAnotherTurn = false;
         while (stones > 0) {
             // if this is the player depot of the enemy, do not put it in
             boolean skip = false;
+            boolean ownSlot = false;
             for (PlayerDepot depot : board.getDepots()) {
-                if (depot.getId().equals(currentId) && depot.getPlayer() != state.getCurrentPlayer()) {
-                    skip = true;
+                if (depot.getId().equals(currentId)) {
+                    if (depot.getPlayer() != state.getCurrentPlayer()) {
+                        skip = true;
+                    } else {
+                        ownSlot = true;
+                    }
+
+
                     break;
                 }
             }
             if (!skip) {
                 state.addStone(currentId);
                 stones--;
+                playAnotherTurn = stones == 0 && ownSlot;
             }
             currentId = board.next(currentId);
         }
+        return playAnotherTurn;
     }
 
     public WinState checkIfPlayerWins() {
