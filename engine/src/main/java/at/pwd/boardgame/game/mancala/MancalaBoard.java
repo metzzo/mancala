@@ -138,10 +138,14 @@ class Slot extends Element {
     @Attribute
     private int belongs;
 
+    @Attribute
+    private String enemy;
+
     public int belongsToPlayer() {
         return belongs;
     }
 
+    public String enemySlot() { return enemy; }
 
     @Override
     public int getOwner() {

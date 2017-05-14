@@ -1,0 +1,6 @@
+.player-label {
+}
+
+.player-label:selected {
+    -fx-underline: true;
+}

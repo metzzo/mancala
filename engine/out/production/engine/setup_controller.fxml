@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.pwd.boardgame.controller.mancala.MancalaSetUpController"
+            prefHeight="400.0" prefWidth="600.0"
+            alignment="CENTER"
+            spacing="10">
+    <VBox alignment="CENTER">
+        <Label text="Player 1 Agent" />
+        <ComboBox fx:id="player1Agent"></ComboBox>
+    </VBox>
+
+    <VBox alignment="CENTER">
+        <Label text="Player 2 Agent" />
+        <ComboBox fx:id="player2Agent"></ComboBox>
+    </VBox>
+
+    <VBox alignment="CENTER">
+        <Label text="Computation Time (in seconds)" />
+        <Spinner fx:id="computationTime" min="1" amountToStepBy="1" initialValue="10" max="600"></Spinner>
+    </VBox>
+
+    <Button text="Start Game" alignment="CENTER" onAction="#startGamePressed"/>
+</VBox>

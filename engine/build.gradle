@@ -28,4 +28,8 @@ jfx {
 
 dependencies {
     compile group: 'org.simpleframework', name: 'simple-xml', version: '2.7'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
+    testCompile group: 'junit', name: 'junit-dep', version: '4.10'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.+'
 }
