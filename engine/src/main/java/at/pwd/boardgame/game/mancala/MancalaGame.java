@@ -24,8 +24,9 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     public static final String GAME_BOARD = "/normal_mancala_board.xml";
     public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
     public static final String GAME_NAME = "normal_mancala";
-    private MancalaBoard board;
-    private MancalaState state;
+
+    protected MancalaBoard board;
+    protected MancalaState state;
 
     public static void init() {
         GameFactory.getInstance().register(GAME_NAME, MancalaGame.class);
@@ -88,6 +89,10 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         this.state = new MancalaState(board);
     }
 
+    public MancalaGame() {
+
+    }
+
     /**
      * Selects the slot with the given ID and calculates the turn.
      *
@@ -109,38 +114,36 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             // if this is the player depot of the enemy, do not put it in
             boolean skip = false;
             boolean ownDepot = false;
-            for (PlayerDepot depot : board.getDepots()) {
-                if (depot.getId().equals(currentId)) {
-                    if (depot.getPlayer() != state.getCurrentPlayer()) {
-                        skip = true;
-                    } else {
-                        ownDepot = true;
-                    }
-
-
-                    break;
-                }
-            }
-            Slot ownSlotAndEmpty = null;
-            if (state.getStones(currentId).getNum() == 0) {
-                for (Slot slot : board.getSlots()) {
-                    if (slot.getId().equals(currentId)) {
-                        ownSlotAndEmpty = slot;
-                        break;
-                    }
+            if (board.isDepot(currentId)) {
+                PlayerDepot depot = (PlayerDepot)board.getElement(currentId);
+                if (depot.getPlayer() != state.getCurrentPlayer()) {
+                    skip = true;
+                } else {
+                    ownDepot = true;
                 }
             }
 
             if (!skip) {
-                state.addStone(currentId);
+                state.addStones(currentId, 1);
                 stones--;
 
-                if (ownSlotAndEmpty != null) {
+                boolean isLast = stones == 0;
+                boolean landedOnEmpty = state.getStones(currentId).getNum() == 1;
+                boolean landedOnOwn = board.getElement(currentId).getOwner() == state.getCurrentPlayer();
+                if (landedOnEmpty && landedOnOwn && isLast && !ownDepot) {
                     // get the stones from enemys slot
-                    
+                    String enemy = board.getEnemySlotOf(currentId);
+                    int enemyStones = state.getStones(enemy).getNum();
+                    state.removeStones(currentId);
+                    state.removeStones(enemy);
+                    String depot = board.getDepotOf(currentId);
+                    state.addStones(depot, enemyStones + 1); // stones from enemy + own stone in slot
+
+                    System.out.println("YOLO");
+
                 }
 
-                playAnotherTurn = stones == 0 && ownDepot;
+                playAnotherTurn = isLast && ownDepot;
             }
             currentId = board.next(currentId);
         }
@@ -206,6 +209,13 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     @Override
     public MancalaBoard getBoard() {
         return board;
+    }
+
+    @Override
+    public int nextPlayer() {
+        int player = (state.getCurrentPlayer() + 1) % getBoard().getPlayers().size();
+        state.setCurrentPlayer(player);
+        return player;
     }
 
     @Override

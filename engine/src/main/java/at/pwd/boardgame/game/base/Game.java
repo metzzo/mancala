@@ -12,4 +12,6 @@ public interface Game<StateType extends State, BoardType extends Board> {
 
     StateType getState();
     BoardType getBoard();
+
+    int nextPlayer();
 }

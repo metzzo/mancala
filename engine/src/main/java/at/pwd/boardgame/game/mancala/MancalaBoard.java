@@ -23,15 +23,15 @@ public class MancalaBoard implements Board {
     @Attribute(name = "numstones")
     private int numStones;
 
-    public List<Slot> getSlots() {
+    List<Slot> getSlots() {
         return slots;
     }
 
-    public List<PlayerDepot> getDepots() {
+    List<PlayerDepot> getDepots() {
         return depots;
     }
 
-    public String next(String id) {
+    String next(String id) {
         for (Element elem : getElements()) {
             if (elem.getId().equals(id)) {
                 return elem.getNext();
@@ -40,15 +40,19 @@ public class MancalaBoard implements Board {
         return null;
     }
 
-    public List<Element> getElements() {
+    List<Element> getElements() {
         List<Element> elements = new ArrayList<>();
         elements.addAll(slots);
         elements.addAll(depots);
         return elements;
     }
 
-    public int getNumStones() {
+    int getNumStones() {
         return numStones;
+    }
+
+    public void setNumStones(int numStones) {
+        this.numStones = numStones;
     }
 
     public boolean isSlot(String id) {
@@ -69,7 +73,7 @@ public class MancalaBoard implements Board {
         return false;
     }
 
-    public Element getElement(String id) {
+    Element getElement(String id) {
         for (Element elem : getElements()) {
             if (elem.getId().equals(id)) {
                 return elem;
@@ -78,12 +82,36 @@ public class MancalaBoard implements Board {
         return null;
     }
 
-    public Set<Integer> getPlayers() {
+    Set<Integer> getPlayers() {
         Set<Integer> players = new HashSet<>();
         for (Element elem : getElements()) {
             players.add(elem.getOwner());
         }
         return players;
+    }
+
+    String getEnemySlotOf(String id) {
+        for (Slot slot : getSlots()) {
+            if (slot.getId().equals(id)) {
+                return slot.getEnemySlot();
+            }
+        }
+        return null;
+    }
+
+    String getDepotOf(String slot) {
+        Element elem = getElement(slot);
+        if (elem instanceof Slot) {
+            Slot s = (Slot)elem;
+            for (PlayerDepot depot : depots) {
+                if (depot.getPlayer() == s.getOwner()) {
+                    return depot.getId();
+                }
+            }
+            throw new RuntimeException("Unknown id");
+        } else {
+            return slot;
+        }
     }
 }
 
@@ -145,7 +173,7 @@ class Slot extends Element {
         return belongs;
     }
 
-    public String enemySlot() { return enemy; }
+    public String getEnemySlot() { return enemy; }
 
     @Override
     public int getOwner() {

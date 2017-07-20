@@ -49,15 +49,19 @@ public class MancalaState implements State {
             return state;
         }
 
-        PlayerTurnState() {
+        public PlayerTurnState() {
             setState(true);
         }
     }
 
-    private Map<String, StoneNum> stones = new HashMap<>();
+    protected Map<String, StoneNum> stones = new HashMap<>();
     private int currentPlayer = -1;
-    private Map<String, PlayerTurnState> states = new HashMap<>();
-    private Map<Integer, PlayerTurnState> playerStates = new HashMap<>();
+    protected Map<String, PlayerTurnState> states = new HashMap<>();
+    protected Map<Integer, PlayerTurnState> playerStates = new HashMap<>();
+
+    protected MancalaState() {
+        // for custom states, useful for testing
+    }
 
     MancalaState(MancalaState state) {
         for (Integer playerId : state.playerStates.keySet()) {
@@ -74,7 +78,7 @@ public class MancalaState implements State {
         setCurrentPlayer(state.getCurrentPlayer());
     }
 
-    MancalaState(MancalaBoard board) {
+    protected MancalaState(MancalaBoard board) {
         for (Integer playerId : board.getPlayers()) {
             PlayerTurnState s = new PlayerTurnState();
             playerStates.put(playerId, s);
@@ -99,9 +103,9 @@ public class MancalaState implements State {
         return num;
     }
 
-    StoneNum addStone(String id) {
+    StoneNum addStones(String id, int amount) {
         StoneNum num = stones.get(id);
-        num.setNum(num.getNum() + 1);
+        num.setNum(num.getNum() + amount);
         return num;
     }
 

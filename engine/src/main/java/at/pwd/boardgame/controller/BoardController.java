@@ -85,8 +85,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
     }
 
     public void nextTurn() {
-        currentAgent.set((currentAgent.get() + 1) % agents.size());
-        getGame().getState().setCurrentPlayer(currentAgent.get());
+        currentAgent.set(getGame().nextPlayer());
 
         if (!(getCurrentAgent() instanceof HumanAgent)) {
             runAgent();
@@ -106,7 +105,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
 
         final Thread timer = new Thread(() -> {
             try {
-                Thread.sleep(1000*computationTime);
+                Thread.sleep(1000*getComputationTime());
                 Platform.runLater(() -> {
                     if (calculating) {
                         WinState state = new WinState(WinState.States.TIMEOUT, -1);
