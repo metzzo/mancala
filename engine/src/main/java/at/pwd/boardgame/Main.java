@@ -2,6 +2,8 @@ package at.pwd.boardgame;
 
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
+import at.pwd.boardgame.game.agent.Agent;
+import at.pwd.boardgame.game.agent.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
@@ -34,10 +36,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         for (String arg : args) {
+            Agent a = null;
             try {
-                Class.forName(arg).getMethod("init").invoke(null);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+                a = (Agent) Class.forName(arg).newInstance();
+            } catch (IllegalAccessException | ClassNotFoundException | InstantiationException e) {
                 e.printStackTrace();
+            }
+            if (a != null) {
+                AgentService.getInstance().register(a);
             }
         }
         launch(args);

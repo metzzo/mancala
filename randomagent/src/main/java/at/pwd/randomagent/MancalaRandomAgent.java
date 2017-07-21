@@ -17,10 +17,6 @@ import java.util.Random;
 public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
     private Random r = new Random();
 
-    public static void init() {
-        AgentService.getInstance().register(new MancalaRandomAgent());
-    }
-
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
         List<String> slots = new ArrayList<>();
@@ -36,6 +32,6 @@ public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, Man
 
     @Override
     public String toString() {
-        return "Random2";
+        return "Random";
     }
 }

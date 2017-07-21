@@ -24,18 +24,8 @@ jfx {
     mainClass = 'at.pwd.boardgame.Main'
     vendor = 'Robert Fischer (programming with design)'
     jfxAppOutputDir = "result"
-    jfxMainAppJarName = "engine.jar"
+    jfxMainAppJarName = "mancala-engine.jar"
 }
-
-/*jar{
-    configurations.compile.collect { it.isDirectory() ? it: zipTree(it)}
-    from(configurations.compile) {
-    }
-    manifest{
-        attributes("Main-Class": mainClassName);
-    }
-}*/
-
 
 dependencies {
     compile group: 'org.simpleframework', name: 'simple-xml', version: '2.7'
