@@ -138,9 +138,6 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
                     state.removeStones(enemy);
                     String depot = board.getDepotOf(currentId);
                     state.addStones(depot, enemyStones + 1); // stones from enemy + own stone in slot
-
-                    System.out.println("YOLO");
-
                 }
 
                 playAnotherTurn = isLast && ownDepot;
@@ -148,6 +145,21 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             currentId = board.next(currentId);
         }
         return playAnotherTurn;
+    }
+
+    class Entry implements Comparable<Entry> {
+        int num;
+        int playerId;
+
+        Entry(int num, int playerId) {
+            this.num = num;
+            this.playerId = playerId;
+        }
+
+        @Override
+        public int compareTo(Entry o) {
+            return o.num - this.num;
+        }
     }
 
     public WinState checkIfPlayerWins() {
@@ -166,23 +178,16 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             }
         }
 
-        class Entry implements Comparable<Entry> {
-            int num;
-            int playerId;
-
-            Entry(int num, int playerId) {
-                this.num = num;
-                this.playerId = playerId;
-            }
-
-            @Override
-            public int compareTo(Entry o) {
-                return o.num - this.num;
-            }
-        }
-
         WinState winState;
         if (didEnd) {
+            // give all missing stones to enemy
+            for (Slot slot : board.getSlots()) {
+                String depot = board.getDepotOf(slot.getId());
+                int num = state.getStones(slot.getId()).getNum();
+                state.removeStones(slot.getId());
+                state.addStones(depot, num);
+            }
+
             // find out who has more
             List<Entry> nums = new ArrayList<>();
             for (PlayerDepot depot : board.getDepots()) {
@@ -192,12 +197,10 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             Collections.sort(nums);
             if (nums.size() == 1) {
                 winState = new WinState(WinState.States.SOMEONE, nums.get(0).playerId);
-            } else {
-                if (nums.get(0).num == nums.get(1).num) {
-                    winState = new WinState(WinState.States.MULTIPLE, -1);
-                } else {
-                    winState = new WinState(WinState.States.SOMEONE, nums.get(0).playerId);
-                }
+            } else if (nums.get(0).num == nums.get(1).num) { // draw
+                winState = new WinState(WinState.States.MULTIPLE, -1);
+            } else { // one player has the most
+                winState = new WinState(WinState.States.SOMEONE, nums.get(0).playerId);
             }
         } else {
             winState = new WinState(WinState.States.NOBODY, -1);

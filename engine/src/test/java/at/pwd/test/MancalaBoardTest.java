@@ -1,5 +1,6 @@
 package at.pwd.test;
 
+import at.pwd.boardgame.game.base.WinState;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
@@ -184,6 +185,46 @@ public class MancalaBoardTest {
         checkBoardConfiguration(
                 0, 3, 3, 3, 0, 3, 3,
                 12, 3, 3, 0, 4, 4, 0
+        );
+    }
+
+    @Test
+    public void checkNobodyWinning() {
+        WinState s = game.checkIfPlayerWins();
+        assertThat(s.getState(), is(equalTo(WinState.States.NOBODY)));
+    }
+
+    @Test
+    public void checkSomeoneIsWinning() {
+        MancalaState state = new MancalaTestState(
+                0, 3, 3, 3, 3, 3, 3,
+                1, 0, 0, 0, 0, 0, 0
+        );
+        game = new MancalaTestGame(game.getBoard(), state);
+        game.nextPlayer();
+        WinState s = game.checkIfPlayerWins();
+        assertThat(s.getState(), is(equalTo(WinState.States.SOMEONE)));
+
+        checkBoardConfiguration(
+                18, 0, 0, 0, 0, 0, 0,
+                1, 0, 0, 0, 0, 0, 0
+        );
+    }
+
+    @Test
+    public void checkDraw() {
+        MancalaState state = new MancalaTestState(
+                0, 3, 3, 3, 3, 3, 3,
+                18, 0, 0, 0, 0, 0, 0
+        );
+        game = new MancalaTestGame(game.getBoard(), state);
+        game.nextPlayer();
+        WinState s = game.checkIfPlayerWins();
+        assertThat(s.getState(), is(equalTo(WinState.States.MULTIPLE)));
+
+        checkBoardConfiguration(
+                18, 0, 0, 0, 0, 0, 0,
+                18, 0, 0, 0, 0, 0, 0
         );
     }
 
