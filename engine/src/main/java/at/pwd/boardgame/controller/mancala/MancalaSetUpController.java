@@ -55,12 +55,8 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<Agent> list = AgentService.getInstance().getAgents();
-        if (list.size() == 0) {
-            throw new RuntimeException("There is no agent!");
-        }
+        reloadAgents();
 
-        agents.set(FXCollections.observableArrayList(list));
         player1Agent.setItems(agents);
         player1Agent.setValue(agents.get(0));
 
@@ -92,24 +88,27 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
 
     public void player1loadAi(ActionEvent actionEvent) {
         loadAi();
+        player1Agent.setValue(agents.get(agents.size() - 1));
     }
 
     public void player2loadAi(ActionEvent actionEvent) {
         loadAi();
+        player2Agent.setValue(agents.get(agents.size() - 1));
     }
 
     private void loadAi() {
         AddAgentController.show();
+        System.out.println("Finish"); //at.pwd.randomagent.MancalaRandomAgent
 
+        reloadAgents();
+    }
 
-        /*FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose jar file");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Jar files (*.jar)", "*.jar");
-        fileChooser.setSelectedExtensionFilter(extFilter);
-        File jar = fileChooser.showOpenDialog(navigationController.getScene().getWindow());
+    private void reloadAgents() {
+        List<Agent> list = AgentService.getInstance().getAgents();
+        if (list.size() == 0) {
+            throw new RuntimeException("There is no agent!");
+        }
 
-        if (jar != null) {
-
-        }*/
+        agents.set(FXCollections.observableArrayList(list));
     }
 }
