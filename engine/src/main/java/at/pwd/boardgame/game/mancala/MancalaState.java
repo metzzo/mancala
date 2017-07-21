@@ -82,17 +82,17 @@ public class MancalaState implements State {
         for (Integer playerId : board.getPlayers()) {
             PlayerTurnState s = new PlayerTurnState();
             playerStates.put(playerId, s);
-            for (Slot slot : board.getSlots()) {
+            for (MancalaBoard.Slot slot : board.getSlots()) {
                 if (slot.belongsToPlayer() == playerId) {
                     states.put(slot.getId(), s);
                 }
             }
         }
 
-        for (Slot slot : board.getSlots()) {
+        for (MancalaBoard.Slot slot : board.getSlots()) {
             stones.put(slot.getId(), new StoneNum(board.getNumStones()));
         }
-        for (PlayerDepot depot : board.getDepots()) {
+        for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
             stones.put(depot.getId(), new StoneNum(0));
         }
     }

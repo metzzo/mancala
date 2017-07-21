@@ -23,7 +23,7 @@ public class MancalaBoard implements Board {
     @Attribute(name = "numstones")
     private int numStones;
 
-    List<Slot> getSlots() {
+    public List<Slot> getSlots() {
         return slots;
     }
 
@@ -113,6 +113,41 @@ public class MancalaBoard implements Board {
             return slot;
         }
     }
+
+    @Root(name="slot")
+    public static class Slot extends Element {
+        @Attribute
+        private int belongs;
+
+        @Attribute
+        private String enemy;
+
+        public int belongsToPlayer() {
+            return belongs;
+        }
+
+        public String getEnemySlot() { return enemy; }
+
+        @Override
+        public int getOwner() {
+            return belongs;
+        }
+    }
+
+    @Root(name="player-depot")
+    public static class PlayerDepot extends Element {
+        @Attribute
+        private int player;
+
+        public int getPlayer() {
+            return player;
+        }
+
+        @Override
+        public int getOwner() {
+            return player;
+        }
+    }
 }
 
 abstract class Element {
@@ -159,40 +194,5 @@ abstract class Element {
     }
 
     public abstract int getOwner();
-}
-
-@Root(name="slot")
-class Slot extends Element {
-    @Attribute
-    private int belongs;
-
-    @Attribute
-    private String enemy;
-
-    public int belongsToPlayer() {
-        return belongs;
-    }
-
-    public String getEnemySlot() { return enemy; }
-
-    @Override
-    public int getOwner() {
-        return belongs;
-    }
-}
-
-@Root(name="player-depot")
-class PlayerDepot extends Element {
-    @Attribute
-    private int player;
-
-    public int getPlayer() {
-        return player;
-    }
-
-    @Override
-    public int getOwner() {
-        return player;
-    }
 }
 

@@ -9,6 +9,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Created by rfischer on 13/04/2017.
  */
@@ -31,6 +33,13 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        for (String arg : args) {
+            try {
+                Class.forName(arg).getMethod("init").invoke(null);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         launch(args);
     }
 }

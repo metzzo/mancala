@@ -3,6 +3,7 @@ package at.pwd.boardgame.game.mancala;
 import at.pwd.boardgame.game.*;
 import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.base.WinState;
+import at.pwd.boardgame.game.mancala.agent.MancalaHumanAgent;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -31,7 +32,6 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     public static void init() {
         GameFactory.getInstance().register(GAME_NAME, MancalaGame.class);
         MancalaHumanAgent.init();
-        MancalaRandomAgent.init();
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             boolean skip = false;
             boolean ownDepot = false;
             if (board.isDepot(currentId)) {
-                PlayerDepot depot = (PlayerDepot)board.getElement(currentId);
+                MancalaBoard.PlayerDepot depot = (MancalaBoard.PlayerDepot)board.getElement(currentId);
                 if (depot.getPlayer() != state.getCurrentPlayer()) {
                     skip = true;
                 } else {
@@ -164,10 +164,10 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     public WinState checkIfPlayerWins() {
         boolean didEnd = false;
-        for (PlayerDepot depot : board.getDepots()) {
+        for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
             didEnd = true;
             int playerId = depot.getPlayer();
-            for (Slot slot : board.getSlots()) {
+            for (MancalaBoard.Slot slot : board.getSlots()) {
                 if (slot.belongsToPlayer() == playerId && state.getStones(slot.getId()).getNum() > 0) {
                     didEnd = false;
                     break;
@@ -181,7 +181,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         WinState winState;
         if (didEnd) {
             // give all missing stones to enemy
-            for (Slot slot : board.getSlots()) {
+            for (MancalaBoard.Slot slot : board.getSlots()) {
                 String depot = board.getDepotOf(slot.getId());
                 int num = state.getStones(slot.getId()).getNum();
                 state.removeStones(slot.getId());
@@ -190,7 +190,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
             // find out who has more
             List<Entry> nums = new ArrayList<>();
-            for (PlayerDepot depot : board.getDepots()) {
+            for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
                 int currentNum = state.getStones(depot.getId()).getNum();
                 nums.add(new Entry(currentNum, depot.getPlayer()));
             }
