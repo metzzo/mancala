@@ -14,12 +14,18 @@
             spacing="10">
     <VBox alignment="CENTER">
         <Label text="Player 1 Agent" />
-        <ComboBox fx:id="player1Agent"></ComboBox>
+        <HBox alignment="CENTER">
+            <ComboBox fx:id="player1Agent"></ComboBox>
+            <Button text="+" onAction="#player1loadAi"></Button>
+        </HBox>
     </VBox>
 
     <VBox alignment="CENTER">
         <Label text="Player 2 Agent" />
-        <ComboBox fx:id="player2Agent"></ComboBox>
+        <HBox alignment="CENTER">
+            <ComboBox fx:id="player2Agent"></ComboBox>
+            <Button text="+" onAction="#player2loadAi"></Button>
+        </HBox>
     </VBox>
 
     <VBox alignment="CENTER">

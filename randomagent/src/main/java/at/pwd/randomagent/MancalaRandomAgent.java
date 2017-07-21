@@ -2,7 +2,6 @@ package at.pwd.randomagent;
 
 
 import at.pwd.boardgame.game.agent.Agent;
-import at.pwd.boardgame.game.agent.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaAgentAction;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaState;

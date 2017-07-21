@@ -9,16 +9,22 @@ import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by rfischer on 13/04/2017.
  */
 public class Main extends Application {
+    private Stage stage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.stage = primaryStage;
+
         primaryStage.setTitle("Mancala Board Game");
 
         MancalaGame.init();

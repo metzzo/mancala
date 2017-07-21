@@ -1,5 +1,6 @@
 package at.pwd.boardgame.controller.mancala;
 
+import at.pwd.boardgame.controller.AddAgentController;
 import at.pwd.boardgame.controller.BoardController;
 import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
@@ -87,5 +88,28 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
                 });
 
         navigationController.setScreen(screen);
+    }
+
+    public void player1loadAi(ActionEvent actionEvent) {
+        loadAi();
+    }
+
+    public void player2loadAi(ActionEvent actionEvent) {
+        loadAi();
+    }
+
+    private void loadAi() {
+        AddAgentController.show();
+
+
+        /*FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose jar file");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Jar files (*.jar)", "*.jar");
+        fileChooser.setSelectedExtensionFilter(extFilter);
+        File jar = fileChooser.showOpenDialog(navigationController.getScene().getWindow());
+
+        if (jar != null) {
+
+        }*/
     }
 }

@@ -13,6 +13,10 @@ import javafx.util.Duration;
  * Created by rfischer on 13/04/2017.
  */
 public class NavigationController extends StackPane {
+    public void showModal(Parent screen) {
+
+    }
+
     public void setScreen(Parent screen) {
         final DoubleProperty opacity = opacityProperty();
 
