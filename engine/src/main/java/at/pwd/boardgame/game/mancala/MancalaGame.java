@@ -144,6 +144,10 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             }
             currentId = board.next(currentId);
         }
+        if (playAnotherTurn) {
+            // finally check if already won => if no, then another round can be played
+            playAnotherTurn = checkIfPlayerWins().getState() == WinState.States.NOBODY;
+        }
         return playAnotherTurn;
     }
 

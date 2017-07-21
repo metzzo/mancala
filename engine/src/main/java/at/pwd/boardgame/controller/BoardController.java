@@ -148,7 +148,9 @@ public abstract class BoardController<GameType extends Game> implements Controll
                                 nextTurn();
                                 break;
                             case SAME_PLAYER:
-                                runAgent();
+                                if (!(getCurrentAgent() instanceof HumanAgent)) {
+                                    runAgent();
+                                }
                                 break;
                         }
                     });

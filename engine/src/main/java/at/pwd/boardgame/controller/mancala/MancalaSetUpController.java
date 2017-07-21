@@ -98,7 +98,6 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
 
     private void loadAi() {
         AddAgentController.show();
-        System.out.println("Finish"); //at.pwd.randomagent.MancalaRandomAgent
 
         reloadAgents();
     }
