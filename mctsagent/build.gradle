@@ -1,0 +1,14 @@
+group 'at.pwd.mctsagent'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile files('lib/mancala-engine.jar', 'lib/lib/simple-xml-2.7.jar', 'lib/lib/stax-1.2.0.jar', 'lib/lib/stax-api-1.0.1.jar', 'lib/lib/xpp3-1.1.3.3.jar')
+}
