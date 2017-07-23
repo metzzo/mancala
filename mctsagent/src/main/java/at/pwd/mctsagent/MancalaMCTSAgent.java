@@ -16,6 +16,19 @@ import java.util.Random;
 public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
     private Random r = new Random();
 
+    private static class MCTSTree {
+        private MCTSTree nodes[];
+
+        private int computations;
+        private int wins;
+        private MancalaState state;
+
+        MCTSTree(MancalaState state, int numNodes) {
+            this.nodes = new MCTSTree[numNodes];
+            this.state = state;
+        }
+    }
+
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
         List<String> slots = new ArrayList<>();
@@ -32,5 +45,21 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
     @Override
     public String toString() {
         return "Monte Carlo Tree Search";
+    }
+
+    void selection() {
+
+    }
+
+    void expansion() {
+
+    }
+
+    void simulation() {
+
+    }
+
+    void backpropagation() {
+
     }
 }

@@ -18,13 +18,7 @@ public class MancalaRandomAgent implements Agent<MancalaState, MancalaBoard, Man
 
     @Override
     public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
-        List<String> slots = new ArrayList<>();
-        for (MancalaBoard.Slot slot : board.getSlots()) {
-            // slot should belong to the current player and not be empty
-            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.getStones(slot.getId()).getNum() > 0) {
-                slots.add(slot.getId());
-            }
-        }
+        List<String> slots = state.getSelectableSlotsOf(state.getCurrentPlayer(), board);
         int pos = r.nextInt(slots.size());
         return new MancalaAgentAction(slots.get(pos));
     }

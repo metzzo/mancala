@@ -7,7 +7,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -107,6 +109,17 @@ public class MancalaState implements State {
         StoneNum num = stones.get(id);
         num.setNum(num.getNum() + amount);
         return num;
+    }
+
+    public List<String> getSelectableSlotsOf(int player, MancalaBoard board) {
+        List<String> slots = new ArrayList<>();
+        for (MancalaBoard.Slot slot : board.getSlots()) {
+            // slot should belong to the current player and not be empty
+            if (slot.belongsToPlayer() == player && getStones(slot.getId()).getNum() > 0) {
+                slots.add(slot.getId());
+            }
+        }
+        return slots;
     }
 
     public StoneNum getStones(String id) {
