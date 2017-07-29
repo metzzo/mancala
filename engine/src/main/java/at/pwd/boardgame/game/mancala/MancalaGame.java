@@ -93,6 +93,11 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     }
 
+    public MancalaGame(MancalaBoard board, MancalaState state) {
+        this.board = board;
+        this.state = state != null ? state : new MancalaState(board);
+    }
+
     /**
      * Selects the slot with the given ID and calculates the turn.
      *

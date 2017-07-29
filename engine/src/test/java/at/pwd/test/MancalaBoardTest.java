@@ -6,7 +6,9 @@ import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
 import org.junit.Before;
 import org.junit.Test;
+import org.simpleframework.xml.core.Persister;
 
+import static at.pwd.boardgame.game.mancala.MancalaGame.GAME_BOARD;
 import static org.junit.Assert.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -20,7 +22,12 @@ public class MancalaBoardTest {
             super(board);
         }
 
-        public MancalaTestState(
+        MancalaTestState(int numStones) {
+            this(0, numStones, numStones, numStones, numStones, numStones, numStones,
+                 0, numStones, numStones, numStones, numStones, numStones, numStones);
+        }
+
+        MancalaTestState(
                 int num1, int num2, int num3, int num4, int num5, int num6, int num7,
                 int num8, int num9, int num10, int num11, int num12, int num13, int num14
         ) {
@@ -60,19 +67,18 @@ public class MancalaBoardTest {
             stones.put("14", new StoneNum(num14));
         }
     }
-    public static class MancalaTestGame extends MancalaGame {
-        public MancalaTestGame(MancalaBoard board, MancalaState state) {
-            this.board = board;
-            this.state = state != null ? state : new MancalaTestState(board);
-        }
-    }
 
     private MancalaGame game;
 
     @Before
     public void setUp() {
-        game = new MancalaGame();
-        game.loadBoard();
+        MancalaBoard board = null;
+        try {
+            board  = new Persister().read(MancalaBoard.class, getClass().getResourceAsStream(GAME_BOARD));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        game = new MancalaGame(board, new MancalaTestState(3));
         game.nextPlayer();
     }
 
@@ -139,7 +145,7 @@ public class MancalaBoardTest {
     @Test
     public void skipsEnemyDepot() {
         game.getBoard().setNumStones(12);
-        game = new MancalaTestGame(game.getBoard(), null);
+        game = new MancalaGame(game.getBoard(), null);
         game.nextPlayer();
         boolean redo = game.selectSlot("14");
         assertThat(redo, is(equalTo(false)));
@@ -156,7 +162,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 0, 0, 0, 3, 4, 3, 3
         );
-        game = new MancalaTestGame(game.getBoard(), s);
+        game = new MancalaGame(game.getBoard(), s);
         game.nextPlayer();
         boolean redo = game.selectSlot("11");
         assertThat(redo, is(equalTo(true)));
@@ -177,7 +183,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 10, 3, 3,
                 1, 3, 3, 0, 3, 3, 3
         );
-        game = new MancalaTestGame(game.getBoard(), s);
+        game = new MancalaGame(game.getBoard(), s);
         game.nextPlayer();
         boolean redo = game.selectSlot("14");
         assertThat(redo, is(equalTo(false)));
@@ -200,7 +206,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 1, 0, 0, 0, 0, 0, 0
         );
-        game = new MancalaTestGame(game.getBoard(), state);
+        game = new MancalaGame(game.getBoard(), state);
         game.nextPlayer();
         WinState s = game.checkIfPlayerWins();
         assertThat(s.getState(), is(equalTo(WinState.States.SOMEONE)));
@@ -217,7 +223,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 18, 0, 0, 0, 0, 0, 0
         );
-        game = new MancalaTestGame(game.getBoard(), state);
+        game = new MancalaGame(game.getBoard(), state);
         game.nextPlayer();
         WinState s = game.checkIfPlayerWins();
         assertThat(s.getState(), is(equalTo(WinState.States.MULTIPLE)));
