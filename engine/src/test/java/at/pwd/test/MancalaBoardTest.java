@@ -78,7 +78,7 @@ public class MancalaBoardTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        game = new MancalaGame(board, new MancalaTestState(3));
+        game = new MancalaGame(new MancalaTestState(3), board);
         game.nextPlayer();
     }
 
@@ -145,7 +145,7 @@ public class MancalaBoardTest {
     @Test
     public void skipsEnemyDepot() {
         game.getBoard().setNumStones(12);
-        game = new MancalaGame(game.getBoard(), null);
+        game = new MancalaGame(null, game.getBoard());
         game.nextPlayer();
         boolean redo = game.selectSlot("14");
         assertThat(redo, is(equalTo(false)));
@@ -162,7 +162,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 0, 0, 0, 3, 4, 3, 3
         );
-        game = new MancalaGame(game.getBoard(), s);
+        game = new MancalaGame(s,game.getBoard());
         game.nextPlayer();
         boolean redo = game.selectSlot("11");
         assertThat(redo, is(equalTo(true)));
@@ -183,7 +183,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 10, 3, 3,
                 1, 3, 3, 0, 3, 3, 3
         );
-        game = new MancalaGame(game.getBoard(), s);
+        game = new MancalaGame(s,game.getBoard());
         game.nextPlayer();
         boolean redo = game.selectSlot("14");
         assertThat(redo, is(equalTo(false)));
@@ -206,7 +206,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 1, 0, 0, 0, 0, 0, 0
         );
-        game = new MancalaGame(game.getBoard(), state);
+        game = new MancalaGame(state, game.getBoard());
         game.nextPlayer();
         WinState s = game.checkIfPlayerWins();
         assertThat(s.getState(), is(equalTo(WinState.States.SOMEONE)));
@@ -223,7 +223,7 @@ public class MancalaBoardTest {
                 0, 3, 3, 3, 3, 3, 3,
                 18, 0, 0, 0, 0, 0, 0
         );
-        game = new MancalaGame(game.getBoard(), state);
+        game = new MancalaGame(state,game.getBoard());
         game.nextPlayer();
         WinState s = game.checkIfPlayerWins();
         assertThat(s.getState(), is(equalTo(WinState.States.MULTIPLE)));

@@ -34,6 +34,10 @@ public class MancalaState implements State {
         public StoneNum(int initial) {
             setNum(initial);
         }
+
+        public StoneNum copy() {
+            return new StoneNum(getNum());
+        }
     }
 
     public class PlayerTurnState {
@@ -52,7 +56,14 @@ public class MancalaState implements State {
         }
 
         public PlayerTurnState() {
-            setState(true);
+            this(true);
+        }
+        public PlayerTurnState(boolean state) {
+            setState(state);
+        }
+
+        public PlayerTurnState copy() {
+            return new PlayerTurnState(getState());
         }
     }
 
@@ -67,16 +78,20 @@ public class MancalaState implements State {
 
     MancalaState(MancalaState state) {
         for (Integer playerId : state.playerStates.keySet()) {
-            playerStates.put(playerId, state.playerStates.get(playerId));
-        }
-
-        for (String id : state.states.keySet()) {
-            states.put(id, state.states.get(id));
+            PlayerTurnState oldState = state.playerStates.get(playerId);
+            PlayerTurnState newState = oldState.copy();
+            playerStates.put(playerId, newState);
+            for (String slot : state.states.keySet()) {
+                if (state.states.get(slot) == oldState) {
+                    states.put(slot, newState);
+                }
+            }
         }
 
         for (String key : state.stones.keySet()) {
-            stones.put(key, state.stones.get(key));
+            stones.put(key, state.stones.get(key).copy());
         }
+
         setCurrentPlayer(state.getCurrentPlayer());
     }
 
@@ -111,17 +126,6 @@ public class MancalaState implements State {
         return num;
     }
 
-    public List<String> getSelectableSlotsOf(int player, MancalaBoard board) {
-        List<String> slots = new ArrayList<>();
-        for (MancalaBoard.Slot slot : board.getSlots()) {
-            // slot should belong to the current player and not be empty
-            if (slot.belongsToPlayer() == player && getStones(slot.getId()).getNum() > 0) {
-                slots.add(slot.getId());
-            }
-        }
-        return slots;
-    }
-
     public StoneNum getStones(String id) {
         return stones.get(id);
     }
@@ -141,7 +145,10 @@ public class MancalaState implements State {
 
         this.currentPlayer = currentPlayer;
 
-        playerStates.get(this.currentPlayer).setState(false);
+        PlayerTurnState turnState = playerStates.get(this.currentPlayer);
+        if (turnState != null) {
+            turnState.setState(false);
+        }
     }
 
     @Override

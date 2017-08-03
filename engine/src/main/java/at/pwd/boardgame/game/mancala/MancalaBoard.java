@@ -114,6 +114,15 @@ public class MancalaBoard implements Board {
         }
     }
 
+    public String getDepotOfPlayer(int playerId) {
+        for (PlayerDepot depot : depots) {
+            if (depot.getPlayer() == playerId) {
+                return depot.getId();
+            }
+        }
+        throw new RuntimeException("Unknwon player id");
+    }
+
     @Root(name="slot")
     public static class Slot extends Element {
         @Attribute

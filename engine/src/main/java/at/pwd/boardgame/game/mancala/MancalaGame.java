@@ -93,9 +93,13 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     }
 
-    public MancalaGame(MancalaBoard board, MancalaState state) {
+    public MancalaGame(MancalaGame game) {
+        this(game.getState(), game.getBoard());
+    }
+
+    public MancalaGame(MancalaState state, MancalaBoard board) {
         this.board = board;
-        this.state = state != null ? state : new MancalaState(board);
+        this.state = state != null ? new MancalaState(state) : new MancalaState(board);
     }
 
     /**
@@ -169,6 +173,17 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         public int compareTo(Entry o) {
             return o.num - this.num;
         }
+    }
+
+    public List<String> getSelectableSlots() {
+        List<String> slots = new ArrayList<>();
+        for (MancalaBoard.Slot slot : board.getSlots()) {
+            // slot should belong to the current player and not be empty
+            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.getStones(slot.getId()).getNum() > 0) {
+                slots.add(slot.getId());
+            }
+        }
+        return slots;
     }
 
     public WinState checkIfPlayerWins() {
