@@ -26,6 +26,7 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         private int winCount;
 
         private MancalaGame game;
+        private WinState winState;
         private MCTSTree parent;
         private List<MCTSTree> children;
         String action;
@@ -33,10 +34,11 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         MCTSTree(MancalaGame game) {
             this.game = game;
             this.children = new ArrayList<>();
+            this.winState = game.checkIfPlayerWins();
         }
 
         boolean isNonTerminal() {
-            return children.size() != 0;
+            return winState.getState() == WinState.States.NOBODY;
         }
 
         MCTSTree getBestNode() {
@@ -66,11 +68,12 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
             newGame.selectSlot(action);
 
             MCTSTree tree = new MCTSTree(newGame);
-
             tree.action = action;
             tree.parent = this;
 
-            this.children.add(this);
+            this.children.add(tree);
+
+            return tree;
         }
     }
 
@@ -83,16 +86,12 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
 
         // TODO: get computation time from configuration settings
         while ((System.currentTimeMillis() - start) < 5*1000) {
-            MCTSTree best = select(root);
-            MCTSTree move = expand(best);
-            if (move != null) {
-                WinState winning = runSimulation(move.game);
-                statistics(winning, best);
-
-            }
+            MCTSTree best = treePolicy(root);
+            WinState winning = runSimulation(best.game);
+            statistics(winning, best);
         }
 
-        return new MancalaAgentAction(select(root).action);
+        return new MancalaAgentAction(root.getBestNode().action);
     }
 
     private void statistics(WinState winState, MCTSTree current) {
@@ -109,31 +108,32 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         }
     }
 
-    private MCTSTree expand(MCTSTree best) {
-        if (!best.isFullyExpanded() && best.game.checkIfPlayerWins().getState() == WinState.States.NOBODY) {
-            List<String> legalMoves = best.game.getSelectableSlots();
-            return best.move(legalMoves.get(r.nextInt(legalMoves.size())));
-        } else {
-            return null;
+    private MCTSTree treePolicy(MCTSTree current) {
+        while (current.isNonTerminal()) {
+            if (!current.isFullyExpanded()) {
+                return expand(current);
+            } else {
+                current = current.getBestNode();
+            }
         }
+        return current;
     }
 
-    private MCTSTree select(MCTSTree node) {
-        while (node.isNonTerminal()) {
-            node = node.getBestNode();
-        }
-        return node;
+    private MCTSTree expand(MCTSTree best) {
+        List<String> legalMoves = best.game.getSelectableSlots();
+        return best.move(legalMoves.get(r.nextInt(legalMoves.size())));
     }
 
     private WinState runSimulation(MancalaGame game) {
         WinState state = new WinState(WinState.States.NOBODY, -1);
         for (int i = 0; i < MAX_MOVES && state.getState() == WinState.States.NOBODY; i++) {
-            List<String> legalMoves = game.getSelectableSlots();
-
-            String play = legalMoves.get(r.nextInt(legalMoves.size()));
-            game.selectSlot(play);
-
             state = game.checkIfPlayerWins();
+
+            if (state.getState() == WinState.States.NOBODY) {
+                List<String> legalMoves = game.getSelectableSlots();
+                String play = legalMoves.get(r.nextInt(legalMoves.size()));
+                game.selectSlot(play);
+            }
         }
 
         return state;
