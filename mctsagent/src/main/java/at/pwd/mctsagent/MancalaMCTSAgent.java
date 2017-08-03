@@ -21,34 +21,14 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
     private static final int MAX_MOVES = 100;
     private static final double C = 1.0f/Math.sqrt(2.0f);
 
-    private class Move {
-        String action;
-        MCTSTree result;
-
-        Move() {
-        }
-
-        void move(MCTSTree parent, String action) {
-            MancalaGame newGame = new MancalaGame(parent.game);
-            newGame.selectSlot(action);
-
-            this.action = action;
-            this.result = new MCTSTree(newGame);
-            this.result.move = this;
-            this.result.parent = parent;
-
-            parent.children.add(this);
-        }
-    }
-
     private class MCTSTree {
         private int visitCount;
         private int winCount;
 
         private MancalaGame game;
-        private Move move;
         private MCTSTree parent;
-        private List<Move> children;
+        private List<MCTSTree> children;
+        String action;
 
         MCTSTree(MancalaGame game) {
             this.game = game;
@@ -60,11 +40,11 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         }
 
         MCTSTree getBestNode() {
-            Move best = null;
+            MCTSTree best = null;
             double value = 0;
-            for (Move m : children) {
-                double wC = (double)m.result.winCount;
-                double vC = (double)m.result.visitCount;
+            for (MCTSTree m : children) {
+                double wC = (double)m.winCount;
+                double vC = (double)m.visitCount;
                 double currentValue =  wC/vC + C*Math.sqrt(2*Math.log(visitCount) / vC);
 
 
@@ -74,11 +54,23 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
                 }
             }
 
-            return best.result;
+            return best;
         }
 
         boolean isFullyExpanded() {
             return children.size() == game.getSelectableSlots().size();
+        }
+
+        MCTSTree move(String action) {
+            MancalaGame newGame = new MancalaGame(this.game);
+            newGame.selectSlot(action);
+
+            MCTSTree tree = new MCTSTree(newGame);
+
+            tree.action = action;
+            tree.parent = this;
+
+            this.children.add(this);
         }
     }
 
@@ -92,23 +84,23 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         // TODO: get computation time from configuration settings
         while ((System.currentTimeMillis() - start) < 5*1000) {
             MCTSTree best = select(root);
-            Move move = expand(best);
+            MCTSTree move = expand(best);
             if (move != null) {
-                WinState winning = runSimulation(move.result.game);
+                WinState winning = runSimulation(move.game);
                 statistics(winning, best);
 
             }
         }
 
-
-
-        return new MancalaAgentAction(select(root).move.action);
+        return new MancalaAgentAction(select(root).action);
     }
 
     private void statistics(WinState winState, MCTSTree current) {
         while (current != null) {
+            // always increase visit count
             current.visitCount++;
 
+            // if it ended in a win => increase the win count
             if (winState.getState() == WinState.States.SOMEONE && winState.getPlayerId() == originalState.getCurrentPlayer()) {
                 current.winCount++;
             }
@@ -117,12 +109,10 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         }
     }
 
-    private Move expand(MCTSTree best) {
+    private MCTSTree expand(MCTSTree best) {
         if (!best.isFullyExpanded() && best.game.checkIfPlayerWins().getState() == WinState.States.NOBODY) {
             List<String> legalMoves = best.game.getSelectableSlots();
-            Move move = new Move();
-            move.move(best, legalMoves.get(r.nextInt(legalMoves.size())));
-            return move;
+            return best.move(legalMoves.get(r.nextInt(legalMoves.size())));
         } else {
             return null;
         }
