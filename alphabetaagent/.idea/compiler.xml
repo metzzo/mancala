@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="alphabetaagent_main" target="1.8" />
+      <module name="alphabetaagent_test" target="1.8" />
+      <module name="mctsagent_main" target="1.8" />
+      <module name="mctsagent_test" target="1.8" />
+      <module name="randomagent_main" target="1.8" />
+      <module name="randomagent_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
