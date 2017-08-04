@@ -127,20 +127,20 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
     }
 
     private WinState defaultPolicy(MancalaGame game) {
-        WinState state = new WinState(WinState.States.NOBODY, -1);
         game = new MancalaGame(game); // copy original game
+        WinState state = game.checkIfPlayerWins();
 
         while(state.getState() == WinState.States.NOBODY) {
-            state = game.checkIfPlayerWins();
 
-            if (state.getState() == WinState.States.NOBODY) {
-                String play;
-                do {
-                    List<String> legalMoves = game.getSelectableSlots();
-                    play = legalMoves.get(r.nextInt(legalMoves.size()));
-                } while(game.selectSlot(play));
-                game.nextPlayer();
-            }
+            String play;
+            do {
+                List<String> legalMoves = game.getSelectableSlots();
+                play = legalMoves.get(r.nextInt(legalMoves.size()));
+            } while(game.selectSlot(play));
+            game.nextPlayer();
+
+
+            state = game.checkIfPlayerWins();
         }
 
         return state;
