@@ -25,7 +25,7 @@ public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaBoard, 
     }
 
     @Override
-    public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
+    public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
         return new MancalaAgentAction(selectedSlot);
     }
 

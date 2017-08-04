@@ -18,7 +18,6 @@ import java.util.Random;
 public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
     private Random r = new Random();
     private MancalaState originalState;
-    private static final int MAX_MOVES = 100;
     private static final double C = 1.0f/Math.sqrt(2.0f);
 
     private class MCTSTree {
@@ -80,17 +79,16 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
     }
 
     @Override
-    public MancalaAgentAction doTurn(MancalaState state, MancalaBoard board) {
+    public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
         long start = System.currentTimeMillis();
         this.originalState = state;
 
         MCTSTree root = new MCTSTree(new MancalaGame(state, board));
 
-        // TODO: get computation time from configuration settings
-        while ((System.currentTimeMillis() - start) < 5*1000) {
+        while ((System.currentTimeMillis() - start) < (computationTime*1000 - 100)) {
             MCTSTree best = treePolicy(root);
-            WinState winning = runSimulation(best.game);
-            statistics(winning, best);
+            WinState winning = defaultPolicy(best.game);
+            backup(best, winning);
         }
 
         MCTSTree selected = root.getBestNode();
@@ -98,15 +96,15 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         return new MancalaAgentAction(selected.action);
     }
 
-    private void statistics(WinState winState, MCTSTree current) {
+    private void backup(MCTSTree current, WinState winState) {
+        boolean hasWon = winState.getState() == WinState.States.SOMEONE && winState.getPlayerId() == originalState.getCurrentPlayer();
+
         while (current != null) {
             // always increase visit count
             current.visitCount++;
 
             // if it ended in a win => increase the win count
-            if (winState.getState() == WinState.States.SOMEONE && winState.getPlayerId() == originalState.getCurrentPlayer()) {
-                current.winCount++;
-            }
+            current.winCount += hasWon ? 1 : 0;
 
             current = current.parent;
         }
@@ -128,11 +126,11 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         return best.move(legalMoves.get(r.nextInt(legalMoves.size())));
     }
 
-    private WinState runSimulation(MancalaGame game) {
+    private WinState defaultPolicy(MancalaGame game) {
         WinState state = new WinState(WinState.States.NOBODY, -1);
         game = new MancalaGame(game); // copy original game
 
-        for (int i = 0; i < MAX_MOVES && state.getState() == WinState.States.NOBODY; i++) {
+        while(state.getState() == WinState.States.NOBODY) {
             state = game.checkIfPlayerWins();
 
             if (state.getState() == WinState.States.NOBODY) {

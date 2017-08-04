@@ -119,7 +119,7 @@ public abstract class BoardController<GameType extends Game> implements Controll
         final Thread calculator = new Thread(() -> {
             final AgentAction action;
             try {
-                action = getCurrentAgent().doTurn(getGame().getState().copy(), getGame().getBoard());
+                action = getCurrentAgent().doTurn(getComputationTime(), getGame().getState().copy(), getGame().getBoard());
             } finally {
                 timer.interrupt();
                 calculating = false;
