@@ -17,134 +17,57 @@ import java.util.Random;
  */
 public class MancalaAlphaBetaAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
     private Random r = new Random();
-    private MancalaState originalState;
-    private static final double C = 1.0f/Math.sqrt(2.0f);
-
-    private class MCTSTree {
-        private int visitCount;
-        private int winCount;
-
-        private MancalaGame game;
-        private WinState winState;
-        private MCTSTree parent;
-        private List<MCTSTree> children;
-        String action;
-
-        MCTSTree(MancalaGame game) {
-            this.game = game;
-            this.children = new ArrayList<>();
-            this.winState = game.checkIfPlayerWins();
-        }
-
-        boolean isNonTerminal() {
-            return winState.getState() == WinState.States.NOBODY;
-        }
-
-        MCTSTree getBestNode() {
-            MCTSTree best = null;
-            double value = 0;
-            for (MCTSTree m : children) {
-                double wC = (double)m.winCount;
-                double vC = (double)m.visitCount;
-                double currentValue =  wC/vC + C*Math.sqrt(2*Math.log(visitCount) / vC);
-
-
-                if (best == null || currentValue > value) {
-                    value = currentValue;
-                    best = m;
-                }
-            }
-
-            return best;
-        }
-
-        boolean isFullyExpanded() {
-            return children.size() == game.getSelectableSlots().size();
-        }
-
-        MCTSTree move(String action) {
-            MancalaGame newGame = new MancalaGame(this.game);
-            if (!newGame.selectSlot(action)) {
-                newGame.nextPlayer();
-            }
-
-            MCTSTree tree = new MCTSTree(newGame);
-            tree.action = action;
-            tree.parent = this;
-
-            this.children.add(tree);
-
-            return tree;
-        }
-    }
+    private static final int DEPTH = 10;
+    private int currentPlayer;
+    private String currentBest;
 
     @Override
     public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
-        long start = System.currentTimeMillis();
-        this.originalState = state;
+        currentPlayer = state.getCurrentPlayer();
+        currentBest = null;
 
-        MCTSTree root = new MCTSTree(new MancalaGame(state, board));
+        MancalaGame initialGame = new MancalaGame(state, board);
+        alphabeta(initialGame, DEPTH, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
 
-        while ((System.currentTimeMillis() - start) < (computationTime*1000 - 100)) {
-            MCTSTree best = treePolicy(root);
-            WinState winning = defaultPolicy(best.game);
-            backup(best, winning);
-        }
-
-        MCTSTree selected = root.getBestNode();
-        System.out.println("Selected action " + selected.winCount + " / " + selected.visitCount);
-        return new MancalaAgentAction(selected.action);
+        return new MancalaAgentAction(currentBest);
     }
 
-    private void backup(MCTSTree current, WinState winState) {
-        boolean hasWon = winState.getState() == WinState.States.SOMEONE && winState.getPlayerId() == originalState.getCurrentPlayer();
-
-        while (current != null) {
-            // always increase visit count
-            current.visitCount++;
-
-            // if it ended in a win => increase the win count
-            current.winCount += hasWon ? 1 : 0;
-
-            current = current.parent;
-        }
+    private int heuristic(MancalaGame node) {
+        String ownDepot = node.getBoard().getDepotOfPlayer(currentPlayer);
+        String enemyDepot = node.getBoard().getDepotOfPlayer(1 - currentPlayer);
+        return node.getState().getStones(ownDepot).getNum() - node.getState().getStones(enemyDepot).getNum();
     }
 
-    private MCTSTree treePolicy(MCTSTree current) {
-        while (current.isNonTerminal()) {
-            if (!current.isFullyExpanded()) {
-                return expand(current);
+    private int alphabeta(MancalaGame node, int depth, int alpha, int beta, boolean maximizingPlayer) {
+        if (depth == 0 || node.checkIfPlayerWins().getState() != WinState.States.NOBODY) {
+            return heuristic(node);
+        }
+
+        List<String> legalMoves = node.getSelectableSlots();
+        for (String move : legalMoves) {
+            MancalaGame newGame = new MancalaGame(node);
+            boolean moveAgain = newGame.selectSlot(move);
+            if (!moveAgain) {
+                newGame.nextPlayer();
+            }
+
+            if (maximizingPlayer) {
+                int oldAlpha = alpha;
+                alpha = Math.max(alpha, alphabeta(newGame, depth - 1, alpha, beta, moveAgain));
+                if (depth == DEPTH && (oldAlpha < alpha || currentBest == null)) {
+                    currentBest = move;
+                }
             } else {
-                current = current.getBestNode();
+                beta = Math.min(beta, alphabeta(newGame, depth - 1, alpha, beta, !moveAgain));
+            }
+
+            if (beta <= alpha) {
+                break;
             }
         }
-        return current;
+        return maximizingPlayer ? alpha : beta;
     }
 
-    private MCTSTree expand(MCTSTree best) {
-        List<String> legalMoves = best.game.getSelectableSlots();
-        return best.move(legalMoves.get(r.nextInt(legalMoves.size())));
-    }
-
-    private WinState defaultPolicy(MancalaGame game) {
-        game = new MancalaGame(game); // copy original game
-        WinState state = game.checkIfPlayerWins();
-
-        while(state.getState() == WinState.States.NOBODY) {
-
-            String play;
-            do {
-                List<String> legalMoves = game.getSelectableSlots();
-                play = legalMoves.get(r.nextInt(legalMoves.size()));
-            } while(game.selectSlot(play));
-            game.nextPlayer();
-
-
-            state = game.checkIfPlayerWins();
-        }
-
-        return state;
-    }
 
     @Override
     public String toString() {
