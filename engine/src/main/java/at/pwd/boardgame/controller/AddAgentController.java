@@ -1,6 +1,5 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.agent.AgentService;
 import at.pwd.boardgame.services.ScreenFactory;
@@ -43,8 +42,8 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
     public static void show() {
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                MancalaSetUpController.class.getResource(ADDAGENT_SCREEN),
-                MancalaSetUpController.class.getResourceAsStream(ADDAGENT_SCREEN),
+                SetUpController.class.getResource(ADDAGENT_SCREEN),
+                SetUpController.class.getResourceAsStream(ADDAGENT_SCREEN),
                 null
         );
 

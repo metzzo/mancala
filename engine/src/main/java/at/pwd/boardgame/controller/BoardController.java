@@ -4,16 +4,23 @@ import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.agent.AgentAction;
 import at.pwd.boardgame.game.agent.HumanAgent;
 import at.pwd.boardgame.game.base.*;
+import at.pwd.boardgame.game.mancala.MancalaBoard;
+import at.pwd.boardgame.game.mancala.MancalaGame;
+import at.pwd.boardgame.game.mancala.MancalaState;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.concurrent.Task;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -25,21 +32,45 @@ import java.util.ResourceBundle;
 /**
  * Created by rfischer on 13/04/2017.
  */
-public abstract class BoardController<GameType extends Game> implements ControlledScreen, Initializable {
+public class BoardController implements ControlledScreen, Initializable {
     public static final String GAME_SCREEN = "/board_controller.fxml";
 
-    protected NavigationController navigationController;
-    private GameType game;
+    private static final PseudoClass SELECTED_PSEUDO_CLASS =
+            PseudoClass.getPseudoClass("selected");
 
-    @FXML protected GridPane grid;
-    protected Map<String, Node> nodes = new HashMap<>();
+    private NavigationController navigationController;
+    private MancalaGame game;
 
-    protected List<Agent> agents;
+    @FXML
+    private Label depotLabel0;
+
+    @FXML
+    private Label depotLabel1;
+
+    private Label[] depotLabels;
+
+    @FXML private GridPane grid;
+    private Map<String, Node> nodes = new HashMap<>();
+
+    private List<Agent> agents;
     private IntegerProperty currentAgent = new SimpleIntegerProperty(-1);
     private int computationTime;
     private boolean calculating = false;
 
     public void start() {
+        depotLabels = new Label[] {depotLabel0, depotLabel1};
+
+        currentAgentProperty().addListener((observable, oldValue, newValue) -> {
+            int oldVal = oldValue.intValue();
+            int newVal = newValue.intValue();
+
+            if (oldVal >= 0) {
+                depotLabels[oldVal].pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, false);
+            }
+            depotLabels[newVal].pseudoClassStateChanged(SELECTED_PSEUDO_CLASS, true);
+
+        });
+
         for (String id : nodes.keySet()) {
             bindNode(id, nodes.get(id));
         }
@@ -60,11 +91,11 @@ public abstract class BoardController<GameType extends Game> implements Controll
         }
     }
 
-    public GameType getGame() {
+    public MancalaGame getGame() {
         return game;
     }
 
-    public void setGame(GameType game) {
+    public void setGame(MancalaGame game) {
         this.game = game;
     }
 
@@ -77,7 +108,26 @@ public abstract class BoardController<GameType extends Game> implements Controll
         }
     }
 
-    protected abstract void bindNode(String id, Node node);
+    private void bindNode(String id, Node node) {
+        MancalaState state = getGame().getState();
+        MancalaBoard board = getGame().getBoard();
+
+        Button button = null;
+
+        if (board.isSlot(id)) {
+            button = (Button)node;
+
+            button.disableProperty().bind(state.getState(id));
+        } else if (board.isDepot(id)) {
+            BorderPane pane = (BorderPane) nodes.get(id);
+            button = (Button)pane.getCenter();
+        }
+
+        if (button != null) {
+            StringBinding binding = state.getStones(id).numProperty().asString();
+            button.textProperty().bind(binding);
+        }
+    }
 
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
@@ -85,10 +135,15 @@ public abstract class BoardController<GameType extends Game> implements Controll
     }
 
     public void nextTurn() {
-        currentAgent.set(getGame().nextPlayer());
+        WinState winState = getGame().checkIfPlayerWins();
+        if (winState.getState() != WinState.States.NOBODY) {
+            gameEnded(winState);
+        } else {
+            currentAgent.set(getGame().nextPlayer());
 
-        if (!(getCurrentAgent() instanceof HumanAgent)) {
-            runAgent();
+            if (!(getCurrentAgent() instanceof HumanAgent)) {
+                runAgent();
+            }
         }
     }
 
@@ -169,5 +224,23 @@ public abstract class BoardController<GameType extends Game> implements Controll
         return computationTime;
     }
 
-    protected abstract void gameEnded(WinState state);
+    private void gameEnded(WinState winState) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game has ended");
+        alert.setHeaderText(null);
+        switch (winState.getState()) {
+            case MULTIPLE:
+                alert.setContentText("The game ended in a draw!");
+                break;
+            case TIMEOUT:
+                alert.setContentText("The game ended in a timeout by the current agent " + getCurrentAgent());
+                break;
+            default:
+                alert.setContentText("Player " + (winState.getPlayerId() + 1) + " has won the game!");
+                break;
+        }
+
+        alert.showAndWait();
+        navigationController.setScreen(SetUpController.createSetUpScreen());
+    }
 }

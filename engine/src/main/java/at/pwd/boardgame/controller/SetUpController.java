@@ -1,9 +1,5 @@
-package at.pwd.boardgame.controller.mancala;
+package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.controller.AddAgentController;
-import at.pwd.boardgame.controller.BoardController;
-import at.pwd.boardgame.controller.ControlledScreen;
-import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.game.GameFactory;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
@@ -27,7 +23,7 @@ import java.util.ResourceBundle;
 /**
  * Created by rfischer on 13/04/2017.
  */
-public class MancalaSetUpController implements ControlledScreen, Initializable {
+public class SetUpController implements ControlledScreen, Initializable {
     public static final String SETUP_SCREEN = "/setup_controller.fxml";
 
     private NavigationController navigationController;
@@ -42,8 +38,8 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
-                MancalaSetUpController.class.getResource(SETUP_SCREEN),
-                MancalaSetUpController.class.getResourceAsStream(SETUP_SCREEN),
+                SetUpController.class.getResource(SETUP_SCREEN),
+                SetUpController.class.getResourceAsStream(SETUP_SCREEN),
                 null
         );
     }
@@ -69,7 +65,7 @@ public class MancalaSetUpController implements ControlledScreen, Initializable {
         final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME);
 
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                BoardController.class.getResource(MancalaBoardController.GAME_SCREEN),
+                BoardController.class.getResource(BoardController.GAME_SCREEN),
                 game.getViewXml(),
                 s -> {
                     List<Agent> selectedAgents = new ArrayList<>();

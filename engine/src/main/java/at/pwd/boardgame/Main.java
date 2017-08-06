@@ -1,7 +1,7 @@
 package at.pwd.boardgame;
 
 import at.pwd.boardgame.controller.NavigationController;
-import at.pwd.boardgame.controller.mancala.MancalaSetUpController;
+import at.pwd.boardgame.controller.SetUpController;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.agent.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaGame;
@@ -9,11 +9,7 @@ import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -31,7 +27,7 @@ public class Main extends Application {
 
         NavigationController mainContainer = new NavigationController();
         ScreenFactory.getInstance().setNavigationController(mainContainer);
-        mainContainer.setScreen(MancalaSetUpController.createSetUpScreen());
+        mainContainer.setScreen(SetUpController.createSetUpScreen());
 
         Group root = new Group();
         root.getChildren().addAll(mainContainer);
