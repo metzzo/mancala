@@ -1,8 +1,9 @@
-package at.pwd.boardgame.game;
+package at.pwd.boardgame.services;
 
 import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,10 +32,10 @@ public class GameFactory {
         games.put(name, cls);
     }
 
-    public Game create(String name) {
+    public Game create(String name, InputStream board) {
         try {
             Game game = games.get(name).newInstance();
-            game.loadBoard();
+            game.loadBoard(board);
             return game;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);

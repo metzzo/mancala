@@ -82,7 +82,7 @@
         <AnchorPane xmlns="http://javafx.com/javafx"
                     xmlns:fx="http://javafx.com/fxml"
                     fx:id="root"
-                    fx:controller="at.pwd.boardgame.controller.BoardController">
+                    fx:controller="at.pwd.boardgame.controller.mancala.MancalaBoardController">
             <GridPane alignment="center"
                       hgap="10"
                       vgap="10"

@@ -3,7 +3,7 @@ package at.pwd.boardgame;
 import at.pwd.boardgame.controller.NavigationController;
 import at.pwd.boardgame.controller.SetUpController;
 import at.pwd.boardgame.game.agent.Agent;
-import at.pwd.boardgame.game.agent.AgentService;
+import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;

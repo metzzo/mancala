@@ -1,7 +1,7 @@
 package at.pwd.boardgame.controller;
 
 import at.pwd.boardgame.game.agent.Agent;
-import at.pwd.boardgame.game.agent.AgentService;
+import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.event.Event;
 import javafx.fxml.FXML;

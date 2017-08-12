@@ -33,8 +33,6 @@ import java.util.ResourceBundle;
  * Created by rfischer on 13/04/2017.
  */
 public class BoardController implements ControlledScreen, Initializable {
-    public static final String GAME_SCREEN = "/board_controller.fxml";
-
     private static final PseudoClass SELECTED_PSEUDO_CLASS =
             PseudoClass.getPseudoClass("selected");
 

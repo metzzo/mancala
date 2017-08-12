@@ -1,7 +1,7 @@
 package at.pwd.boardgame.game.mancala.agent;
 
 import at.pwd.boardgame.game.agent.HumanAgent;
-import at.pwd.boardgame.game.agent.AgentService;
+import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaAgentAction;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;

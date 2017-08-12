@@ -1,22 +1,16 @@
 package at.pwd.boardgame.game.mancala;
 
-import at.pwd.boardgame.game.*;
 import at.pwd.boardgame.game.base.Game;
 import at.pwd.boardgame.game.base.WinState;
 import at.pwd.boardgame.game.mancala.agent.MancalaHumanAgent;
+import at.pwd.boardgame.services.GameFactory;
+import at.pwd.boardgame.services.XSLTService;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-import javax.xml.transform.*;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rfischer on 13/04/2017.
@@ -36,57 +30,24 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     @Override
     public InputStream getViewXml() {
-        final PipedOutputStream transformOutput = new PipedOutputStream();
-        final PipedInputStream fxmlInputStream;
-        try {
-            fxmlInputStream = new PipedInputStream(transformOutput);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Thread transformThread = new Thread( () -> {
-            try {
-                StreamSource xsltSource = new StreamSource(getClass().getResourceAsStream(GAME_BOARD_TRANFORMER));
-                Transformer transformer = TransformerFactory.newInstance().newTransformer(xsltSource);
-                transformer.setParameter("num_stones",""+ board.getNumStones());
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                StreamSource xmlSource = new StreamSource(getClass().getResourceAsStream(GAME_BOARD));
-                StreamResult transformerResult = new StreamResult(transformOutput);
-                transformer.transform(xmlSource, transformerResult);
-                transformOutput.close();
-
-            } catch (IOException | TransformerConfigurationException e) {
-                throw new RuntimeException(e);
-            } catch (TransformerException e) {
-                // An error occurred while applying the XSL file
-                // Get location of error in input file
-                SourceLocator locator = e.getLocator();
-                int col = locator.getColumnNumber();
-                int line = locator.getLineNumber();
-                String publicId = locator.getPublicId();
-                String systemId = locator.getSystemId();
-
-                System.out.println(
-                        "Error applying XSL in line " + line +
-                                " at " + col +
-                                " publicId: " + publicId +
-                                " systemId: " + systemId
-                );
-            }
-        });
-        transformThread.start();
-        return fxmlInputStream;
+        Map<String, String> params = new HashMap<>();
+        params.put("num_stones", String.valueOf(board.getNumStones()));
+        return XSLTService.getInstance().execute(
+                GAME_BOARD_TRANFORMER,
+                new StreamSource(getClass().getResourceAsStream(GAME_BOARD)),
+                params
+        );
     }
 
     @Override
-    public void loadBoard() {
+    public void loadBoard(InputStream board) {
         Serializer serializer = new Persister();
         try {
-            this.board = serializer.read(MancalaBoard.class, getClass().getResourceAsStream(GAME_BOARD));
+            this.board = serializer.read(MancalaBoard.class, board);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        this.state = new MancalaState(board);
+        this.state = new MancalaState(this.board);
     }
 
     public MancalaGame() {

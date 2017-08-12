@@ -1,4 +1,6 @@
-package at.pwd.boardgame.game.agent;
+package at.pwd.boardgame.services;
+
+import at.pwd.boardgame.game.agent.Agent;
 
 import java.util.ArrayList;
 import java.util.Collections;

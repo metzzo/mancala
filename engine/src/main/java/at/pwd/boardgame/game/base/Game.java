@@ -8,7 +8,7 @@ import java.io.InputStream;
 public interface Game<StateType extends State, BoardType extends Board> {
     InputStream getViewXml();
 
-    void loadBoard();
+    void loadBoard(InputStream board);
 
     StateType getState();
     BoardType getBoard();

@@ -1,10 +1,11 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.game.GameFactory;
+import at.pwd.boardgame.services.GameFactory;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
-import at.pwd.boardgame.game.agent.AgentService;
+import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.services.ScreenFactory;
+import at.pwd.boardgame.services.XSLTService;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -15,16 +16,19 @@ import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Created by rfischer on 13/04/2017.
  */
 public class SetUpController implements ControlledScreen, Initializable {
-    public static final String SETUP_SCREEN = "/setup_controller.fxml";
+    private static final String SETUP_SCREEN = "/setup_controller.fxml";
+    private static final String BOARD_GENERATOR_TRANSFORMER = "/board_generator.xsl";
+    private static final String GAME_SCREEN = "/board_controller.fxml";
 
     private NavigationController navigationController;
     private ListProperty<Agent> agents = new SimpleListProperty<>();
@@ -35,6 +39,10 @@ public class SetUpController implements ControlledScreen, Initializable {
     ComboBox<Agent> player2Agent;
     @FXML
     Spinner computationTime;
+    @FXML
+    Spinner stonesPerSlot;
+    @FXML
+    Spinner slotsPerPlayer;
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
@@ -62,10 +70,24 @@ public class SetUpController implements ControlledScreen, Initializable {
 
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
-        final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME);
+        InputStream board = generateBoard();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(board));
+        String line = null;
+        try {
+            while((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        board = generateBoard();
+        final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME, board);
 
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                BoardController.class.getResource(BoardController.GAME_SCREEN),
+                BoardController.class.getResource(SetUpController.GAME_SCREEN),
                 game.getViewXml(),
                 s -> {
                     List<Agent> selectedAgents = new ArrayList<>();
@@ -105,5 +127,18 @@ public class SetUpController implements ControlledScreen, Initializable {
         }
 
         agents.set(FXCollections.observableArrayList(list));
+    }
+
+    private InputStream generateBoard() {
+        Map<String, String> params = new HashMap<>();
+        params.put("num_stones", stonesPerSlot.getValue().toString());
+        params.put("stones_per_slot", slotsPerPlayer.getValue().toString());
+        params.put("computation_time", computationTime.getValue().toString());
+
+        return XSLTService.getInstance().execute(
+                BOARD_GENERATOR_TRANSFORMER,
+                new StreamSource(new StringReader("<empty/>")),
+                params
+        );
     }
 }
