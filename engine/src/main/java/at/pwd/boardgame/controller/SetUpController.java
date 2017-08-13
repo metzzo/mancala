@@ -70,7 +70,7 @@ public class SetUpController implements ControlledScreen, Initializable {
 
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
-        InputStream board = generateBoard();
+        /*InputStream board = generateBoard();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(board));
         String line = null;
@@ -80,10 +80,10 @@ public class SetUpController implements ControlledScreen, Initializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
-        board = generateBoard();
+        InputStream board = generateBoard();
         final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME, board);
 
         Parent screen = ScreenFactory.getInstance().loadScreen(
@@ -132,7 +132,7 @@ public class SetUpController implements ControlledScreen, Initializable {
     private InputStream generateBoard() {
         Map<String, String> params = new HashMap<>();
         params.put("num_stones", stonesPerSlot.getValue().toString());
-        params.put("stones_per_slot", slotsPerPlayer.getValue().toString());
+        params.put("slots_per_player", slotsPerPlayer.getValue().toString());
         params.put("computation_time", computationTime.getValue().toString());
 
         return XSLTService.getInstance().execute(

@@ -10,18 +10,19 @@ import org.simpleframework.xml.core.Persister;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.*;
 
 /**
  * Created by rfischer on 13/04/2017.
  */
 public class MancalaGame implements Game<MancalaState, MancalaBoard> {
-    public static final String GAME_BOARD = "/normal_mancala_board.xml";
     public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
     public static final String GAME_NAME = "normal_mancala";
 
     protected MancalaBoard board;
     protected MancalaState state;
+    private String boardXml;
 
     public static void init() {
         GameFactory.getInstance().register(GAME_NAME, MancalaGame.class);
@@ -34,16 +35,18 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         params.put("num_stones", String.valueOf(board.getNumStones()));
         return XSLTService.getInstance().execute(
                 GAME_BOARD_TRANFORMER,
-                new StreamSource(getClass().getResourceAsStream(GAME_BOARD)),
+                new StreamSource(new StringReader(boardXml)),
                 params
         );
     }
 
     @Override
-    public void loadBoard(InputStream board) {
+    public void loadBoard(InputStream boardStream) {
+        this.boardXml = XSLTService.convertStreamToString(boardStream);
+
         Serializer serializer = new Persister();
         try {
-            this.board = serializer.read(MancalaBoard.class, board);
+            this.board = serializer.read(MancalaBoard.class, boardXml);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
