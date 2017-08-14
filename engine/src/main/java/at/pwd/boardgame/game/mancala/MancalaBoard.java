@@ -20,8 +20,8 @@ public class MancalaBoard implements Board {
     private List<Slot> slots;
     @ElementList(inline=true)
     private List<PlayerDepot> depots;
-    @Attribute(name = "numstones")
-    private int numStones;
+    @Attribute(name = "stones-per-slot")
+    private int stonesPerSlot;
 
     public List<Slot> getSlots() {
         return slots;
@@ -47,12 +47,12 @@ public class MancalaBoard implements Board {
         return elements;
     }
 
-    int getNumStones() {
-        return numStones;
+    int getStonesPerSlot() {
+        return stonesPerSlot;
     }
 
-    public void setNumStones(int numStones) {
-        this.numStones = numStones;
+    public void setStonesPerSlot(int stonesPerSlot) {
+        this.stonesPerSlot = stonesPerSlot;
     }
 
     public boolean isSlot(String id) {

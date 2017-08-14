@@ -22,9 +22,9 @@ public class MancalaBoardTest {
             super(board);
         }
 
-        MancalaTestState(int numStones) {
-            this(0, numStones, numStones, numStones, numStones, numStones, numStones,
-                 0, numStones, numStones, numStones, numStones, numStones, numStones);
+        MancalaTestState(int stonesPerSlot) {
+            this(0, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot,
+                 0, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot, stonesPerSlot);
         }
 
         MancalaTestState(
@@ -144,7 +144,7 @@ public class MancalaBoardTest {
 
     @Test
     public void skipsEnemyDepot() {
-        game.getBoard().setNumStones(12);
+        game.getBoard().setStonesPerSlot(12);
         game = new MancalaGame(null, game.getBoard());
         game.nextPlayer();
         boolean redo = game.selectSlot("14");

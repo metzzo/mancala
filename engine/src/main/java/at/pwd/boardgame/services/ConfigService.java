@@ -1,6 +1,5 @@
 package at.pwd.boardgame.services;
 
-import at.pwd.boardgame.game.agent.Agent;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -9,7 +8,6 @@ import org.simpleframework.xml.core.Persister;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rfischer on 14/08/2017.

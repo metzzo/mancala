@@ -33,7 +33,7 @@
 
     <xsl:template match="/">
         <board>
-            <xsl:attribute name="numstones">
+            <xsl:attribute name="stones-per-slot">
                 <xsl:value-of select="$num_stones" />
             </xsl:attribute>
             <xsl:call-template name="slot_generator">

@@ -32,7 +32,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     @Override
     public InputStream getViewXml() {
         Map<String, String> params = new HashMap<>();
-        params.put("num_stones", String.valueOf(board.getNumStones()));
+        params.put("stones-per-slot", String.valueOf(board.getStonesPerSlot()));
         return XSLTService.getInstance().execute(
                 GAME_BOARD_TRANFORMER,
                 new StreamSource(new StringReader(boardXml)),
