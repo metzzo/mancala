@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<board numstones="6">
+<board stones-per-slot="6">
     <player-depot id="1" next="14" player="1" row="0" column="0" rowspan="2" />
 
     <slot id="2" next="1" row="0" column="1" belongs="1" enemy="14" />

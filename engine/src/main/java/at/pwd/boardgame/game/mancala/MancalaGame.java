@@ -73,7 +73,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
      * @return true ... the current player can play another turn, false ... the current player has to
      */
     public boolean selectSlot(String id) {
-        int stones = state.getStones(id).getNum();
+        int stones = state.stonesIn(id);
         int owner = board.getElement(id).getOwner();
 
         if (owner != state.getCurrentPlayer() || board.isDepot(id) || stones == 0) {
@@ -101,12 +101,12 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
                 stones--;
 
                 boolean isLast = stones == 0;
-                boolean landedOnEmpty = state.getStones(currentId).getNum() == 1;
+                boolean landedOnEmpty = state.stonesIn(currentId) == 1;
                 boolean landedOnOwn = board.getElement(currentId).getOwner() == state.getCurrentPlayer();
                 if (landedOnEmpty && landedOnOwn && isLast && !ownDepot) {
                     // get the stones from enemys slot
                     String enemy = board.getEnemySlotOf(currentId);
-                    int enemyStones = state.getStones(enemy).getNum();
+                    int enemyStones = state.stonesIn(enemy);
                     state.removeStones(currentId);
                     state.removeStones(enemy);
                     String depot = board.getDepotOf(currentId);
@@ -143,7 +143,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         List<String> slots = new ArrayList<>();
         for (MancalaBoard.Slot slot : board.getSlots()) {
             // slot should belong to the current player and not be empty
-            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.getStones(slot.getId()).getNum() > 0) {
+            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.stonesIn(slot.getId()) > 0) {
                 slots.add(slot.getId());
             }
         }
@@ -156,7 +156,7 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             didEnd = true;
             int playerId = depot.getPlayer();
             for (MancalaBoard.Slot slot : board.getSlots()) {
-                if (slot.belongsToPlayer() == playerId && state.getStones(slot.getId()).getNum() > 0) {
+                if (slot.belongsToPlayer() == playerId && state.stonesIn(slot.getId())> 0) {
                     didEnd = false;
                     break;
                 }
@@ -171,15 +171,14 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
             // give all missing stones to enemy
             for (MancalaBoard.Slot slot : board.getSlots()) {
                 String depot = board.getDepotOf(slot.getId());
-                int num = state.getStones(slot.getId()).getNum();
+                int num = state.stonesIn(slot.getId());
                 state.removeStones(slot.getId());
                 state.addStones(depot, num);
             }
 
-            // find out who has more
             List<Entry> nums = new ArrayList<>();
             for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
-                int currentNum = state.getStones(depot.getId()).getNum();
+                int currentNum = state.stonesIn(depot.getId());
                 nums.add(new Entry(currentNum, depot.getPlayer()));
             }
             Collections.sort(nums);

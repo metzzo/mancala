@@ -1,12 +1,11 @@
 package at.pwd.mctsagent;
 
 
-import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.base.WinState;
-import at.pwd.boardgame.game.mancala.MancalaAgentAction;
-import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgentAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Random;
 /**
  * Created by rfischer on 18/04/2017.
  */
-public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
+public class MancalaMCTSAgent implements MancalaAgent {
     private Random r = new Random();
     private MancalaState originalState;
     private static final double C = 1.0f/Math.sqrt(2.0f);
@@ -79,11 +78,11 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
     }
 
     @Override
-    public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
+    public MancalaAgentAction doTurn(int computationTime, MancalaGame game) {
         long start = System.currentTimeMillis();
-        this.originalState = state;
+        this.originalState = game.getState();
 
-        MCTSTree root = new MCTSTree(new MancalaGame(state, board));
+        MCTSTree root = new MCTSTree(game);
 
         while ((System.currentTimeMillis() - start) < (computationTime*1000 - 100)) {
             MCTSTree best = treePolicy(root);
@@ -131,14 +130,12 @@ public class MancalaMCTSAgent implements Agent<MancalaState, MancalaBoard, Manca
         WinState state = game.checkIfPlayerWins();
 
         while(state.getState() == WinState.States.NOBODY) {
-
             String play;
             do {
                 List<String> legalMoves = game.getSelectableSlots();
                 play = legalMoves.get(r.nextInt(legalMoves.size()));
             } while(game.selectSlot(play));
             game.nextPlayer();
-
 
             state = game.checkIfPlayerWins();
         }

@@ -1,0 +1,6 @@
+<config>
+   <agents/>
+   <computation-time>10</computation-time>
+   <stones-per-slot>6</stones-per-slot>
+   <slots-per-player>6</slots-per-player>
+</config>

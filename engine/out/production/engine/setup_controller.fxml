@@ -30,17 +30,17 @@
 
     <VBox alignment="CENTER">
         <Label text="Computation Time (in seconds)" />
-        <Spinner fx:id="computationTime" min="1" amountToStepBy="1" initialValue="10" max="600"></Spinner>
+        <Spinner fx:id="computationTime" min="1" amountToStepBy="1" initialValue="10" max="600" editable="true"></Spinner>
     </VBox>
 
     <VBox alignment="CENTER">
         <Label text="Stones per slot" />
-        <Spinner fx:id="stonesPerSlot" min="1" amountToStepBy="1" initialValue="6" max="600"></Spinner>
+        <Spinner fx:id="stonesPerSlot" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true"></Spinner>
     </VBox>
 
     <VBox alignment="CENTER">
         <Label text="Slots per player" />
-        <Spinner fx:id="slotsPerPlayer" min="1" amountToStepBy="1" initialValue="6" max="600"></Spinner>
+        <Spinner fx:id="slotsPerPlayer" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true"></Spinner>
     </VBox>
 
     <Button text="Start Game" alignment="CENTER" onAction="#startGamePressed"/>

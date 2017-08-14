@@ -1,6 +1,7 @@
-package at.pwd.boardgame.game.mancala;
+package at.pwd.boardgame.game.mancala.agent;
 
 import at.pwd.boardgame.game.agent.AgentAction;
+import at.pwd.boardgame.game.mancala.MancalaGame;
 
 /**
  * Created by rfischer on 17/04/2017.

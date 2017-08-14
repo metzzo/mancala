@@ -54,6 +54,8 @@ public class BoardController implements ControlledScreen, Initializable {
     private IntegerProperty currentAgent = new SimpleIntegerProperty(-1);
     private int computationTime;
     private boolean calculating = false;
+    private Thread timeoutTimer;
+    private Thread agentRunner;
 
     public void start() {
         depotLabels = new Label[] {depotLabel0, depotLabel1};
@@ -115,14 +117,14 @@ public class BoardController implements ControlledScreen, Initializable {
         if (board.isSlot(id)) {
             button = (Button)node;
 
-            button.disableProperty().bind(state.getState(id));
+            button.disableProperty().bind(state.isSlotEnabledProperty(id));
         } else if (board.isDepot(id)) {
             BorderPane pane = (BorderPane) nodes.get(id);
             button = (Button)pane.getCenter();
         }
 
         if (button != null) {
-            StringBinding binding = state.getStones(id).numProperty().asString();
+            StringBinding binding = state.getStoneProperty(id).asString();
             button.textProperty().bind(binding);
         }
     }
@@ -153,10 +155,8 @@ public class BoardController implements ControlledScreen, Initializable {
         return currentAgent;
     }
 
-    private void runAgent() {
-        System.out.println("Running agent " + getCurrentAgent());
-
-        final Thread timer = new Thread(() -> {
+    private void runTimeout() {
+        this.timeoutTimer = new Thread(() -> {
             try {
                 Thread.sleep(1000*getComputationTime());
                 Platform.runLater(() -> {
@@ -167,51 +167,60 @@ public class BoardController implements ControlledScreen, Initializable {
                 });
             } catch (InterruptedException ignored) { }
         });
-        timer.start();
+        timeoutTimer.start();
+    }
 
-        final Thread calculator = new Thread(() -> {
-            final AgentAction action;
-            try {
-                action = getCurrentAgent().doTurn(getComputationTime(), getGame().getState().copy(), getGame().getBoard());
-            } finally {
-                timer.interrupt();
-                calculating = false;
-            }
+    AgentAction.NextAction selectedNextAction;
 
+    private void runAgent() {
+        System.out.println("Running agent " + getCurrentAgent());
+
+        runTimeout();
+
+        if (this.agentRunner != null) {
+            throw new RuntimeException("Previous agent runner is still running.");
+        }
+
+        this.agentRunner = new Thread(() -> {
             try {
+                AgentAction<MancalaGame> action;
+                try {
+                    action = getCurrentAgent().doTurn(getComputationTime(), new MancalaGame(game));
+                } finally {
+                    timeoutTimer.interrupt();
+                    calculating = false;
+                }
+
                 Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
-            }
 
-            Platform.runLater(() -> {
-                AgentAction.NextAction next = action.applyAction(game);
+                Platform.runLater(() -> {
+                    selectedNextAction = action.applyAction(game);
 
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        return;
+                    synchronized (agentRunner) { agentRunner.notify(); }
+                });
+                synchronized (agentRunner) { agentRunner.wait(); }
+
+                Thread.sleep(500);
+
+                Platform.runLater(() -> {
+                    this.agentRunner = null;
+                    switch (selectedNextAction) {
+                        case NEXT_PLAYER:
+                            nextTurn();
+                            break;
+                        case SAME_PLAYER:
+                            if (!(getCurrentAgent() instanceof HumanAgent)) {
+                                runAgent();
+                            }
+                            break;
                     }
-                    Platform.runLater(() -> {
-                        switch (next) {
-                            case NEXT_PLAYER:
-                                nextTurn();
-                                break;
-                            case SAME_PLAYER:
-                                if (!(getCurrentAgent() instanceof HumanAgent)) {
-                                    runAgent();
-                                }
-                                break;
-                        }
-                    });
-                }).start();
-            });
+                });
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         calculating = true;
-        calculator.start();
+        agentRunner.start();
     }
 
     public void setComputationTime(int computationTime) {

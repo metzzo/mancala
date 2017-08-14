@@ -9,6 +9,6 @@ import at.pwd.boardgame.game.base.State;
 /**
  * Created by rfischer on 14/04/2017.
  */
-public interface HumanAgent<GameType extends Game, BoardType extends Board, StateType extends State, ActionType extends AgentAction> extends Agent<StateType, BoardType, ActionType> {
+public interface HumanAgent<GameType extends Game, BoardType extends Board, StateType extends State, ActionType extends AgentAction> extends Agent<GameType, ActionType> {
     void handleAction(GameType game, String id);
 }

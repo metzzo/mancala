@@ -1,11 +1,10 @@
 package at.pwd.boardgame.game.mancala.agent;
 
 import at.pwd.boardgame.game.agent.HumanAgent;
-import at.pwd.boardgame.services.AgentService;
-import at.pwd.boardgame.game.mancala.MancalaAgentAction;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
+import at.pwd.boardgame.services.AgentService;
 
 /**
  * Created by rfischer on 14/04/2017.
@@ -25,7 +24,7 @@ public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaBoard, 
     }
 
     @Override
-    public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
+    public MancalaAgentAction doTurn(int computationTime, MancalaGame game) {
         return new MancalaAgentAction(selectedSlot);
     }
 

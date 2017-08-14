@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by rfischer on 14/04/2017.
  */
 public class MancalaState implements State {
-    public class StoneNum {
+    public class StoneNumProperty {
         private IntegerProperty num = new SimpleIntegerProperty();
 
         public final int getNum() {
@@ -29,16 +29,16 @@ public class MancalaState implements State {
             return num;
         }
 
-        public StoneNum(int initial) {
+        public StoneNumProperty(int initial) {
             setNum(initial);
         }
 
-        public StoneNum copy() {
-            return new StoneNum(getNum());
+        public StoneNumProperty copy() {
+            return new StoneNumProperty(getNum());
         }
     }
 
-    public class PlayerTurnState {
+    public class PlayerTurnStateProperty {
         private BooleanProperty state = new SimpleBooleanProperty();
 
         public final boolean getState() {
@@ -53,22 +53,22 @@ public class MancalaState implements State {
             return state;
         }
 
-        public PlayerTurnState() {
+        public PlayerTurnStateProperty() {
             this(true);
         }
-        public PlayerTurnState(boolean state) {
+        public PlayerTurnStateProperty(boolean state) {
             setState(state);
         }
 
-        public PlayerTurnState copy() {
-            return new PlayerTurnState(getState());
+        public PlayerTurnStateProperty copy() {
+            return new PlayerTurnStateProperty(getState());
         }
     }
 
-    protected Map<String, StoneNum> stones = new HashMap<>();
+    protected Map<String, StoneNumProperty> stones = new HashMap<>();
     private int currentPlayer = -1;
-    protected Map<String, PlayerTurnState> states = new HashMap<>();
-    protected Map<Integer, PlayerTurnState> playerStates = new HashMap<>();
+    protected Map<String, PlayerTurnStateProperty> states = new HashMap<>();
+    protected Map<Integer, PlayerTurnStateProperty> playerStates = new HashMap<>();
 
     protected MancalaState() {
         // for custom states, useful for testing
@@ -76,8 +76,8 @@ public class MancalaState implements State {
 
     MancalaState(MancalaState state) {
         for (Integer playerId : state.playerStates.keySet()) {
-            PlayerTurnState oldState = state.playerStates.get(playerId);
-            PlayerTurnState newState = oldState.copy();
+            PlayerTurnStateProperty oldState = state.playerStates.get(playerId);
+            PlayerTurnStateProperty newState = oldState.copy();
             playerStates.put(playerId, newState);
             for (String slot : state.states.keySet()) {
                 if (state.states.get(slot) == oldState) {
@@ -95,7 +95,7 @@ public class MancalaState implements State {
 
     protected MancalaState(MancalaBoard board) {
         for (Integer playerId : board.getPlayers()) {
-            PlayerTurnState s = new PlayerTurnState();
+            PlayerTurnStateProperty s = new PlayerTurnStateProperty();
             playerStates.put(playerId, s);
             for (MancalaBoard.Slot slot : board.getSlots()) {
                 if (slot.belongsToPlayer() == playerId) {
@@ -105,32 +105,35 @@ public class MancalaState implements State {
         }
 
         for (MancalaBoard.Slot slot : board.getSlots()) {
-            stones.put(slot.getId(), new StoneNum(board.getStonesPerSlot()));
+            stones.put(slot.getId(), new StoneNumProperty(board.getStonesPerSlot()));
         }
         for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
-            stones.put(depot.getId(), new StoneNum(0));
+            stones.put(depot.getId(), new StoneNumProperty(0));
         }
     }
 
-    StoneNum removeStones(String id) {
-        StoneNum num = stones.get(id);
+    public int stonesIn(String id) {
+        return stones.get(id).getNum();
+    }
+
+    void removeStones(String id) {
+        StoneNumProperty num = stones.get(id);
         num.setNum(0);
-        return num;
     }
 
-    StoneNum addStones(String id, int amount) {
-        StoneNum num = stones.get(id);
+    void addStones(String id, int amount) {
+        StoneNumProperty num = stones.get(id);
         num.setNum(num.getNum() + amount);
-        return num;
     }
 
-    public StoneNum getStones(String id) {
-        return stones.get(id);
+    public IntegerProperty getStoneProperty(String id) {
+        return stones.get(id).numProperty();
     }
 
-    public BooleanExpression getState(String id) {
-        PlayerTurnState turnState = states.get(id);
-        StoneNum num = getStones(id);
+
+    public BooleanExpression isSlotEnabledProperty(String id) {
+        PlayerTurnStateProperty turnState = states.get(id);
+        StoneNumProperty num = stones.get(id);
 
         return num.numProperty().isEqualTo(0).or(turnState.stateProperty());
     }
@@ -143,7 +146,7 @@ public class MancalaState implements State {
 
         this.currentPlayer = currentPlayer;
 
-        PlayerTurnState turnState = playerStates.get(this.currentPlayer);
+        PlayerTurnStateProperty turnState = playerStates.get(this.currentPlayer);
         if (turnState != null) {
             turnState.setState(false);
         }

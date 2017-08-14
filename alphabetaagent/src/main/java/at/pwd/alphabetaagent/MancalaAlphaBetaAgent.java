@@ -1,12 +1,10 @@
 package at.pwd.alphabetaagent;
 
 
-import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.base.WinState;
-import at.pwd.boardgame.game.mancala.MancalaAgentAction;
-import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
-import at.pwd.boardgame.game.mancala.MancalaState;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgentAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +13,17 @@ import java.util.Random;
 /**
  * Created by rfischer on 18/04/2017.
  */
-public class MancalaAlphaBetaAgent implements Agent<MancalaState, MancalaBoard, MancalaAgentAction> {
+public class MancalaAlphaBetaAgent implements MancalaAgent {
     private Random r = new Random();
     private static final int DEPTH = 10;
     private int currentPlayer;
     private String currentBest;
 
     @Override
-    public MancalaAgentAction doTurn(int computationTime, MancalaState state, MancalaBoard board) {
-        currentPlayer = state.getCurrentPlayer();
+    public MancalaAgentAction doTurn(int computationTime, MancalaGame initialGame) {
+        currentPlayer = initialGame.getState().getCurrentPlayer();
         currentBest = null;
 
-        MancalaGame initialGame = new MancalaGame(state, board);
         alphabeta(initialGame, DEPTH, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
 
         return new MancalaAgentAction(currentBest);
@@ -35,7 +32,7 @@ public class MancalaAlphaBetaAgent implements Agent<MancalaState, MancalaBoard, 
     private int heuristic(MancalaGame node) {
         String ownDepot = node.getBoard().getDepotOfPlayer(currentPlayer);
         String enemyDepot = node.getBoard().getDepotOfPlayer(1 - currentPlayer);
-        return node.getState().getStones(ownDepot).getNum() - node.getState().getStones(enemyDepot).getNum();
+        return node.getState().stonesIn(ownDepot) - node.getState().stonesIn(enemyDepot);
     }
 
     private int alphabeta(MancalaGame node, int depth, int alpha, int beta, boolean maximizingPlayer) {
