@@ -2,6 +2,7 @@ package at.pwd.boardgame.controller;
 
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.services.AgentService;
+import at.pwd.boardgame.services.ConfigService;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -71,24 +72,17 @@ public class AddAgentController implements Initializable, ControlledScreen {
     public void load(Event evt) {
         String error = "";
         if (this.jarFile != null && this.jarFile.exists()) {
-
             System.out.println("Load jar " + jarFile);
 
-            Agent agent = null;
+            String name = className.getText();
             try {
-                URLClassLoader child = new URLClassLoader(new URL[]{jarFile.toURI().toURL()}, this.getClass().getClassLoader());
-                Class classToLoad = Class.forName (className.getText(), true, child);
-                agent = (Agent) classToLoad.newInstance ();
-            } catch (MalformedURLException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                AgentService.getInstance().load(jarFile, name);
+                ConfigService.getInstance().addAgent(jarFile, name);
+                close(evt);
+            } catch (Exception e) {
                 e.printStackTrace();
                 error = "Could not load agent (maybe wrong class name?)";
             }
-
-            if (agent != null) {
-                AgentService.getInstance().register(agent);
-                close(evt);
-            }
-
         } else {
             error = "No jar found";
         }

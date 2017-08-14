@@ -1,13 +1,11 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.services.GameFactory;
+import at.pwd.boardgame.services.*;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
-import at.pwd.boardgame.services.AgentService;
-import at.pwd.boardgame.services.ScreenFactory;
-import at.pwd.boardgame.services.XSLTService;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -29,20 +28,24 @@ public class SetUpController implements ControlledScreen, Initializable {
     private static final String SETUP_SCREEN = "/setup_controller.fxml";
     private static final String BOARD_GENERATOR_TRANSFORMER = "/board_generator.xsl";
     private static final String GAME_SCREEN = "/board_controller.fxml";
+    private static final File CONFIG_FILE = new File("config.xml");
 
     private NavigationController navigationController;
     private ListProperty<Agent> agents = new SimpleListProperty<>();
+    private ConfigService config;
+
+    private IntegerProperty computationTimeProperty = new SimpleIntegerProperty();
 
     @FXML
     ComboBox<Agent> player1Agent;
     @FXML
     ComboBox<Agent> player2Agent;
     @FXML
-    Spinner computationTime;
+    Spinner<Integer> computationTime;
     @FXML
-    Spinner stonesPerSlot;
+    Spinner<Integer> stonesPerSlot;
     @FXML
-    Spinner slotsPerPlayer;
+    Spinner<Integer> slotsPerPlayer;
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
@@ -50,6 +53,11 @@ public class SetUpController implements ControlledScreen, Initializable {
                 SetUpController.class.getResourceAsStream(SETUP_SCREEN),
                 null
         );
+    }
+
+    public SetUpController() {
+        config = ConfigService.getInstance().load(CONFIG_FILE);
+        config.save();
     }
 
     @Override
@@ -66,23 +74,36 @@ public class SetUpController implements ControlledScreen, Initializable {
 
         player2Agent.setItems(agents);
         player2Agent.setValue(agents.get(0));
+
+
+        bindSpinner(
+                computationTime,
+                config.getComputationTime(),
+                (observable, oldValue, newValue) -> config.setComputationTime(newValue.intValue())
+        );
+
+        bindSpinner(
+                slotsPerPlayer,
+                config.getSlotsPerPlayer(),
+                (observable, oldValue, newValue) -> config.setSlotsPerPlayer(newValue.intValue())
+        );
+
+        bindSpinner(
+                stonesPerSlot,
+                config.getStonesPerSlot(),
+                (observable, oldValue, newValue) -> config.setStonesPerSlot(newValue.intValue())
+        );
+    }
+
+    private void bindSpinner(Spinner<Integer> spinner, int initialValue, ChangeListener<Number> listener) {
+        ObjectProperty<Integer> objectProp = new SimpleObjectProperty<>(initialValue);
+        IntegerProperty spinnerProperty = IntegerProperty.integerProperty(objectProp);
+        spinnerProperty.addListener(listener);
+        spinner.getValueFactory().valueProperty().bindBidirectional(objectProp);
     }
 
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
-        /*InputStream board = generateBoard();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(board));
-        String line = null;
-        try {
-            while((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-
         InputStream board = generateBoard();
         final MancalaGame game = (MancalaGame) GameFactory.getInstance().create(MancalaGame.GAME_NAME, board);
 

@@ -1,0 +1,15 @@
+<config>
+   <agents>
+      <agent>
+         <path>/Users/rfischer/Dropbox/Studium_Sem6/BSC/mctsagent/build/libs/mctsagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.mctsagent.MancalaMCTSAgent</classname>
+      </agent>
+      <agent>
+         <path>/Users/rfischer/Dropbox/Studium_Sem6/BSC/mctsagent/build/libs/mctsagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.mctsagent.MancalaMCTSAgent</classname>
+      </agent>
+   </agents>
+   <computation-time>3</computation-time>
+   <stones-per-slot>9</stones-per-slot>
+   <slots-per-player>12</slots-per-player>
+</config>
