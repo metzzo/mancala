@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -75,19 +76,21 @@ public class SetUpController implements ControlledScreen, Initializable {
         player2Agent.setItems(agents);
         player2Agent.setValue(agents.get(0));
 
-
+        fixSpinner(computationTime);
         bindSpinner(
                 computationTime,
                 config.getComputationTime(),
                 (observable, oldValue, newValue) -> config.setComputationTime(newValue.intValue())
         );
 
+        fixSpinner(slotsPerPlayer);
         bindSpinner(
                 slotsPerPlayer,
                 config.getSlotsPerPlayer(),
                 (observable, oldValue, newValue) -> config.setSlotsPerPlayer(newValue.intValue())
         );
 
+        fixSpinner(stonesPerSlot);
         bindSpinner(
                 stonesPerSlot,
                 config.getStonesPerSlot(),
@@ -100,6 +103,17 @@ public class SetUpController implements ControlledScreen, Initializable {
         IntegerProperty spinnerProperty = IntegerProperty.integerProperty(objectProp);
         spinnerProperty.addListener(listener);
         spinner.getValueFactory().valueProperty().bindBidirectional(objectProp);
+    }
+
+    /**
+     * Spinner in JavaFX do not commit on focus lost => this method fixes this issue
+     * @param spinner
+     */
+    private void fixSpinner(Spinner<Integer> spinner) {
+        SpinnerValueFactory<Integer> factory = spinner.getValueFactory();
+        TextFormatter<Integer> formatter = new TextFormatter<>(factory.getConverter(), factory.getValue());
+        spinner.getEditor().setTextFormatter(formatter);
+        factory.valueProperty().bindBidirectional(formatter.valueProperty());
     }
 
     @FXML
