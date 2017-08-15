@@ -39,6 +39,7 @@ public class BoardController implements ControlledScreen, Initializable {
 
     private NavigationController navigationController;
     private MancalaGame game;
+    private int currentTurn = -1;
 
     @FXML
     private Label depotLabel0;
@@ -48,7 +49,12 @@ public class BoardController implements ControlledScreen, Initializable {
 
     private Label[] depotLabels;
 
-    @FXML private GridPane grid;
+    @FXML
+    private GridPane grid;
+
+    @FXML
+    private Label turnCounter;
+
     private Map<String, Node> nodes = new HashMap<>();
 
     private List<Agent> agents;
@@ -139,6 +145,9 @@ public class BoardController implements ControlledScreen, Initializable {
     }
 
     public void nextTurn() {
+        currentTurn++;
+        turnCounter.setText("Turn: " + (1 + currentTurn/2));
+
         WinState winState = getGame().checkIfPlayerWins();
         if (winState.getState() != WinState.States.NOBODY) {
             gameEnded(winState);

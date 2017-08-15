@@ -101,6 +101,9 @@
                 <xsl:apply-templates />
             </GridPane>
 
+            <Label fx:id="turnCounter"
+                   AnchorPane.bottomAnchor="10.0"
+                   AnchorPane.rightAnchor="10.0" />
             <stylesheets>
                 <URL value="@style.css" />
             </stylesheets>
