@@ -1,22 +1,18 @@
 package at.pwd.boardgame.controller;
 
+import at.pwd.boardgame.Main;
 import at.pwd.boardgame.services.*;
 import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.net.URL;
@@ -30,12 +26,12 @@ public class SetUpController implements ControlledScreen, Initializable {
     private static final String BOARD_GENERATOR_TRANSFORMER = "/board_generator.xsl";
     private static final String GAME_SCREEN = "/board_controller.fxml";
     private static final File CONFIG_FILE = new File("config.xml");
+    public static final String PWD_DOMAIN = "http://programming-with-design.at/";
 
     private NavigationController navigationController;
     private ListProperty<Agent> agents = new SimpleListProperty<>();
     private ConfigService config;
 
-    private IntegerProperty computationTimeProperty = new SimpleIntegerProperty();
 
     @FXML
     ComboBox<Agent> player1Agent;
@@ -47,6 +43,10 @@ public class SetUpController implements ControlledScreen, Initializable {
     /*Fidget*/Spinner<Integer> stonesPerSlot;
     @FXML
     /*Fidget*/Spinner<Integer> slotsPerPlayer;
+    @FXML
+    Hyperlink website;
+    @FXML
+    Hyperlink details;
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
@@ -96,6 +96,9 @@ public class SetUpController implements ControlledScreen, Initializable {
                 config.getStonesPerSlot(),
                 (observable, oldValue, newValue) -> config.setStonesPerSlot(newValue.intValue())
         );
+
+        website.setOnAction(event -> Main.getApp().getHostServices().showDocument(PWD_DOMAIN));
+        details.setOnAction(event -> AboutController.show());
     }
 
     private void bindSpinner(Spinner<Integer> spinner, int initialValue, ChangeListener<Number> listener) {
@@ -132,7 +135,7 @@ public class SetUpController implements ControlledScreen, Initializable {
                     BoardController ctrl = (BoardController) s;
                     ctrl.setGame(game);
                     ctrl.setAgents(selectedAgents);
-                    ctrl.setComputationTime((Integer)computationTime.getValue());
+                    ctrl.setComputationTime(computationTime.getValue());
                     ctrl.start();
                 });
 

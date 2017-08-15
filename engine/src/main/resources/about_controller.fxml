@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.pwd.boardgame.controller.AboutController"
+      prefHeight="100.0" prefWidth="400.0">
+
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+    <Label text="Mancala Boardgame Engine" style="-fx-font-size: 18px;">
+        <padding><Insets top="20" right="20" left="20"/></padding>
+    </Label>
+    <Label text="Version 1.0">
+        <padding><Insets bottom="20" right="20" left="20"/></padding>
+    </Label>
+
+    <TextFlow>
+        <Label text="Developed by" />
+        <Hyperlink fx:id="website" text="Robert Fischer" />
+    </TextFlow>
+
+    <Label text="For the course Strategy Game Programming at University of Technology Vienna by Horst Eidenberger"
+           wrapText="true">
+        <padding><Insets top="10" bottom="10"/></padding>
+    </Label>
+
+    <TextFlow>
+        <Label text="Mancala Boardgame Engine is" />
+        <Hyperlink fx:id="repo" text="Open Source" />
+    </TextFlow>
+</VBox>

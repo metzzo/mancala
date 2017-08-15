@@ -10,19 +10,18 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.pwd.boardgame.controller.AddAgentController"
       prefHeight="300.0" prefWidth="300.0"
-      alignment="CENTER"
       spacing="10">
 
     <HBox alignment="CENTER">
-        <TextField editable="false" disable="true" fx:id="path"></TextField>
-        <Button text="..." onAction="#fileChooser"></Button>
+        <TextField editable="false" disable="true" fx:id="path" />
+        <Button text="..." onAction="#fileChooser" />
     </HBox>
 
     <VBox alignment="CENTER">
-        <TextField promptText="Class name" fx:id="className"></TextField>
+        <TextField promptText="Class name" fx:id="className" />
     </VBox>
 
 
-    <Button text="Load" onAction="#load"></Button>
-    <Button text="Cancel" onAction="#close"></Button>
+    <Button text="Load" onAction="#load" />
+    <Button text="Cancel" onAction="#close" />
 </VBox>

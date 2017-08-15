@@ -4,3 +4,15 @@
 .player-label:selected {
     -fx-underline: true;
 }
+
+#agentBox {
+    -fx-padding: 0 0 20 0;
+}
+
+#settingsBox {
+    -fx-padding: 0 0 20 0;
+}
+
+#startGame {
+    -fx-padding: 15 10 15 10;
+}

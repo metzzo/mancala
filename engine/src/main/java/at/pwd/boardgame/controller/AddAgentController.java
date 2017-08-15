@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
  */
 public class AddAgentController implements Initializable, ControlledScreen {
     public static final String ADDAGENT_SCREEN = "/addagent_controller.fxml";
+
     private NavigationController navigationController;
 
     private File jarFile;
@@ -43,8 +44,8 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
     public static void show() {
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                SetUpController.class.getResource(ADDAGENT_SCREEN),
-                SetUpController.class.getResourceAsStream(ADDAGENT_SCREEN),
+                AddAgentController.class.getResource(ADDAGENT_SCREEN),
+                AddAgentController.class.getResourceAsStream(ADDAGENT_SCREEN),
                 null
         );
 
@@ -76,8 +77,8 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
             String name = className.getText();
             try {
-                AgentService.getInstance().load(jarFile, name);
-                ConfigService.getInstance().addAgent(jarFile, name);
+                AgentService.getInstance().load(jarFile, className.getText());
+                ConfigService.getInstance().addAgent(jarFile, className.getText());
                 close(evt);
             } catch (Exception e) {
                 e.printStackTrace();

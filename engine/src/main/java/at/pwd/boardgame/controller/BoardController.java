@@ -7,6 +7,7 @@ import at.pwd.boardgame.game.base.*;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;

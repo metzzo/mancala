@@ -40,8 +40,8 @@ public class ScreenFactory {
     }
 
     public NavigationController getNavigationController() {
-        if (this.navigationController == null) {
-            this.navigationController = new NavigationController();
+        if (navigationController == null) {
+            navigationController = new NavigationController();
         }
         return navigationController;
     }

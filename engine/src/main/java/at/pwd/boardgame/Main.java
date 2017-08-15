@@ -14,13 +14,13 @@ import javafx.stage.Stage;
  * Created by rfischer on 13/04/2017.
  */
 public class Main extends Application {
-    private Stage stage;
+    private static Application app;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.stage = primaryStage;
+        Main.app = this;
 
-        primaryStage.setTitle("Mancala Board Game");
+        primaryStage.setTitle("Mancala Boardgame Engine");
 
         MancalaGame.init();
 
@@ -30,6 +30,8 @@ public class Main extends Application {
         ctrl.setScreen(SetUpController.createSetUpScreen());
 
         Scene scene = new Scene(ctrl);
+        primaryStage.setMinWidth(400.0f);
+        primaryStage.setMinHeight(340.0f);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -47,5 +49,9 @@ public class Main extends Application {
             }
         }
         launch(args);
+    }
+
+    public static Application getApp() {
+        return app;
     }
 }
