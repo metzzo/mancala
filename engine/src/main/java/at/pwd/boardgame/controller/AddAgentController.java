@@ -81,8 +81,8 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
             String name = className.getText();
             try {
-                AgentService.getInstance().load(jarFile, className.getText());
-                ConfigService.getInstance().addAgent(jarFile, className.getText());
+                AgentService.getInstance().load(jarFile, name);
+                ConfigService.getInstance().addAgent(jarFile, name);
                 close(evt);
             } catch (Exception e) {
                 e.printStackTrace();

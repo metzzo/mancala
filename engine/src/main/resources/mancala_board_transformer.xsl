@@ -39,11 +39,12 @@
 
     <xsl:template match="player-depot">
         <BorderPane xmlns:fx="http://javafx.com/fxml">
-            <xsl:call-template name="position" />
-
             <xsl:attribute name="id">
                 <xsl:value-of select="@id" />
             </xsl:attribute>
+
+            <xsl:call-template name="position" />
+
 
             <xsl:if test="@player = 0">
                 <bottom>
@@ -66,8 +67,6 @@
 
     <xsl:template match="slot">
         <Button onAction="#handleAction">
-            <xsl:call-template name="position" />
-
             <xsl:attribute name="id">
                 <xsl:value-of select="@id" />
             </xsl:attribute>
@@ -75,6 +74,8 @@
             <xsl:attribute name="text">
                 <xsl:value-of select="$num_stones" />
             </xsl:attribute>
+
+            <xsl:call-template name="position" />
         </Button>
     </xsl:template>
 
