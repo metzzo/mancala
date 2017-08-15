@@ -49,14 +49,18 @@
 
 
             <xsl:if test="@player = 0">
-                <bottom>
-                    <Label text="Player 1" styleClass="player-label" fx:id="depotLabel0"/>
-                </bottom>
+                <right>
+                    <Label text="Player 1" styleClass="player-label" fx:id="depotLabel0" BorderPane.alignment="CENTER">
+                        <padding><Insets left="10"/></padding>
+                    </Label>
+                </right>
             </xsl:if>
             <xsl:if test="@player = 1">
-                <top>
-                    <Label text="Player 2" styleClass="player-label" fx:id="depotLabel1" />
-                </top>
+                <left>
+                    <Label text="Player 2" styleClass="player-label" fx:id="depotLabel1" BorderPane.alignment="CENTER">
+                        <padding><Insets right="10"/></padding>
+                    </Label>
+                </left>
             </xsl:if>
 
             <center>
@@ -135,6 +139,9 @@
 
         <xsl:processing-instruction name="import">
             java.net.*
+        </xsl:processing-instruction>
+        <xsl:processing-instruction name="import">
+            javafx.geometry.Insets
         </xsl:processing-instruction>
 
         <xsl:apply-templates />
