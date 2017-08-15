@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -37,6 +38,9 @@ public class AddAgentController implements Initializable, ControlledScreen {
     @FXML
     private TextField className;
 
+    @FXML
+    private Label error;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -51,7 +55,7 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
         Stage stage = new Stage();
         stage.setTitle("Add Agent");
-        stage.setScene(new Scene(screen, 300, 150));
+        stage.setScene(new Scene(screen, 300, 180));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
@@ -71,7 +75,7 @@ public class AddAgentController implements Initializable, ControlledScreen {
     }
 
     public void load(Event evt) {
-        String error = "";
+        String errorMsg = "";
         if (this.jarFile != null && this.jarFile.exists()) {
             System.out.println("Load jar " + jarFile);
 
@@ -82,12 +86,13 @@ public class AddAgentController implements Initializable, ControlledScreen {
                 close(evt);
             } catch (Exception e) {
                 e.printStackTrace();
-                error = "Could not load agent (maybe wrong class name?)";
+                errorMsg = "Could not load agent. Wrong class name?";
             }
         } else {
-            error = "No jar found";
+            errorMsg = "No jar found";
         }
-        System.out.println(error);
+        error.setText(errorMsg);
+        System.out.println(errorMsg);
     }
 
     public void close(Event evt) {

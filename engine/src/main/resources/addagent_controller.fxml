@@ -22,7 +22,14 @@
     </HBox>
 
     <VBox alignment="CENTER">
+        <padding>
+            <Insets top="10" bottom="10" />
+        </padding>
         <TextField promptText="Class name" fx:id="className" />
+    </VBox>
+
+    <VBox alignment="CENTER_LEFT">
+        <Label fx:id="error" wrapText="true" textFill="#FF0000" />
     </VBox>
 
     <HBox alignment="CENTER" spacing="10">
