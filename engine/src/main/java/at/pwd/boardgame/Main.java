@@ -8,6 +8,7 @@ import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -21,6 +22,7 @@ public class Main extends Application {
         Main.app = this;
 
         primaryStage.setTitle("Mancala Boardgame Engine");
+        primaryStage.getIcons().add(new Image("logo.png"));
 
         MancalaGame.init();
 
