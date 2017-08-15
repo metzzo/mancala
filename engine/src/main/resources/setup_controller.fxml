@@ -8,16 +8,17 @@
 
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.pwd.boardgame.controller.SetUpController"
-      prefHeight="400.0" prefWidth="600.0"
-      AnchorPane.topAnchor="0.0"
-      AnchorPane.bottomAnchor="0.0"
-      AnchorPane.leftAnchor="0.0"
-      AnchorPane.rightAnchor="0.0"
-      stylesheets="style.css">
-
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.pwd.boardgame.controller.SetUpController"
+            prefHeight="500.0" prefWidth="600.0"
+            AnchorPane.topAnchor="0.0"
+            AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0"
+            stylesheets="style.css">
     <VBox
             AnchorPane.topAnchor="0.0"
             AnchorPane.bottomAnchor="0.0"
@@ -25,6 +26,14 @@
             AnchorPane.rightAnchor="0.0"
             alignment="CENTER"
             spacing="10">
+        <VBox alignment="CENTER">
+            <ImageView fitHeight="150.0" preserveRatio="true">
+                <image>
+                    <Image url="logo.png" />
+                </image>
+            </ImageView>
+        </VBox>
+
         <HBox alignment="CENTER" spacing="20" fx:id="agentBox">
             <VBox>
                 <Label text="Player 1" />

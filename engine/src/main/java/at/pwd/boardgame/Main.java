@@ -31,7 +31,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(ctrl);
         primaryStage.setMinWidth(400.0f);
-        primaryStage.setMinHeight(340.0f);
+        primaryStage.setMinHeight(440.0f);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
