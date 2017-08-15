@@ -3,6 +3,8 @@
     <xsl:param name="num_stones" />
 
     <xsl:template name="position">
+        <xsl:attribute name="minWidth">-Infinity</xsl:attribute>
+        <xsl:attribute name="minHeight">-Infinity</xsl:attribute>
         <xsl:attribute name="GridPane.columnIndex">
             <xsl:choose>
                 <xsl:when test="@column">
