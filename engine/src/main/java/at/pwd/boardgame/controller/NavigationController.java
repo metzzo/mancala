@@ -6,13 +6,14 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 /**
  * Created by rfischer on 13/04/2017.
  */
-public class NavigationController extends StackPane {
+public class NavigationController extends AnchorPane {
     public void showModal(Parent screen) {
 
     }

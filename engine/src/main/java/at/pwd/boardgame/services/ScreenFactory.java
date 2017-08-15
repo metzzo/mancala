@@ -3,7 +3,12 @@ package at.pwd.boardgame.services;
 import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -34,8 +39,11 @@ public class ScreenFactory {
 
     }
 
-    public void setNavigationController(NavigationController navigationController) {
-        this.navigationController = navigationController;
+    public NavigationController getNavigationController() {
+        if (this.navigationController == null) {
+            this.navigationController = new NavigationController();
+        }
+        return navigationController;
     }
 
     public Parent loadScreen(URL location, InputStream stream, OnCreatedListener createdListener) {

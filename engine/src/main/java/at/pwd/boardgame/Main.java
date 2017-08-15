@@ -7,7 +7,6 @@ import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -25,13 +24,12 @@ public class Main extends Application {
 
         MancalaGame.init();
 
-        NavigationController mainContainer = new NavigationController();
-        ScreenFactory.getInstance().setNavigationController(mainContainer);
-        mainContainer.setScreen(SetUpController.createSetUpScreen());
+        NavigationController ctrl = ScreenFactory.getInstance()
+                .getNavigationController();
 
-        Group root = new Group();
-        root.getChildren().addAll(mainContainer);
-        Scene scene = new Scene(root);
+        ctrl.setScreen(SetUpController.createSetUpScreen());
+
+        Scene scene = new Scene(ctrl);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

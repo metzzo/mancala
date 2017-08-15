@@ -10,38 +10,47 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="at.pwd.boardgame.controller.SetUpController"
             prefHeight="400.0" prefWidth="600.0"
+            minWidth="400.0" minHeight="400.0"
             alignment="CENTER"
-            spacing="10">
-    <VBox alignment="CENTER">
-        <Label text="Player 1 Agent" />
-        <HBox alignment="CENTER">
-            <ComboBox fx:id="player1Agent"></ComboBox>
-            <Button text="+" onAction="#player1loadAi"></Button>
-        </HBox>
-    </VBox>
+            spacing="10"
+            AnchorPane.topAnchor="0.0"
+            AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0">
+    <HBox alignment="CENTER" spacing="40">
+        <VBox>
+            <Label text="Player 1" />
+            <HBox alignment="CENTER">
+                <ComboBox fx:id="player1Agent" />
+                <Button text="+" onAction="#player1loadAi" />
+            </HBox>
+        </VBox>
 
-    <VBox alignment="CENTER">
-        <Label text="Player 2 Agent" />
-        <HBox alignment="CENTER">
-            <ComboBox fx:id="player2Agent"></ComboBox>
-            <Button text="+" onAction="#player2loadAi"></Button>
-        </HBox>
-    </VBox>
+        <VBox>
+            <Label text="Player 2" />
+            <HBox alignment="CENTER">
+                <ComboBox fx:id="player2Agent" />
+                <Button text="+" onAction="#player2loadAi" />
+            </HBox>
+        </VBox>
+    </HBox>
 
-    <VBox alignment="CENTER">
-        <Label text="Computation Time (in seconds)" />
-        <Spinner fx:id="computationTime" min="1" amountToStepBy="1" initialValue="10" max="600" editable="true"></Spinner>
-    </VBox>
+    <HBox alignment="CENTER" spacing="40">
+        <VBox>
+            <Label text="Computation time (seconds)" />
+            <Spinner fx:id="computationTime" min="1" amountToStepBy="1" initialValue="10" max="600" editable="true" />
+        </VBox>
 
-    <VBox alignment="CENTER">
-        <Label text="Stones per slot" />
-        <Spinner fx:id="stonesPerSlot" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true"></Spinner>
-    </VBox>
+        <VBox>
+            <Label text="Stones per slot" />
+            <Spinner fx:id="stonesPerSlot" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true" />
+        </VBox>
 
-    <VBox alignment="CENTER">
-        <Label text="Slots per player" />
-        <Spinner fx:id="slotsPerPlayer" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true"></Spinner>
-    </VBox>
+        <VBox>
+            <Label text="Slots per player" />
+            <Spinner fx:id="slotsPerPlayer" min="1" amountToStepBy="1" initialValue="6" max="600" editable="true" />
+        </VBox>
+    </HBox>
 
     <Button text="Start Game" alignment="CENTER" onAction="#startGamePressed"/>
 </VBox>

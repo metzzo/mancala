@@ -82,12 +82,20 @@
         <AnchorPane xmlns="http://javafx.com/javafx"
                     xmlns:fx="http://javafx.com/fxml"
                     fx:id="root"
+                    AnchorPane.topAnchor="0.0"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
                     fx:controller="at.pwd.boardgame.controller.BoardController">
             <GridPane alignment="center"
                       hgap="10"
                       vgap="10"
                       prefHeight="400.0"
                       prefWidth="600.0"
+                      AnchorPane.topAnchor="0.0"
+                      AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0"
                       fx:id="grid">
                 <xsl:apply-templates />
             </GridPane>

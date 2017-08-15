@@ -60,6 +60,9 @@ public class BoardController implements ControlledScreen, Initializable {
     public void start() {
         depotLabels = new Label[] {depotLabel0, depotLabel1};
 
+        depotLabel0.setText("1: "+agents.get(0).toString());
+        depotLabel1.setText("2: "+agents.get(1).toString());
+
         currentAgentProperty().addListener((observable, oldValue, newValue) -> {
             int oldVal = oldValue.intValue();
             int newVal = newValue.intValue();

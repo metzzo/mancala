@@ -5,7 +5,7 @@
          <classname>at.pwd.mctsagent.MancalaMCTSAgent</classname>
       </agent>
    </agents>
-   <computation-time>1</computation-time>
-   <stones-per-slot>9</stones-per-slot>
-   <slots-per-player>2</slots-per-player>
+   <computation-time>15</computation-time>
+   <stones-per-slot>6</stones-per-slot>
+   <slots-per-player>6</slots-per-player>
 </config>

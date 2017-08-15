@@ -42,11 +42,11 @@ public class SetUpController implements ControlledScreen, Initializable {
     @FXML
     ComboBox<Agent> player2Agent;
     @FXML
-    Spinner<Integer> computationTime;
+    /*Fidget*/Spinner<Integer> computationTime;
     @FXML
-    Spinner<Integer> stonesPerSlot;
+    /*Fidget*/Spinner<Integer> stonesPerSlot;
     @FXML
-    Spinner<Integer> slotsPerPlayer;
+    /*Fidget*/Spinner<Integer> slotsPerPlayer;
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
