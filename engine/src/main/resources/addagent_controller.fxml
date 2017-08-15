@@ -6,14 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.pwd.boardgame.controller.AddAgentController"
-      prefHeight="300.0" prefWidth="300.0"
-      spacing="10">
+      prefHeight="150.0" prefWidth="300.0"
+      spacing="10" alignment="CENTER">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10" />
+    </padding>
 
-    <HBox alignment="CENTER">
-        <TextField editable="false" disable="true" fx:id="path" />
+    <HBox>
+        <TextField editable="false" disable="true" fx:id="path"  HBox.hgrow="ALWAYS" maxWidth="Infinity" />
         <Button text="..." onAction="#fileChooser" />
     </HBox>
 
@@ -21,7 +25,8 @@
         <TextField promptText="Class name" fx:id="className" />
     </VBox>
 
-
-    <Button text="Load" onAction="#load" />
-    <Button text="Cancel" onAction="#close" />
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Cancel" onAction="#close" />
+        <Button text="Load" onAction="#load" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+    </HBox>
 </VBox>

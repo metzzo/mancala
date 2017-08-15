@@ -51,7 +51,7 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
         Stage stage = new Stage();
         stage.setTitle("Add Agent");
-        stage.setScene(new Scene(screen, 300, 300));
+        stage.setScene(new Scene(screen, 300, 150));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }

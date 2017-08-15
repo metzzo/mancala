@@ -143,19 +143,22 @@ public class SetUpController implements ControlledScreen, Initializable {
     }
 
     public void player1loadAi(ActionEvent actionEvent) {
-        loadAi();
-        player1Agent.setValue(agents.get(agents.size() - 1));
+        loadAi(player1Agent);
     }
 
     public void player2loadAi(ActionEvent actionEvent) {
-        loadAi();
-        player2Agent.setValue(agents.get(agents.size() - 1));
+        loadAi(player2Agent);
     }
 
-    private void loadAi() {
-        AddAgentController.show();
+    private void loadAi(ComboBox<Agent> targetCombobox) {
+        int oldSize = agents.size();
 
+        AddAgentController.show();
         reloadAgents();
+
+        if (agents.size() != oldSize) {
+            targetCombobox.setValue(agents.get(agents.size() - 1));
+        }
     }
 
     private void reloadAgents() {

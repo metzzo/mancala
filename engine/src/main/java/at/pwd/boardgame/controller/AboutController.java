@@ -50,7 +50,7 @@ public class AboutController implements Initializable, ControlledScreen {
 
         Stage stage = new Stage();
         stage.setTitle("About");
-        stage.setScene(new Scene(screen, 300, 300));
+        stage.setScene(new Scene(screen, 300, 250));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
