@@ -1,7 +1,7 @@
 package at.pwd.boardgame.game.base;
 
 /**
- * Created by rfischer on 15/04/2017.
+ * An interface describing an abstract board. Currently there only exists MancalaBoard.
  */
 public interface Board {
 }

@@ -7,11 +7,14 @@ import at.pwd.boardgame.game.mancala.MancalaState;
 import at.pwd.boardgame.services.AgentService;
 
 /**
- * Created by rfischer on 14/04/2017.
+ * HumanAgent for the game Mancala
  */
 public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaAgentAction>  {
     private String selectedSlot = null;
 
+    /**
+     * Adds MancalaHumanAgent to the AgentService
+     */
     public static void init() {
         AgentService.getInstance().register(new MancalaHumanAgent());
     }

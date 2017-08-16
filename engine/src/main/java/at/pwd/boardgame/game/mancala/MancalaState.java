@@ -11,9 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by rfischer on 14/04/2017.
+ * State of the current MancalaGame.
  */
 public class MancalaState implements State {
+    /**
+     * Class containing the number of stones for a depot/slot. This is used for binding in JavaFX
+     */
     public class StoneNumProperty {
         private IntegerProperty num = new SimpleIntegerProperty();
 
@@ -38,6 +41,10 @@ public class MancalaState implements State {
         }
     }
 
+    /**
+     * Class containing whether the current slot/depot is enabled for the current player turn state.
+     * This is used for binding in JavaFX
+     */
     public class PlayerTurnStateProperty {
         private BooleanProperty state = new SimpleBooleanProperty();
 
@@ -70,10 +77,15 @@ public class MancalaState implements State {
     protected Map<String, PlayerTurnStateProperty> states = new HashMap<>();
     protected Map<Integer, PlayerTurnStateProperty> playerStates = new HashMap<>();
 
-    protected MancalaState() {
-        // for custom states, useful for testing
-    }
+    /**
+     * Constructor for custom states, useful for testing
+     */
+    protected MancalaState() { }
 
+    /**
+     * Creates a deep copy of the given MancalaState.
+     * @param state The MancalaState that should be copied
+     */
     MancalaState(MancalaState state) {
         for (Integer playerId : state.playerStates.keySet()) {
             PlayerTurnStateProperty oldState = state.playerStates.get(playerId);
@@ -93,6 +105,12 @@ public class MancalaState implements State {
         setCurrentPlayer(state.getCurrentPlayer());
     }
 
+    /**
+     * Creates the default MancalaState for the board, where each slot has "stones per slot" many
+     * stones.
+     *
+     * @param board The board for which the state should be created
+     */
     protected MancalaState(MancalaBoard board) {
         for (Integer playerId : board.getPlayers()) {
             PlayerTurnStateProperty s = new PlayerTurnStateProperty();
@@ -112,25 +130,50 @@ public class MancalaState implements State {
         }
     }
 
+    /**
+     * returns how many stones are in the given slot/depot.
+     * If the id does not exist a Exception is thrown.
+     *
+     * @param id The id of the slot/depot
+     * @return The number of stones
+     */
     public int stonesIn(String id) {
         return stones.get(id).getNum();
     }
 
+    /**
+     * Removes the stones from the given slot/depot (= sets the number to 0)
+     * @param id The ID of the slot/depot
+     */
     void removeStones(String id) {
         StoneNumProperty num = stones.get(id);
         num.setNum(0);
     }
 
+    /**
+     * Increments the number of stones for the given slot/depot
+     * @param id The id of the depot/slot
+     * @param amount How much should be added
+     */
     void addStones(String id, int amount) {
         StoneNumProperty num = stones.get(id);
         num.setNum(num.getNum() + amount);
     }
 
+    /**
+     * Stone number property. This should be used by the UI
+     * @param id For what slot/depot?
+     * @return Returns the property displaying how many stones are in slot/depot.
+     */
     public IntegerProperty getStoneProperty(String id) {
         return stones.get(id).numProperty();
     }
 
-
+    /**
+     * Slot enabled property. This should be used by the UI
+     * @param id For what slot?
+     * @return Returns the property describing whether a slot is enabled or not.
+     */
     public BooleanExpression isSlotEnabledProperty(String id) {
         PlayerTurnStateProperty turnState = states.get(id);
         StoneNumProperty num = stones.get(id);

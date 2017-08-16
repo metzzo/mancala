@@ -4,7 +4,7 @@ import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 
 /**
- * Created by rfischer on 14/08/2017.
+ * Interface for a Agent for the game Mancala.
  */
 public interface MancalaAgent extends Agent<MancalaGame, MancalaAgentAction> {
 }

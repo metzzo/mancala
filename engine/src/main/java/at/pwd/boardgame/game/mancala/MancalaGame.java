@@ -14,16 +14,32 @@ import java.io.StringReader;
 import java.util.*;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * MancalaGame is an implementation of the Game interface for Mancala.
+ *
+ * Keep in mind that MancalaGame does not check for "valid" moves. Every move that is done is
+ * immediately executed.
+ *
+ * MancalaGames state is in the MancalaState object and the board configuration in the MancalaBoard.
+ *
  */
 public class MancalaGame implements Game<MancalaState, MancalaBoard> {
+    /**
+     * The transformer to create the view FXML
+     */
     public static final String GAME_BOARD_TRANFORMER = "/mancala_board_transformer.xsl";
+
+    /**
+     * The name of this game
+     */
     public static final String GAME_NAME = "normal_mancala";
 
-    protected MancalaBoard board;
-    protected MancalaState state;
+    private MancalaBoard board;
+    private MancalaState state;
     private String boardXml;
 
+    /**
+     * Registers MancalaGame to the GameFactory and initializes MancalaHumanAgent
+     */
     public static void init() {
         GameFactory.getInstance().register(GAME_NAME, MancalaGame.class);
         MancalaHumanAgent.init();
@@ -53,14 +69,20 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         this.state = new MancalaState(this.board);
     }
 
-    public MancalaGame() {
-
-    }
-
+    /**
+     * Creates a semi deep copy of the given MancalaGame (State is copied, board is kept the same)
+     * @param game The game that should be copied.
+     */
     public MancalaGame(MancalaGame game) {
         this(game.getState(), game.getBoard());
     }
 
+    /**
+     * Creates a new MancalaGame
+     * @param state If null the default MancalaState of the board is generated (placing stones_per_slot many
+     *              stones on each slot). If not null the given state is used.
+     * @param board The board that should be used for this MancalaGame
+     */
     public MancalaGame(MancalaState state, MancalaBoard board) {
         this.board = board;
         this.state = state != null ? new MancalaState(state) : new MancalaState(board);
@@ -68,9 +90,13 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
 
     /**
      * Selects the slot with the given ID and calculates the turn.
+     * If this ends the game. The final stones of the enemys player are placed in his
+     * depot too.
+     *
+     * Throws a RuntimeException if an invalid slot is selected
      *
      * @param id The ID of the slot that has been selected
-     * @return true ... the current player can play another turn, false ... the current player has to
+     * @return true ... the current player can play another turn, false ... the current player has to end his turn
      */
     public boolean selectSlot(String id) {
         int stones = state.stonesIn(id);
@@ -124,7 +150,25 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         return playAnotherTurn;
     }
 
-    class Entry implements Comparable<Entry> {
+    /**
+     * Returns a list of selectable slots for the current game state and current board
+     * @return A List containing all selectable slot IDs. If there is nothing selectable the list is empty
+     */
+    public List<String> getSelectableSlots() {
+        List<String> slots = new ArrayList<>();
+        for (MancalaBoard.Slot slot : board.getSlots()) {
+            // slot should belong to the current player and not be empty
+            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.stonesIn(slot.getId()) > 0) {
+                slots.add(slot.getId());
+            }
+        }
+        return slots;
+    }
+
+    /**
+     * Helper class for determining who wins the game
+     */
+    private class Entry implements Comparable<Entry> {
         int num;
         int playerId;
 
@@ -139,17 +183,12 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
         }
     }
 
-    public List<String> getSelectableSlots() {
-        List<String> slots = new ArrayList<>();
-        for (MancalaBoard.Slot slot : board.getSlots()) {
-            // slot should belong to the current player and not be empty
-            if (slot.belongsToPlayer() == state.getCurrentPlayer() && state.stonesIn(slot.getId()) > 0) {
-                slots.add(slot.getId());
-            }
-        }
-        return slots;
-    }
-
+    /**
+     * Checks if a player is winning. If a player is winning the opponent gets the remaining stones into his
+     * own depot (so this method also alters the state).
+     *
+     * @return A WinState describing if and who is winning
+     */
     public WinState checkIfPlayerWins() {
         boolean didEnd = false;
         for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
@@ -176,6 +215,8 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
                 state.addStones(depot, num);
             }
 
+            // it is designed to support multiple players (but not yet needed)
+            // thats the reason why it is so complex
             List<Entry> nums = new ArrayList<>();
             for (MancalaBoard.PlayerDepot depot : board.getDepots()) {
                 int currentNum = state.stonesIn(depot.getId());
