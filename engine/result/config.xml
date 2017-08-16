@@ -1,0 +1,19 @@
+<config>
+   <agents>
+      <agent>
+         <path>./agents/mctsagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.mctsagent.MancalaMCTSAgent</classname>
+      </agent>
+      <agent>
+         <path>./agents/alphabetaagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.alphabetaagent.MancalaAlphaBetaAgent</classname>
+      </agent>
+      <agent>
+         <path>./agents/randomagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.randomagent.MancalaRandomAgent</classname>
+      </agent>
+   </agents>
+   <computation-time>10</computation-time>
+   <stones-per-slot>6</stones-per-slot>
+   <slots-per-player>6</slots-per-player>
+</config>

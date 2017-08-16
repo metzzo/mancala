@@ -6,7 +6,6 @@ import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
 import at.pwd.boardgame.game.mancala.agent.MancalaAgentAction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +13,7 @@ import java.util.Random;
  * Created by rfischer on 18/04/2017.
  */
 public class MancalaAlphaBetaAgent implements MancalaAgent {
-    private Random r = new Random();
+
     private static final int DEPTH = 10;
     private int currentPlayer;
     private String currentBest;
