@@ -9,7 +9,7 @@ import at.pwd.boardgame.services.AgentService;
 /**
  * Created by rfischer on 14/04/2017.
  */
-public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaBoard, MancalaState, MancalaAgentAction>  {
+public class MancalaHumanAgent implements HumanAgent<MancalaGame, MancalaAgentAction>  {
     private String selectedSlot = null;
 
     public static void init() {
