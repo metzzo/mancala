@@ -14,9 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by rfischer on 15/08/2017.
+ * Controller responsible for handling the about screen
  */
-public class AboutController implements Initializable, ControlledScreen {
+public class AboutController implements Initializable, ScreenFactory.BoardGameScreen {
     public static final String ABOUT_SCREEN = "/about_controller.fxml";
     private static final String REPO_DOMAIN = "https://github.com/metzzo/mancala/";
 

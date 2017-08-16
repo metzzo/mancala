@@ -9,9 +9,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Navigation Controller that is responsible for transitioning between screens:
+ * e.g.: SetUpController-> BoardController -> SetUpController
  */
 public class NavigationController extends AnchorPane {
+    /**
+     * Transition to a new screen
+     * @param screen to which screen should be transitioned?
+     */
     public void setScreen(Parent screen) {
         final DoubleProperty opacity = opacityProperty();
 

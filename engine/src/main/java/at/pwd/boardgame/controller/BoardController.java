@@ -7,7 +7,7 @@ import at.pwd.boardgame.game.base.*;
 import at.pwd.boardgame.game.mancala.MancalaBoard;
 import at.pwd.boardgame.game.mancala.MancalaGame;
 import at.pwd.boardgame.game.mancala.MancalaState;
-import javafx.application.HostServices;
+import at.pwd.boardgame.services.ScreenFactory;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
@@ -31,9 +31,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Controller for handling the Mancala Boardgame
  */
-public class BoardController implements ControlledScreen, Initializable {
+public class BoardController implements ScreenFactory.BoardGameScreen, Initializable {
     private static final PseudoClass SELECTED_PSEUDO_CLASS =
             PseudoClass.getPseudoClass("selected");
 
@@ -101,14 +101,26 @@ public class BoardController implements ControlledScreen, Initializable {
         }
     }
 
+    /**
+     * @return Returns the current MancalaGame instance that is currently displayed
+     */
     public MancalaGame getGame() {
         return game;
     }
 
+    /**
+     * Sets the current MancalaGame that is currently displayed
+     * @param game the instane
+     */
     public void setGame(MancalaGame game) {
         this.game = game;
     }
 
+    /**
+     * Called when a slot is selected and this action should be handled. This should only
+     * execute code if a human is currently playing
+     * @param event The event that caused it
+     */
     public void handleAction(ActionEvent event) {
         if (getCurrentAgent() instanceof HumanAgent) {
             String id = ((Control)event.getSource()).getId();
@@ -139,11 +151,18 @@ public class BoardController implements ControlledScreen, Initializable {
         }
     }
 
+    /**
+     * sets the agents that are playing
+     * @param agents the list of Agents
+     */
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
         currentAgent.set(-1);
     }
 
+    /**
+     * Called when current turn is finished and next players turn starts.
+     */
     public void nextTurn() {
         currentTurn++;
         turnCounter.setText("Turn: " + (1 + currentTurn/2));
@@ -160,10 +179,17 @@ public class BoardController implements ControlledScreen, Initializable {
         }
     }
 
+    /**
+     * @return Returns the current players agent
+     */
     public Agent getCurrentAgent() {
         return agents.get(currentAgentProperty().get());
     }
 
+    /**
+     * Returns the player ID of the current agent
+     * @return
+     */
     public IntegerProperty currentAgentProperty() {
         return currentAgent;
     }
@@ -236,10 +262,17 @@ public class BoardController implements ControlledScreen, Initializable {
         agentRunner.start();
     }
 
+    /**
+     * Sets the computation time in seconds when a normal agent has a timeout
+     * @param computationTime the value
+     */
     public void setComputationTime(int computationTime) {
         this.computationTime = computationTime;
     }
 
+    /**
+     * @return Returns the computation time in seconds a agent can think for its turn
+     */
     public int getComputationTime() {
         return computationTime;
     }

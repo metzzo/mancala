@@ -1,6 +1,5 @@
 package at.pwd.boardgame.services;
 
-import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +22,7 @@ public class ScreenFactory {
          * the method that is being called
          * @param screen with the created screen
          */
-        void created(ControlledScreen screen);
+        void created(BoardGameScreen screen);
     }
 
     private static ScreenFactory ourInstance;
@@ -64,7 +63,7 @@ public class ScreenFactory {
             FXMLLoader myLoader = new FXMLLoader();
             myLoader.setLocation(location);
             Parent loadScreen = myLoader.load(stream);
-            ControlledScreen myScreenController = myLoader.getController();
+            BoardGameScreen myScreenController = myLoader.getController();
             myScreenController.setNavigationController(navigationController);
 
             if (createdListener != null) {
@@ -88,5 +87,12 @@ public class ScreenFactory {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Interface for a Screen that is shown by ScreenFactory
+     */
+    public interface BoardGameScreen {
+        void setNavigationController(NavigationController navigationController);
     }
 }

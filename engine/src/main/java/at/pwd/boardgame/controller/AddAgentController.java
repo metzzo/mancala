@@ -20,9 +20,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by rfischer on 21/07/2017.
+ * Controller responsible for adding new clients.
  */
-public class AddAgentController implements Initializable, ControlledScreen {
+public class AddAgentController implements Initializable, ScreenFactory.BoardGameScreen {
     public static final String ADDAGENT_SCREEN = "/addagent_controller.fxml";
 
     private NavigationController navigationController;
@@ -60,6 +60,10 @@ public class AddAgentController implements Initializable, ControlledScreen {
         this.navigationController = navigationController;
     }
 
+    /**
+     * Opens the file chooser
+     * @param evt The event that caused it
+     */
     public void fileChooser(Event evt) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose jar file");
@@ -69,6 +73,10 @@ public class AddAgentController implements Initializable, ControlledScreen {
         path.setText(jarFile != null ? jarFile.toString() : "");
     }
 
+    /**
+     * Loads the agent and displays the error
+     * @param evt The event that caused it
+     */
     public void load(Event evt) {
         String errorMsg = "";
         if (this.jarFile != null && this.jarFile.exists()) {
@@ -90,6 +98,10 @@ public class AddAgentController implements Initializable, ControlledScreen {
         System.out.println(errorMsg);
     }
 
+    /**
+     * Closes this window
+     * @param evt The event that caused it
+     */
     public void close(Event evt) {
         Stage s = (Stage) ((Button)evt.getSource()).getScene().getWindow();
         s.close();

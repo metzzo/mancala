@@ -19,14 +19,14 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Set up a new MancalaGame
  */
-public class SetUpController implements ControlledScreen, Initializable {
+public class SetUpController implements ScreenFactory.BoardGameScreen, Initializable {
     private static final String SETUP_SCREEN = "/setup_controller.fxml";
     private static final String BOARD_GENERATOR_TRANSFORMER = "/board_generator.xsl";
     private static final String GAME_SCREEN = "/board_controller.fxml";
     private static final File CONFIG_FILE = new File("config.xml");
-    public static final String PWD_DOMAIN = "http://programming-with-design.at/";
+    static final String PWD_DOMAIN = "http://programming-with-design.at/";
 
     private NavigationController navigationController;
     private ListProperty<Agent> agents = new SimpleListProperty<>();
@@ -48,12 +48,18 @@ public class SetUpController implements ControlledScreen, Initializable {
     @FXML
     Hyperlink details;
 
+    /**
+     * @return Creates a new instance of the set up screen
+     */
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
                 SetUpController.class.getResource(SETUP_SCREEN)
         );
     }
 
+    /**
+     * Constructor, loading the configuration
+     */
     public SetUpController() {
         config = ConfigService.getInstance().load(CONFIG_FILE);
         config.save();
@@ -117,6 +123,10 @@ public class SetUpController implements ControlledScreen, Initializable {
         factory.valueProperty().bindBidirectional(formatter.valueProperty());
     }
 
+    /**
+     * Starts the game: generates the board, initializes the BoardController and transitions
+     * @param actionEvent the event that caused it
+     */
     @FXML
     public void startGamePressed(ActionEvent actionEvent) {
         InputStream board = generateBoard();
@@ -140,10 +150,18 @@ public class SetUpController implements ControlledScreen, Initializable {
         navigationController.setScreen(screen);
     }
 
+    /**
+     * Loads a new agent for player 1
+     * @param actionEvent The event that caused the event
+     */
     public void player1loadAi(ActionEvent actionEvent) {
         loadAi(player1Agent);
     }
 
+    /**
+     * Loads a new agent for player 2
+     * @param actionEvent The event that caused the event
+     */
     public void player2loadAi(ActionEvent actionEvent) {
         loadAi(player2Agent);
     }
