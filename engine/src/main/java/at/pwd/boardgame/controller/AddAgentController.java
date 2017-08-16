@@ -1,6 +1,5 @@
 package at.pwd.boardgame.controller;
 
-import at.pwd.boardgame.game.agent.Agent;
 import at.pwd.boardgame.services.AgentService;
 import at.pwd.boardgame.services.ConfigService;
 import at.pwd.boardgame.services.ScreenFactory;
@@ -17,9 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ResourceBundle;
 
 /**
@@ -48,9 +45,7 @@ public class AddAgentController implements Initializable, ControlledScreen {
 
     public static void show() {
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                AddAgentController.class.getResource(ADDAGENT_SCREEN),
-                AddAgentController.class.getResourceAsStream(ADDAGENT_SCREEN),
-                null
+                AddAgentController.class.getResource(ADDAGENT_SCREEN)
         );
 
         Stage stage = new Stage();

@@ -10,13 +10,16 @@ import java.io.PipedOutputStream;
 import java.util.Map;
 
 /**
- * Created by rfischer on 12/08/2017.
+ * Singleton service for executing XSL Transformations on XML
  */
 public class XSLTService {
     private static XSLTService instance;
 
     private XSLTService() {}
 
+    /**
+     * @return Returns the service instance
+     */
     public static XSLTService getInstance() {
         if (instance == null) {
             instance = new XSLTService();
@@ -24,6 +27,14 @@ public class XSLTService {
         return instance;
     }
 
+    /**
+     * Executes XSLT
+     *
+     * @param xsltPath The path to the XSLT.
+     * @param xmlSource The XML that should be transformed
+     * @param parameters Additional parameters for the transformer
+     * @return the InputStream that contains the generated XML
+     */
     public InputStream execute(String xsltPath, StreamSource xmlSource, Map<String, String> parameters) {
         final PipedOutputStream transformOutput = new PipedOutputStream();
         final PipedInputStream fxmlInputStream;
@@ -69,6 +80,11 @@ public class XSLTService {
         return fxmlInputStream;
     }
 
+    /**
+     * Reads the entire string from an InputStream
+     * @param is the stream
+     * @return the string containing the content of is
+     */
     public static String convertStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";

@@ -70,6 +70,11 @@ public class MancalaGame implements Game<MancalaState, MancalaBoard> {
     }
 
     /**
+     * Default constructor used by GameFactory
+     */
+    public MancalaGame() {}
+
+    /**
      * Creates a semi deep copy of the given MancalaGame (State is copied, board is kept the same)
      * @param game The game that should be copied.
      */

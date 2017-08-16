@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Main class bootstrapping the UI and initializing MancalaGame
  */
 public class Main extends Application {
     private static Application app;
@@ -53,6 +53,9 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * @return Returns the Application instance
+     */
     public static Application getApp() {
         return app;
     }

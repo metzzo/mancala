@@ -43,9 +43,7 @@ public class AboutController implements Initializable, ControlledScreen {
 
     public static void show() {
         Parent screen = ScreenFactory.getInstance().loadScreen(
-                AboutController.class.getResource(ABOUT_SCREEN),
-                AboutController.class.getResourceAsStream(ABOUT_SCREEN),
-                null
+                AboutController.class.getResource(ABOUT_SCREEN)
         );
 
         Stage stage = new Stage();

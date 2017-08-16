@@ -50,9 +50,7 @@ public class SetUpController implements ControlledScreen, Initializable {
 
     public static Parent createSetUpScreen() {
         return ScreenFactory.getInstance().loadScreen(
-                SetUpController.class.getResource(SETUP_SCREEN),
-                SetUpController.class.getResourceAsStream(SETUP_SCREEN),
-                null
+                SetUpController.class.getResource(SETUP_SCREEN)
         );
     }
 

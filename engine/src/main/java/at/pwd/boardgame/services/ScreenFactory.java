@@ -3,30 +3,34 @@ package at.pwd.boardgame.services;
 import at.pwd.boardgame.controller.ControlledScreen;
 import at.pwd.boardgame.controller.NavigationController;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
 
 /**
- * Created by rfischer on 13/04/2017.
+ * Service for creating screens.
  */
-
 public class ScreenFactory {
     private NavigationController navigationController;
 
+    /**
+     * Interface that is called when a screen is successfully created
+     */
     public interface OnCreatedListener {
+        /**
+         * the method that is being called
+         * @param screen with the created screen
+         */
         void created(ControlledScreen screen);
     }
 
     private static ScreenFactory ourInstance;
 
+    /**
+     * @return Returns the Singleton ScreenFactory instance
+     */
     public static ScreenFactory getInstance() {
         if (ourInstance == null) {
             ourInstance = new ScreenFactory();
@@ -35,10 +39,11 @@ public class ScreenFactory {
     }
 
 
-    private ScreenFactory() {
+    private ScreenFactory() { }
 
-    }
-
+    /**
+     * @return Returns the NavigationController of this screenfactory
+     */
     public NavigationController getNavigationController() {
         if (navigationController == null) {
             navigationController = new NavigationController();
@@ -46,6 +51,14 @@ public class ScreenFactory {
         return navigationController;
     }
 
+    /**
+     * Loads a given screen
+     *
+     * @param location The URL of the FXML file
+     * @param stream The input stream containing the FXML file
+     * @param createdListener The listener that is called when the creation finishes
+     * @return the loaded screen
+     */
     public Parent loadScreen(URL location, InputStream stream, OnCreatedListener createdListener) {
         try {
             FXMLLoader myLoader = new FXMLLoader();
@@ -60,6 +73,19 @@ public class ScreenFactory {
 
             return loadScreen;
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convenience method for loading a screen only by URL
+     * @param location the given location
+     * @return the loaded screen
+     */
+    public Parent loadScreen(URL location) {
+        try {
+            return loadScreen(location, location.openStream(), null);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
