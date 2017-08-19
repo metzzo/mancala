@@ -24,22 +24,22 @@ First check out the GitHub repository on your local machine.
 
 ![IntelliJ - Create Java project](assets/intellij_1.png)
 
-We create a new Java project using Gradle and Java 1.8 (please install proper JDK if missing). Now we press Next.
+We create a new Java project using Gradle and Java 1.8 (please install proper JDK if missing). We press Next.
 
 
 ![IntelliJ - Set up gradle](assets/intellij_2.png)
 
-The GroupId should be a unique identifier, which is usually the same as your package name. For example, I chose at.pwd.choosefirstagent and choosefirstagent for the ArtifactId. The version does not need to be changed. Now we press Next.
+The GroupId should be a unique identifier, which is usually the same as your package name. For example, I chose at.pwd.choosefirstagent and choosefirstagent for the ArtifactId. The version does not need to be changed. We press Next.
 
 
 ![IntelliJ - Set up gradle 2](assets/intellij_3.png)
 
-Gradle JVM should be set to Java 1.8 and the checkbox "Create directories for empty content roots automatically" should be checked. Now we press Next.
+Gradle JVM should be set to Java 1.8 and the checkbox "Create directories for empty content roots automatically" should be checked. We press Next.
 
 
 ![IntelliJ - Set up project](assets/intellij_4.png)
 
-Now choose a Project name and a Project location. I will keep it at the default. Now we press Finish, if you are prompted with the message, that the directory does not exist, press OK.
+Choose a Project name and a Project location. I will keep it at the default. We press Finish, if you are prompted with the message, that the directory does not exist, press OK.
 
 We need to add some JAR libraries as a dependency to the project. For this please copy the /lib folder of the repository into the root folder of your new project. This folder contains the dependencies (including the Mancala Boardgame Engine).
 
@@ -68,7 +68,7 @@ dependencies {
 }
 ```
 
-Now create a new Java package in the src/main folder, by right clicking on the folder in the Project tree. I will name the package *at.pwd.choosefirstagent*. Create a new class in the newly created package that will contain the agent. The name I choose is ChooseFirstAgent. This class should implement the MancalaAgent interface, the doTurn method and a toString method. It should look something like the following:
+Create a new Java package in the src/main folder, by right clicking on the folder in the Project tree. I will name the package *at.pwd.choosefirstagent*. Create a new class in the newly created package that will contain the agent. The name I choose is ChooseFirstAgent. This class should implement the MancalaAgent interface, the doTurn method and a toString method. It should look something like the following:
 ```
 package at.pwd.choosefirstagent;
 
@@ -88,7 +88,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-Now the class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent.
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the JavaDoc of MancalaGame.
 
 ```
 package at.pwd.choosefirstagent;
@@ -120,7 +120,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 ```
 
 ![IntelliJ - Create run configuration](assets/intellij_5.png)
-To test the new agent we need a new build configuration. Select in the menu Run/Run... and then Edit Configurations. Now press on the "+" symbol and select Application. The main class should be *at.pwd.boardgame.Main* - which should be listed if you imported the jar files properly.
+To test the new agent we need a new build configuration. Select in the menu Run/Run... and then Edit Configurations. Press on the "+" symbol and select Application. The main class should be *at.pwd.boardgame.Main* - which should be listed if you imported the jar files properly.
 The Program arguments should be the full classname (including the package), in this case at.pwd.choosefirstagent.ChooseFirstAgent this is necessary for the engine to load the agent. The "Use classpath of module" box should be "choosefirstagent_main".
 
 Press Okay and now run the application using the newly created build configuration. The Choose First Agent should be selectable as an agent and play as intended.
