@@ -15,8 +15,11 @@ Loading new agents can be done at runtime, so no recompilation is needed. You ju
 
 ## How to create a new Agent?
 
-We will develop an agent that will always return the most left selectable slot on the board.
-Tested IDEs include Eclipse () or IntelliJ IDEA (2017.5), other configurations should work too.
+We will develop an agent that will always return the most left selectable slot on the board. You do not have to use the steps described here. 
+
+The gist of this tutorial is basically: Add the jar files of the "libs" folder in this repository as a dependency, create an agent implementing the *MancalaAgent* interface, select the main class as *at.pwd.boardgame.Main* and add the full classname as a command line argument. To load the agent in any instance export it as a normal jar file.
+
+The following instructions have been tested with Eclipse (Oxygen) or IntelliJ IDEA (2017.5) on Windows 10 64bit, other configurations should work too.
 
 ### Using IntelliJ
 
@@ -132,14 +135,14 @@ This jar can now be loaded into any Mancala Boardgame Engine instance.
 
 
 ### Using Eclipse
+First check out the GitHub repository on your local machine.
+
+
+
+
+
+# Under the hood
 TODO
 
-
-
-
-
-
-Recommended configurations: 
-
-IntelliJ IDEA 2017.5
-Windows 10 / OS X El Capitan, 64 Bit, Java 1.8
+## Set Up Mancala Boardgame Engine
+TODO
