@@ -206,6 +206,21 @@ In order to test this new agent we need to set up the run configuration properly
 To allow other people to import the agent into the engine, without compiling it, we need to export the agent as a JAR file. To do so, we need to use the export feature of Eclipse. Right click on the project and select *Export*. Select *Java/JAR file* and press Next. Choose a destination path and press Finish (all other settings may be left unchanged).
 This jar can now be loaded into any Mancala Boardgame Engine instance.
 
+# API
+
+The Mancala Boardgame Engine API allows agents to query the board game state very deeply for them to be able to calculate the best next move. 
+
+Agents get access to a copy of *MancalaGame* which encapsulates the following components:
+* State: MancalaState
+* State Update: MancalaGame
+* Board: MancalaBoard
+
+For querying information regarding the board use the Board returned by *mancalaGame.getBoard()*.
+For querying information regarding the current game state use the State returned by *mancalaGame.getState()*.
+For changing the current game state use *mancalaGame* directly.
+
+More information regarding the methods of the objects have a look at the JavaDoc of these classes.
+
 # Under the hood
 The Mancala Boardgame Engine uses a MVC based JavaFX architecture with a very flexible Java classloading based agent system and a very flexibel XML based Board configuration system.
 
