@@ -17,7 +17,7 @@ Loading new agents can be done at runtime, so no recompilation is needed. You ju
 
 We will develop an agent that will always return the most left selectable slot on the board. You do not have to use the steps described here. 
 
-The gist of this tutorial is basically: Add the jar files of the "libs" folder in this repository as a dependency, create an agent implementing the *MancalaAgent* interface, select the main class as *at.pwd.boardgame.Main* and add the full classname as a command line argument. To load the agent in any instance export it as a normal jar file.
+The gist of this tutorial is basically: Add the jar files of the "libs" folder in this repository as a dependency, create an agent implementing the *MancalaAgent* interface, select the main class as *at.pwd.boardgame.Main* and add the full classname as a command line argument. To load the agent in any instance export it as a normal JAR file.
 
 The following instructions have been tested with Eclipse (Oxygen) or IntelliJ IDEA (2017.5) on Windows 10 64bit, other configurations should work too.
 
@@ -137,9 +137,74 @@ This jar can now be loaded into any Mancala Boardgame Engine instance.
 ### Using Eclipse
 First check out the GitHub repository on your local machine.
 
+![Eclipse - Create Project](assets/eclipse_1.png)
+
+Then start Eclipse and create a new Java project and name it *choosefirstagent* and press Finish.
+
+Drag and drop the *lib/* folder of the repository into the Eclipse project, such that the files are copied.
 
 
+![Eclipse - Add JARs](assets/eclipse_2.png)
 
+Now add the JAR libraries to the build path, by right clicking on the project Properties, selecting *Java Build Path* and selecting the *Libraries* Tab. Then click *Add JARs...* and select all files in the */lib* folder and subfolder.
+
+Click on *Apply and Close*
+
+Create a new Java package in the src folder. I will name the package *at.pwd.choosefirstagent*. Create a new class in the newly created package that will contain the agent. The name I choose is ChooseFirstAgent. This class should implement the MancalaAgent interface, the doTurn method and a toString method. It should look something like the following:
+```
+package at.pwd.choosefirstagent;
+
+import at.pwd.boardgame.game.mancala.MancalaGame;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgentAction;
+
+public class ChooseFirstAgent implements MancalaAgent {
+    @Override
+    public MancalaAgentAction doTurn(int i, MancalaGame mancalaGame) {
+        return null;
+    }
+    @Override
+    public String toString() {
+    	return "";
+    }
+}
+```
+
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the JavaDoc of MancalaGame.
+
+```
+package at.pwd.choosefirstagent;
+
+import at.pwd.boardgame.game.mancala.MancalaGame;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgentAction;
+
+import java.util.List;
+
+public class ChooseFirstAgent implements MancalaAgent {
+    @Override
+    public MancalaAgentAction doTurn(int computationTime, MancalaGame mancalaGame) {
+        // get a list of all currently selectable slots
+        List<String> slots = mancalaGame.getSelectableSlots();
+        // since this list will never be empty (otherwise the game would be over), we dont need a additional check
+        // Slot IDs are unique strings strings
+        String selectedSlot = slots.get(0);
+        // now we pack the selected slot in an agent action and return it
+        // the Mancala Boardgame Engine will then apply this action onto the slot
+        return new MancalaAgentAction(selectedSlot);
+    }
+	
+    @Override
+    public String toString() {
+        return "Choose First Agent";
+    }
+}
+```
+
+In order to test this new agent we need to set up the run configuration properly. For this open the Run Configuration dialog, create a new Java Application configuration. Set *at.pwd.boardgame.Main* as the main class. Switch to the Arguments tab and add the full class name as a program argument, in our case it is *at.pwd.choosefirstagent.ChooseFirstAgent* (this step is needed for the engine to load the agent). Press Apply and Run the configuration.
+
+To allow other people to import the agent into the engine, without compiling it, we need to export the agent as a JAR file. To do so, we need to use the export feature of Eclipse. Right click on the project and select *Export*. Select *Java/JAR file* and press Next. Choose a destination path and press Finish (all other settings may be left unchanged).
+This jar can now be loaded into any Mancala Boardgame Engine instance.
 
 # Under the hood
 TODO

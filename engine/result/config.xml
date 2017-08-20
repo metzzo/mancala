@@ -12,6 +12,10 @@
          <path>./agents/randomagent-1.0-SNAPSHOT.jar</path>
          <classname>at.pwd.randomagent.MancalaRandomAgent</classname>
       </agent>
+      <agent>
+         <path>C:\Users\rober\Documents\choosefirstagent.jar</path>
+         <classname>at.pwd.choosefirstagent.ChooseFirstAgent</classname>
+      </agent>
    </agents>
    <computation-time>10</computation-time>
    <stones-per-slot>6</stones-per-slot>
