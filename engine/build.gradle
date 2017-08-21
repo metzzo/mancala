@@ -20,11 +20,20 @@ apply plugin: 'javafx-gradle-plugin'
 
 
 jfx {
-    // minimal requirement for jfxJar-task
     mainClass = 'at.pwd.boardgame.Main'
     vendor = 'Robert Fischer (programming with design)'
-    jfxAppOutputDir = "result"
+    jfxAppOutputDir = "../lib"
+    nativeOutputDir = "../build"
     jfxMainAppJarName = "mancala-engine.jar"
+}
+
+task genJavaDoc(type: Javadoc) {
+    doFirst {
+        mkdir "../doc"
+    }
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+    destinationDir = file("../doc")
 }
 
 dependencies {

@@ -105,9 +105,9 @@ public class MancalaBoard implements Board {
     }
 
     /**
-     * Checks whether the given ID is a valid slot id
+     * Checks whether the given ID is a valid depot id
      * @param id The questioned slot id
-     * @return true if it is a slot, false if it is not a slot (does not exist or is a depot)
+     * @return true if it is a depot, false if it is not a depot (does not exist or is a slot)
      */
     public boolean isDepot(String id) {
         for (PlayerDepot d : depots) {

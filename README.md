@@ -7,6 +7,12 @@ The Mancala Boardgame Engine is split into several projects for it to be as exte
 * alphabetaagent: Project containing an agent playing by Alpha Beta Pruning.
 * randomagent: Project containing an agent playing completely random.
 
+## How to play
+
+Mancala is a turn based board game family that is played typically by two players sitting in front of each other. Each player tries to get as many beans as possible into his own depot (Kalaha).
+
+There are many different rules of Mancala. This engine currently implements the Kalaha rule set. The rules are described [here] (http://www.wikihow.com/Play-Kalaha). 
+
 ## What is an Agent?
 
 What is an agent? An agent is basically some class implementing the doTurn() method and returning an action the engine should play for the particular agent in the current turn. The engine itself implements a HumanAgent where the human decides what turn to play, but there are several other types of agents (mctsagent, alphabetaagent, randomagent and maybe your new agent) that will be able to play the game.
@@ -238,5 +244,5 @@ Setting up Mancala Boardgame Engine functions basically the same as setting up t
 
 The following run configrations are preconfigured:
 * Mancala: Run the Mancala Boardgame Engine
-* Make Jar: Builds a Jar File which can be included by the agents
+* Make Jar: Builds a Jar File which can be included by the agents, using the Gradle Task *jfxJar*
 * Test: Runs the Unit Tests

@@ -1,0 +1,7 @@
+at.pwd.boardgame
+at.pwd.boardgame.controller
+at.pwd.boardgame.game.agent
+at.pwd.boardgame.game.base
+at.pwd.boardgame.game.mancala
+at.pwd.boardgame.game.mancala.agent
+at.pwd.boardgame.services

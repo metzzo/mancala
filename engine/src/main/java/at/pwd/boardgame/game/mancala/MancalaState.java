@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * State of the current MancalaGame.
+ * State of the current MancalaGame. Mainly containing a mapping between slot/depot ID and number of stones.
  */
 public class MancalaState implements State {
     /**

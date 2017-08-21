@@ -187,8 +187,7 @@ public class BoardController implements ScreenFactory.BoardGameScreen, Initializ
     }
 
     /**
-     * Returns the player ID of the current agent
-     * @return
+     * @return Returns the player ID of the current agent
      */
     public IntegerProperty currentAgentProperty() {
         return currentAgent;

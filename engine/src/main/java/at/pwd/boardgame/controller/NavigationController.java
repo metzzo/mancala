@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 /**
  * Navigation Controller that is responsible for transitioning between screens:
- * e.g.: SetUpController-> BoardController -> SetUpController
+ * e.g.: SetUpController transitions to BoardController transitions to SetUpController
  */
 public class NavigationController extends AnchorPane {
     /**

@@ -21,7 +21,7 @@ public class WinState {
      * Constructor
      *
      * @param state What win state is the game currently in?
-     * @param playerId Who wins? If nobody is currently winning (or if there are multiple winning => Draw) playerId=-1
+     * @param playerId Who wins? If nobody is currently winning (or if there are multiple winning then it is a draw) playerId=-1
      */
     public WinState(States state, int playerId) {
         this.state = state;
