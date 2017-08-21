@@ -97,7 +97,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of MancalaGame.
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of [MancalaGame](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaGame.html).
 
 ```
 package at.pwd.choosefirstagent;
@@ -176,7 +176,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of MancalaGame.
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of [MancalaGame](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaGame.html).
 
 ```
 package at.pwd.choosefirstagent;

@@ -25,6 +25,7 @@ jfx {
     jfxAppOutputDir = "../lib"
     nativeOutputDir = "../build"
     jfxMainAppJarName = "mancala-engine.jar"
+    additionalAppResources = 'src/main/additional-files'
 }
 
 task genJavaDoc(type: Javadoc) {

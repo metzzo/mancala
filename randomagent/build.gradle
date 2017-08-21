@@ -5,6 +5,11 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+tasks.withType(Jar) {
+    // this line is needed to copy the generated jar into the engine folder
+    destinationDir = file("../engine/src/main/additional-files/agents")
+}
+
 repositories {
     mavenCentral()
 }
