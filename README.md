@@ -97,7 +97,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the JavaDoc of MancalaGame.
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of MancalaGame.
 
 ```
 package at.pwd.choosefirstagent;
@@ -176,7 +176,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the JavaDoc of MancalaGame.
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of MancalaGame.
 
 ```
 package at.pwd.choosefirstagent;
@@ -217,15 +217,15 @@ This jar can now be loaded into any Mancala Boardgame Engine instance.
 The Mancala Boardgame Engine API allows agents to query the board game state very deeply for them to be able to calculate the best next move. 
 
 Agents get access to a copy of *MancalaGame* which encapsulates the following components:
-* State: MancalaState
-* State Update: MancalaGame
-* Board: MancalaBoard
+* State: [MancalaState](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaState.html)
+* State Update: [MancalaGame](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaGame.html)
+* Board: [MancalaBoard](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaBoard.html)
 
 For querying information regarding the board use the Board returned by *mancalaGame.getBoard()*.
 For querying information regarding the current game state use the State returned by *mancalaGame.getState()*.
 For changing the current game state use *mancalaGame* directly.
 
-More information regarding the methods of the objects have a look at the JavaDoc of these classes.
+More information regarding the methods of the objects have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of these classes.
 
 # Under the hood
 The Mancala Boardgame Engine uses a MVC based JavaFX architecture with a very flexible Java classloading based agent system and a very flexibel XML based Board configuration system.
