@@ -243,6 +243,10 @@ The board generation process consists of the following XML files, each being tra
 Setting up Mancala Boardgame Engine functions basically the same as setting up the engine. Recommended is IntelliJ, but similar configuration is also possible with Eclipse. The necessary IntelliJ configuration files are in the repository.
 
 The following run configrations are preconfigured:
-* Mancala: Run the Mancala Boardgame Engine
-* Make Jar: Builds a Jar File which can be included by the agents, using the Gradle Task *jfxJar*
+* Mancala: Run the Mancala Boardgame Engine, allows Debugging
 * Test: Runs the Unit Tests
+* Make Jar: Builds a Jar File which can be included by the agents, executes the Gradle tasks: *test jfxJar copyJarToAgents*
+* Make Native: Creates an executable, executes the Gradle tasks: *test jfxNative*
+* Make Javadoc: Builds the Javadoc, executes the Gradle task: *javadoc*
+* Make All: Does everything, executes the Gradle tasks: *genJavaDoc test jfxJar copyJarToAgents jfxNative*
+* Run Tests: Runs the tests standalone, executes the Gradle task: *test*

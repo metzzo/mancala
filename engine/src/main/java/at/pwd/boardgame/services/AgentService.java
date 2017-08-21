@@ -1,6 +1,7 @@
 package at.pwd.boardgame.services;
 
 import at.pwd.boardgame.game.agent.Agent;
+import at.pwd.boardgame.game.mancala.agent.MancalaAgent;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -14,6 +15,7 @@ import java.util.List;
  * Singleton service that manages the agents.
  */
 public class AgentService {
+
     private static AgentService instance;
 
     /**

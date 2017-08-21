@@ -1,5 +1,10 @@
 <config>
-   <agents/>
+   <agents>
+      <agent>
+         <path>C:\Users\rober\Dropbox\Studium_Sem6\BSC\engine\src\main\additional-files\agents\randomagent-1.0-SNAPSHOT.jar</path>
+         <classname>at.pwd.randomagent.MancalaRandomAgent</classname>
+      </agent>
+   </agents>
    <computation-time>15</computation-time>
    <stones-per-slot>6</stones-per-slot>
    <slots-per-player>6</slots-per-player>

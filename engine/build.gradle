@@ -9,6 +9,7 @@ buildscript {
 
     }
 }
+
 apply plugin: 'java'
 
 repositories {
@@ -23,7 +24,8 @@ jfx {
     mainClass = 'at.pwd.boardgame.Main'
     vendor = 'Robert Fischer (programming with design)'
     jfxAppOutputDir = "../lib"
-    nativeOutputDir = "../build"
+    nativeOutputDir = "../"
+    appName = "mancala_boardgame_engine"
     jfxMainAppJarName = "mancala-engine.jar"
     additionalAppResources = 'src/main/additional-files'
 }
@@ -35,6 +37,24 @@ task genJavaDoc(type: Javadoc) {
     source = sourceSets.main.allJava
     classpath = configurations.compile
     destinationDir = file("../docs")
+}
+
+task copyJarToAgents {
+    doLast {
+        copy {
+            from '../lib/mancala-engine.jar'
+            into '../randomagent/lib'
+        }
+        copy {
+            from '../lib/mancala-engine.jar'
+            into '../alphabetaagent/lib'
+        }
+
+        copy {
+            from '../lib/mancala-engine.jar'
+            into '../mctsagent/lib'
+        }
+    }
 }
 
 dependencies {
