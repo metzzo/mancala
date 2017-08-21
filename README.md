@@ -246,7 +246,8 @@ The following run configrations are preconfigured:
 * Mancala: Run the Mancala Boardgame Engine, allows Debugging
 * Test: Runs the Unit Tests
 * Make Jar: Builds a Jar File which can be included by the agents, executes the Gradle tasks: *test jfxJar copyJarToAgents*
-* Make Native: Creates an executable, executes the Gradle tasks: *test jfxNative*
+* Make Native: Creates an executable and zips it, executes the Gradle tasks: *test jfxNative zipNative*
 * Make Javadoc: Builds the Javadoc, executes the Gradle task: *javadoc*
-* Make All: Does everything, executes the Gradle tasks: *genJavaDoc test jfxJar copyJarToAgents jfxNative*
+* Make All: Executes the entire build pipeline, executes the Gradle tasks: *genJavaDoc test jfxJar copyJarToAgents jfxNative zipNative*
 * Run Tests: Runs the tests standalone, executes the Gradle task: *test*
+* Zip Project: Compresses the project into a zip file which may be shipped, executes the Gralde task: *zipNative*

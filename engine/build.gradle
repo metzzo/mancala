@@ -57,6 +57,14 @@ task copyJarToAgents {
     }
 }
 
+task zipNative(type: Zip) {
+    from '../mancala_boardgame_engine/'
+    include '*'
+    include '*/**/*'
+    archiveName 'mancala_boardgame_engine.zip'
+    destinationDir(file('../'))
+}
+
 dependencies {
     compile group: 'org.simpleframework', name: 'simple-xml', version: '2.7'
     testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: '1.3'
