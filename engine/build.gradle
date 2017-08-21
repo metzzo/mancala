@@ -29,11 +29,11 @@ jfx {
 
 task genJavaDoc(type: Javadoc) {
     doFirst {
-        mkdir "../doc"
+        mkdir "../docs"
     }
     source = sourceSets.main.allJava
     classpath = configurations.compile
-    destinationDir = file("../doc")
+    destinationDir = file("../docs")
 }
 
 dependencies {

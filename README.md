@@ -11,7 +11,7 @@ The Mancala Boardgame Engine is split into several projects for it to be as exte
 
 Mancala is a turn based board game family that is played typically by two players sitting in front of each other. Each player tries to get as many beans as possible into his own depot (Kalaha).
 
-There are many different rules of Mancala. This engine currently implements the Kalaha rule set. The rules are described [here] (http://www.wikihow.com/Play-Kalaha). 
+There are many different rules of Mancala. This engine currently implements the Kalaha rule set. The rules are described [here](http://www.wikihow.com/Play-Kalaha). 
 
 ## What is an Agent?
 
