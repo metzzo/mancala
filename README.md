@@ -9,13 +9,13 @@ The Mancala Boardgame Engine is split into several projects for it to be as exte
 
 ## How to play
 
-Mancala is a turn based board game family that is played typically by two players sitting in front of each other. Each player tries to get as many beans as possible into his own depot (Kalaha).
+Mancala is a turn based family of board games typically played by two players sitting in front of each other. Each player tries to get as many beans as possible into their own depot (Kalaha).
 
-There are many different rules of Mancala. This engine currently implements the Kalaha rule set. The rules are described [here](http://www.wikihow.com/Play-Kalaha). 
+There are many different rules of Mancala. This engine currently implements the Kalaha rule set. Diffferent rules are described [here](http://www.wikihow.com/Play-Kalaha). 
 
 ## What is an Agent?
 
-What is an agent? An agent is basically some class implementing the doTurn() method and returning an action the engine should play for the particular agent in the current turn. The engine itself implements a HumanAgent where the human decides what turn to play, but there are several other types of agents (mctsagent, alphabetaagent, randomagent and maybe your new agent) that will be able to play the game.
+An agent is essentially a class implementing the doTurn() method. The implementation returns an action for the engine to play for the selected agent in the current turn. The engine itself implements a HumanAgent where the human decides what move to play, but there are several other types of agents (mctsagent, alphabetaagent, randomagent and maybe your new agent) that will be able to play the game.
 
 Loading new agents can be done at runtime, so no recompilation is needed. You just have to create a .JAR file containing the agent class, load the jar with the full class name (including package) and voila the engine is able to play with your new agent. Please read the documentation for more details.
 
@@ -97,7 +97,7 @@ public class ChooseFirstAgent implements MancalaAgent {
 }
 ```
 
-The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of [MancalaGame](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaGame.html).
+The class needs some logic. We will simply get a list of the currently selectable slots by mancalaGame.getSelectableSlots() and use the first slotId in this list as a move. We need to pack this slot id in a MancalaAgentAction instance. Additionally, we need to implement a toString method returning the name of this agent. For a more detailed description of the API please have a look at the [JavaDoc](https://metzzo.github.io/mancala/index.html) of [MancalaGame](https://metzzo.github.io/mancala/at/pwd/boardgame/game/mancala/MancalaGame.html).
 
 ```
 package at.pwd.choosefirstagent;
@@ -113,8 +113,8 @@ public class ChooseFirstAgent implements MancalaAgent {
     public MancalaAgentAction doTurn(int computationTime, MancalaGame mancalaGame) {
         // get a list of all currently selectable slots
         List<String> slots = mancalaGame.getSelectableSlots();
-        // since this list will never be empty (otherwise the game would be over), we dont need a additional check
-        // Slot IDs are unique strings strings
+        // since this list will never be empty (otherwise the game would be over), we dont need an additional check
+        // Slot IDs are unique strings
         String selectedSlot = slots.get(0);
         // now we pack the selected slot in an agent action and return it
         // the Mancala Boardgame Engine will then apply this action onto the slot
@@ -192,8 +192,8 @@ public class ChooseFirstAgent implements MancalaAgent {
     public MancalaAgentAction doTurn(int computationTime, MancalaGame mancalaGame) {
         // get a list of all currently selectable slots
         List<String> slots = mancalaGame.getSelectableSlots();
-        // since this list will never be empty (otherwise the game would be over), we dont need a additional check
-        // Slot IDs are unique strings strings
+        // since this list will never be empty (otherwise the game would be over), we dont need an additional check
+        // Slot IDs are unique strings
         String selectedSlot = slots.get(0);
         // now we pack the selected slot in an agent action and return it
         // the Mancala Boardgame Engine will then apply this action onto the slot
@@ -240,7 +240,7 @@ The board generation process consists of the following XML files, each being tra
 * Output: screen.fxml: A valid FXML file that contains all the UI elements of the board
 
 ## Set Up Mancala Boardgame Engine
-Setting up Mancala Boardgame Engine functions basically the same as setting up the engine. Recommended is IntelliJ, but similar configuration is also possible with Eclipse. The necessary IntelliJ configuration files are in the repository.
+Setting up Mancala Boardgame Engine functions essentially the same as setting up the engine. Recommended is IntelliJ, but similar configuration is also possible with Eclipse. The necessary IntelliJ configuration files are in the repository.
 
 The following run configrations are preconfigured:
 * Mancala: Run the Mancala Boardgame Engine, allows Debugging
